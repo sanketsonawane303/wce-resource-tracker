@@ -1,0 +1,31 @@
+{
+  "name": "wce-resource-tracker",
+  "version": "1.0.0",
+  "description": "server of wce-resource-tracker",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanketsonawane303/wce-resource-tracker.git"
+  },
+  "author": "sanketsonawane303",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sanketsonawane303/wce-resource-tracker/issues"
+  },
+  "homepage": "https://github.com/sanketsonawane303/wce-resource-tracker#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.7.1"
+  }
+}
