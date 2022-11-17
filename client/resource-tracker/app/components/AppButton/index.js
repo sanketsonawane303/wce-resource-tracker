@@ -42,10 +42,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 15,
     marginVertical: 15,
+  
   },
   text: {
     color: "#fff",
-    textTransform: "uppercase",
+    textTransform: "capitalize",
     fontWeight: "500",
     fontSize: 18,
   },
