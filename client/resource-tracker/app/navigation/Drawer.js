@@ -1,12 +1,13 @@
 
 
-import { StyleSheet, Text} from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
 
 import { NavigationContainer } from "@react-navigation/native";
 
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Home from '../screens/Home';
+import Sidebar from '../components/Sidebar'
 
 const AppDrawer = createDrawerNavigator();
 
@@ -14,9 +15,9 @@ const AppDrawer = createDrawerNavigator();
 export default function Drawer() {
   return (
     <>
-        <NavigationContainer>
+      <NavigationContainer>
         <AppDrawer.Navigator
-          drawerContent={Home}
+          drawerContent={(props) => <Sidebar {...props} />}
           screenOptions={{
             headerShown: true,
             drawerLabelStyle: {
@@ -32,9 +33,9 @@ export default function Drawer() {
             },
           }}
         >
-        <AppDrawer.Screen name='home' component={Home}/>
-      </AppDrawer.Navigator>
-        </NavigationContainer>
+          <AppDrawer.Screen name='Home' component={Home} />
+        </AppDrawer.Navigator>
+      </NavigationContainer>
     </>
   );
 }

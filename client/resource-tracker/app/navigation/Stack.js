@@ -1,14 +1,14 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from "@react-navigation/native";
+import Home from '../screens/Home';
+const StackNavigator = createStackNavigator();
 
-const Stack = createStackNavigator();
-
-function MyStack() {
+export default function Stack() {
   return (
     <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} />
-    </Stack.Navigator>
+      <StackNavigator.Navigator>
+        <StackNavigator.Screen name="Home" component={Home} />
+      </StackNavigator.Navigator>
     </NavigationContainer>
   );
 }
