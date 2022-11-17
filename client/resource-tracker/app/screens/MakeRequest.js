@@ -3,6 +3,17 @@ import React from 'react'
 import AppButton from '../components/AppButton'
 import AppTextInput from '../components/AppTextInput'
 
+const resourceList = [
+  {label: "Classroom 20", value: "classroom20"},
+  {label: "Classroom 21", value: "classroom21"},
+  {label: "Classroom 22", value: "classroom22"},
+  {label: "Classroom 23", value: "classroom23"},
+  {label: "Mini CCF", value: "miniCCF"},
+  {label: "PG Lab", value: "pgLab"},
+
+
+]
+
 export default function MakeRequest() {
   return (
     <View>
