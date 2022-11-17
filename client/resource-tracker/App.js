@@ -26,13 +26,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-<<<<<<< HEAD
-    marginTop: statusbar
-    // alignItems: 'center',
-    // justifyContent: 'center',
-=======
     backgroundColor: '#fff',
     marginTop: statusbar,
->>>>>>> 3d26e1f93d2cf594f72360d5a24704e94afdd575
   },
 });
