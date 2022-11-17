@@ -11,12 +11,20 @@ const requestsSchema = new mongoose.Schema(
         /* list of clubs, WCE */
       ],
     },
-    resource: { type: String, required: true },
+    resources: {
+      type: [String],
+      required: true,
+      validate: [
+        (val) => val.length >= 1,
+        "${PATH} should atleast have 1 resource",
+      ],
+    },
     time: {
       type: {
         from: { type: Date, required: true },
         to: { type: Date, required: true },
       },
+      required: true,
     },
     letter: { type: String, required: true },
     status: {
