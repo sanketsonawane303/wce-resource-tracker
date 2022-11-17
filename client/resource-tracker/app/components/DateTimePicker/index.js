@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Button, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
-const DateTimePicker = ({setDate}) => {
+import { useFormikContext } from "formik";
+const DateTimePicker = ({ setDate, name }) => {
+  const { setFieldValue } = useFormikContext()
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const showDatePicker = () => {
@@ -14,8 +15,7 @@ const DateTimePicker = ({setDate}) => {
   };
 
   const handleConfirm = (date) => {
-    setDate(date)
-    console.warn("A date has been picked: ", date);
+    setFieldValue(name, date)
     hideDatePicker();
   };
 
