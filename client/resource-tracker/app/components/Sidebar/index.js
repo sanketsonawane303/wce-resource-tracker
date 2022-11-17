@@ -6,11 +6,13 @@ import {
 } from "@react-navigation/drawer";
 
 import AppButton from "../AppButton";
+import AccountItem from "../AccountItem";
 const Sidebar = (props) => {
     return (
         <>
             <View style={styles.container}>
                 <DrawerContentScrollView>
+                    <AccountItem />
                     <DrawerItemList {...props} />
                 </DrawerContentScrollView>
             </View>
