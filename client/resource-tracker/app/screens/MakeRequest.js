@@ -1,4 +1,4 @@
-import { View, Text, Button } from 'react-native'
+import { View, Text, Button, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import AppButton from '../components/AppButton'
 import AppTextInput from '../components/AppTextInput'
@@ -6,6 +6,8 @@ import DateTimePicker from '../components/DateTimePicker'
 import RNEInput from '../components/RNEInput'
 import { TextInput } from 'react-native-gesture-handler'
 import { Formik } from 'formik'
+import { Feather } from '@expo/vector-icons'; 
+import { colors } from 'react-native-elements'
 
 const resourceList = [
   { label: "Classroom 20", value: "classroom20" },
@@ -18,17 +20,16 @@ const resourceList = [
 
 ]
 
+
 export default function MakeRequest() {
-  const [toDate, setToDate] = useState(new Date().toISOString())
-  const [fromDate, setFromDate] = useState(new Date().toISOString())
-
   return (
-
     <>
-
       <Formik
         initialValues={{
-          resource: ""
+          resource: "",
+          fromDate: new Date(),
+          toDate: new Date()
+
         }}
         onSubmit={(values) => {
           console.log(values)
@@ -37,23 +38,26 @@ export default function MakeRequest() {
         {
           ({ setFieldValue, values, submitForm }) => (
             <>
-              <View>
-                <Text>MakeRequest</Text>
+              <View  style={styles.container}>
+                <Text style={styles.title}>Select Resource</Text>
+                <RNEInput  bg={colors.grey5} placeholder={"Select Resource"} name="resource" />
 
-                <Text>Select Resource</Text>
-                <RNEInput placeholder={"Select Resource"} name="resource" />
-                <Text> ----Resource 1</Text>
-                <Text> ----resource 2</Text>
+                <View>
+                <DateTimePicker from={true} name="fromDate" />
+                  {/* <Text>From</Text>
+                  <Text>{formatAMPM(values.fromDate)}</Text> */}
+                </View>
 
-                <DateTimePicker name="date1" />
-                <DateTimePicker name="date2" />
+                <View>
+                <DateTimePicker from={false}  name="toDate" />
+                  {/* <Text>To</Text>
+                  <Text>{formatAMPM(values.fromDate)}</Text> */}
+                </View>
 
-
-                <Text>Time and Date</Text>
-                <Text>Time and Date Selector</Text>
-
-                <Text>Link</Text>
-                <AppTextInput />
+                <Text style={styles.title}>Link</Text>
+                <RNEInput bg={colors.grey5} placeholder={"Permission Letter Link"} name="letterLink"/>
+                <Text style={styles.title}>Details</Text>
+                <RNEInput  bg={colors.grey5} multiline={true} placeholder={"Details"} name="details"/>
                 <AppButton title={"submit"} onPress={submitForm} />
 
               </View>
@@ -67,3 +71,14 @@ export default function MakeRequest() {
 
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 5
+  },
+  title:{
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10
+  }
+})
