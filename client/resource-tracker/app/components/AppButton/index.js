@@ -20,7 +20,6 @@ export default function AppButton({
         {IconComponent && (
           <View
             style={{
-              marginRight: 10,
               justifyContent: "center",
             }}
           >
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 15,
     marginVertical: 15,
-  
+
   },
   text: {
     color: "#fff",
