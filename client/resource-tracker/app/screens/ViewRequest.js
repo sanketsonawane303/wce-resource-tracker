@@ -16,6 +16,7 @@ const obj = [
 export default function ViewRequest() {
   return (
     <View style={styles.container}>
+      <View>
       {obj.map((info) => {
         return (
           <>
@@ -27,6 +28,7 @@ export default function ViewRequest() {
           </>
         );
       })}
+      </View>
 
       <View style={styles.buttonGroup}>
         <AppButton buttonStyles={styles.button} title={"Suggestions"} />
@@ -44,9 +46,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    marginTop: StatusBar.currentHeight,
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    marginHorizontal: 5,
+    paddingHorizontal: 10,
+    justifyContent:'space-between'
   },
   info: {
     paddingVertical: 10,
@@ -55,9 +57,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   buttonGroup: {
+    
     flexDirection: "row",
+    justifyContent: "space-between",
+
   },
   button: {
-    marginRight: 10,
+    
   },
 });

@@ -6,6 +6,8 @@ import ViewRequest from './app/screens/ViewRequest';
 import AllRequests from "./app/screens/AllRequests";
 import Drawer from "./app/navigation/Drawer";
 import AddRemarks from "./app/screens/AddRemarks";
+import { statusbar } from "./app/configs/variables";
+
 export default function App() {
   return (
     <View style={styles.container}>
@@ -20,7 +22,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    marginTop: statusbar,
   },
 });
