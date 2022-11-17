@@ -9,11 +9,7 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-<<<<<<< Updated upstream
 package-lock.json
-
-=======
 .package-lock.json
->>>>>>> Stashed changes
 # macOS
 .DS_Store

@@ -27,11 +27,12 @@ export default function RNEInput({
       }}
       inputContainerStyle={{
         borderBottomWidth: 2,
-        borderWidth: 2,
-        padding: 5,
+        // borderWidth: 2,
+        paddingVertical: 5,
         paddingHorizontal: 10,
         backgroundColor: bg ? bg : colors.lightgrey,
         borderRadius: 5,
+        
       }}
       labelStyle={{
         color: "black",
