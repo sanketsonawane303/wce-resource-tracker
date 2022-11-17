@@ -9,8 +9,8 @@ import AddRemarks from "./app/screens/AddRemarks";
 export default function App() {
   return (
     <View style={styles.container}>
-      <MakeRequest />
-      {/* <ViewRequest/> */}
+      {/* <MakeRequest /> */}
+      <ViewRequest />
       {/* <AddRemarks/> */}
     </View>
   );

@@ -15,12 +15,9 @@
     "@react-navigation/stack": "^6.3.4",
     "expo": "~47.0.5",
     "expo-status-bar": "~1.4.2",
-<<<<<<< Updated upstream
     "jwt-decode": "^3.1.2",
     "react": "18.1.0",
-=======
     "formik": "^2.2.9",
->>>>>>> Stashed changes
     "react-native": "0.70.5",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~2.8.0",
