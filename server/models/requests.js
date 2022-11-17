@@ -9,6 +9,11 @@ const requestsSchema = new mongoose.Schema(
       required: true,
       enum: [
         /* list of clubs, WCE */
+        "Walchand Linux Users' Group",
+        "Association of Computer Science and Engineering Students",
+        "Student Association of Information Technology",
+        "Google Developer Students' Club",
+        "ACM Student Chapter",
       ],
     },
     resources: {
@@ -29,7 +34,7 @@ const requestsSchema = new mongoose.Schema(
     letter: { type: String, required: true },
     status: {
       type: String,
-      enum: ["approved", "declined", "pending"],
+      enum: ["approved", "declined", "pending", "changesRequired"],
       default: "pending",
     },
     approvals: [
@@ -39,7 +44,7 @@ const requestsSchema = new mongoose.Schema(
             approver: { type: String, required: true },
             status: {
               type: String,
-              enum: ["approved", "declined", "pending"],
+              enum: ["approved", "declined", "changesRequired"],
               required: true,
             },
             remarks: { type: String },

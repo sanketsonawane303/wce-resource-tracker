@@ -6,7 +6,7 @@ import signUp from "../controllers/user/signUp.js";
 import signIn from "../controllers/user/signIn.js";
 import getUsers from "../controllers/user/getUsers.js";
 import getUser from "../controllers/user/getUser.js";
-import deleteUser from "../controllers/user/deleteUser/js";
+import deleteUser from "../controllers/user/deleteUser.js";
 
 const router = Router();
 
