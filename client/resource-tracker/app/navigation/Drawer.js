@@ -7,7 +7,9 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Home from '../screens/Home';
-import Sidebar from '../components/Sidebar'
+import Sidebar from '../components/Sidebar';
+
+import MakeRequest from '../screens/MakeRequest';
 
 const AppDrawer = createDrawerNavigator();
 
@@ -34,6 +36,10 @@ export default function Drawer() {
           }}
         >
           <AppDrawer.Screen name='Home' component={Home} />
+          <AppDrawer.Screen name='MakeRequest' component={MakeRequest} options={{
+            headerTitle: 'Make Request',
+            drawerLabel: 'Make Request'
+          }} />
         </AppDrawer.Navigator>
       </NavigationContainer>
     </>
