@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import connectToMongoDb from "./connections/mongodb.js";
+import api from "./routes/api.js";
 
 connectToMongoDb();
 const app = express();
@@ -14,6 +15,8 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("WCE-RESOURCE-TRACKER");
 });
+
+app.use("/api", api);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

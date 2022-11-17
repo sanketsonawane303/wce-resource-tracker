@@ -3,14 +3,13 @@ import "../connections/config.js";
 
 const JWT_SECRET = process.env.SECRET_KEY;
 
-const options = {
-  expiresIn: "24h",
-};
+// const options = {
+//   expiresIn: '24h',
+// };
 
-const generateAccessToken = async (username) => {
+const generateAccessToken = async (payload) => {
   try {
-    const payload = { username };
-    const token = await jwt.sign(payload, JWT_SECRET, options);
+    const token = await jwt.sign(payload, JWT_SECRET); //, options);
     return { error: false, token };
   } catch (error) {
     return { error: true };

@@ -2,7 +2,15 @@ import mongoose from "mongoose";
 
 const requestsSchema = new mongoose.Schema(
   {
-    applicant: { type: mongoose.Types.ObjectId, required: true, ref: "users" },
+    // applicant: { type: mongoose.Types.ObjectId, required: true, ref: 'users' },
+    applicant: { type: String, required: true },
+    club: {
+      type: String,
+      required: true,
+      enum: [
+        /* list of clubs, WCE */
+      ],
+    },
     resource: { type: String, required: true },
     time: {
       type: {
