@@ -5,9 +5,12 @@ import {
 } from "../../utils/responses.js";
 
 const updateRequest = async (req, res) => {
-  const { id } = req.body;
+  const { id, link } = req.body;
   try {
-    const request = requestSchema.findByIdAndUpdate(id, { status: "pending" });
+    const request = requestSchema.findByIdAndUpdate(id, {
+      status: "pending",
+      link,
+    });
     sendSuccessResponse({
       res,
       data: request,
