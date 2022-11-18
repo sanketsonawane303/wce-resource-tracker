@@ -6,14 +6,20 @@ import ViewRequest from './app/screens/ViewRequest';
 import AllRequests from "./app/screens/AllRequests";
 import Drawer from "./app/navigation/Drawer";
 import AddRemarks from "./app/screens/AddRemarks";
+import UserProfile from "./app/screens/UserProfile";
 import { statusbar } from "./app/configs/variables";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <MakeRequest />
-      {/* <ViewRequest /> */}
+      {/* <MakeRequest /> */}
+      {/* <ViewRequest/> */}
       {/* <AddRemarks/> */}
+      {/* <AllRequests /> */}
+      {/* <UserProfile /> */}
+      {/* <Text>Hello</Text> */}
+      <Drawer />
+      {/* <MakeRequest /> */}
     </View>
   );
 }

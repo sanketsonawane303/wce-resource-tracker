@@ -1,17 +1,14 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import ProfileCard from '../components/ProfileCard'
 
 export default function UserProfile() {
   return (
-    <View>
-      <Text>UserProfile</Text>
-
-      <Text>Name</Text>
-      <Text>Club</Text>
-      <Text>Mobile</Text>
-      <Text>Email</Text>
-      <Text>Department</Text>
-      
+    <View style={{
+      flex: 1,
+      marginTop: 50
+    }}>
+      <ProfileCard />
     </View>
   )
 }

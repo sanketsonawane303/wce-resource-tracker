@@ -10,6 +10,9 @@ import Home from '../screens/Home';
 import Sidebar from '../components/Sidebar';
 
 import MakeRequest from '../screens/MakeRequest';
+import AllRequests from '../screens/AllRequests';
+import ViewRequest from '../screens/ViewRequest';
+import UserProfile from '../screens/UserProfile';
 
 const AppDrawer = createDrawerNavigator();
 
@@ -40,6 +43,22 @@ export default function Drawer() {
             headerTitle: 'Make Request',
             drawerLabel: 'Make Request'
           }} />
+          <AppDrawer.Screen name='AllRequests' component={AllRequests} options={{
+            headerTitle: 'All Requests',
+            drawerLabel: 'All Requests'
+          }} />
+
+          <AppDrawer.Screen name='ViewRequest' component={ViewRequest} options={{
+            headerTitle: 'View Request',
+            drawerLabel: 'View Request'
+          }} />
+
+          <AppDrawer.Screen name='UserProfile' component={UserProfile} options={{
+            headerTitle: 'User Profile',
+            drawerLabel: 'User Profile'
+          }} />
+
+
         </AppDrawer.Navigator>
       </NavigationContainer>
     </>

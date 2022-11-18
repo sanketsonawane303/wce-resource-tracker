@@ -23,7 +23,7 @@ export default function MakeRequest() {
   ]);
 
   return (
-    <>
+    <View style={styles.container}>
       <Formik
         initialValues={{
           resource: "",
@@ -36,59 +36,58 @@ export default function MakeRequest() {
       >
         {({ setFieldValue, values, submitForm }) => (
           <>
-            <View style={styles.container}>
+            <View>
+              <Text style={styles.title}>Select Resource</Text>
+
+              <DropDownPicker
+                containerProps={{ style: styles.dropdown }}
+                open={open}
+                value={value}
+                items={items}
+                setOpen={setOpen}
+                setValue={setValue}
+                setItems={setItems}
+              />
+
               <View>
-                <Text style={styles.title}>Select Resource</Text>
-
-                <DropDownPicker
-                  containerProps={{ style: styles.dropdown }}
-                  open={open}
-                  value={value}
-                  items={items}
-                  setOpen={setOpen}
-                  setValue={setValue}
-                  setItems={setItems}
-                />
-
-                <View>
-                  <DateTimePicker from={true} name="fromDate" />
-                  {/* <Text>From</Text>
+                <DateTimePicker from={true} name="fromDate" />
+                {/* <Text>From</Text>
                   <Text>{formatAMPM(values.fromDate)}</Text> */}
-                </View>
-
-                <View>
-                  <DateTimePicker from={false} name="toDate" />
-                  {/* <Text>To</Text>
-                  <Text>{formatAMPM(values.fromDate)}</Text> */}
-                </View>
-
-                <Text style={styles.title}>Link</Text>
-                <RNEInput
-                  bg={colors.grey5}
-                  placeholder={"Permission Letter Link"}
-                  name="letterLink"
-                />
-                <Text style={styles.title}>Details</Text>
-                <RNEInput
-                  bg={colors.grey5}
-                  multiline={true}
-                  placeholder={"Details"}
-                  name="details"
-                />
               </View>
-              <AppButton title={"submit"} onPress={submitForm} />
+
+              <View>
+                <DateTimePicker from={false} name="toDate" />
+                {/* <Text>To</Text>
+                  <Text>{formatAMPM(values.fromDate)}</Text> */}
+              </View>
+
+              <Text style={styles.title}>Link</Text>
+              <RNEInput
+                bg={colors.grey5}
+                placeholder={"Permission Letter Link"}
+                name="letterLink"
+              />
+              <Text style={styles.title}>Details</Text>
+              <RNEInput
+                bg={colors.grey5}
+                multiline={true}
+                placeholder={"Details"}
+                name="details"
+              />
             </View>
+            <AppButton title={"submit"} onPress={submitForm} />
+
+
           </>
         )}
       </Formik>
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 6,
-    justifyContent: "",
   },
   title: {
     fontSize: 20,
