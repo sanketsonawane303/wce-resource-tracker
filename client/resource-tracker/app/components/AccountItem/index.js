@@ -27,8 +27,8 @@ export default function AccountItem() {
           />
         )}
       </View>
-      <Text style={styles.heading}>Medha Shah</Text>
-      <Text style={styles.subheading}>hod.cse@walchandsangli.ac.in</Text>
+      <Text style={styles.heading}>Sanket Sonwane</Text>
+      <Text style={styles.subheading}>sanket.cse@walchandsangli.ac.in</Text>
     </View>
   );
 }
