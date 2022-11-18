@@ -13,9 +13,19 @@ import MakeRequest from '../screens/MakeRequest';
 import AllRequests from '../screens/AllRequests';
 import ViewRequest from '../screens/ViewRequest';
 import UserProfile from '../screens/UserProfile';
-
+import QRCode from '../screens/QRCode';
+import { colors } from 'react-native-elements';
 const AppDrawer = createDrawerNavigator();
 
+const drawerStyles = {
+  drawerItemStyle: {
+    backgroundColor: colors.grey5,
+  },
+  drawerLabelStyle: {
+    color: "green",
+    fontSize: 18
+  }
+}
 
 export default function Drawer() {
   return (
@@ -38,26 +48,35 @@ export default function Drawer() {
             },
           }}
         >
-          <AppDrawer.Screen name='Home' component={Home} />
           <AppDrawer.Screen name='MakeRequest' component={MakeRequest} options={{
             headerTitle: 'Make Request',
-            drawerLabel: 'Make Request'
+            drawerLabel: 'Make Request',
+            ...drawerStyles
+
           }} />
           <AppDrawer.Screen name='AllRequests' component={AllRequests} options={{
             headerTitle: 'All Requests',
-            drawerLabel: 'All Requests'
+            drawerLabel: 'All Requests',
+            ...drawerStyles
           }} />
 
           <AppDrawer.Screen name='ViewRequest' component={ViewRequest} options={{
             headerTitle: 'View Request',
-            drawerLabel: 'View Request'
+            drawerLabel: 'View Request',
+            ...drawerStyles
           }} />
 
           <AppDrawer.Screen name='UserProfile' component={UserProfile} options={{
             headerTitle: 'User Profile',
-            drawerLabel: 'User Profile'
+            drawerLabel: 'User Profile',
+            ...drawerStyles
           }} />
 
+          <AppDrawer.Screen name='QRScanner' component={QRCode} options={{
+            headerTitle: 'Scan QR Code',
+            drawerLabel: 'Scan QR Code',
+            ...drawerStyles
+          }} />
 
         </AppDrawer.Navigator>
       </NavigationContainer>
