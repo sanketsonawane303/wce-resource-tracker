@@ -17,17 +17,16 @@ export default function ViewRequest() {
   return (
     <View style={styles.container}>
       <View>
-      {obj.map((info) => {
-        return (
-          <>
-            <ShowTitleInfo
-              key={info.title + info.data}
-              title={info.title}
-              data={info.data}
-            />
-          </>
-        );
-      })}
+        {obj.map((info, index) => {
+          return (
+            <View key={index}>
+              <ShowTitleInfo
+                title={info.title}
+                data={info.data}
+              />
+            </View>
+          );
+        })}
       </View>
 
       <View style={styles.buttonGroup}>
@@ -48,7 +47,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginHorizontal: 5,
     paddingHorizontal: 10,
-    justifyContent:'space-between'
+    justifyContent: 'space-between'
   },
   info: {
     paddingVertical: 10,
@@ -57,12 +56,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   buttonGroup: {
-    
+
     flexDirection: "row",
     justifyContent: "space-between",
 
   },
   button: {
-    
+
   },
 });

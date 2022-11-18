@@ -8,7 +8,6 @@ import Drawer from "./app/navigation/Drawer";
 import AddRemarks from "./app/screens/AddRemarks";
 import UserProfile from "./app/screens/UserProfile";
 import { statusbar } from "./app/configs/variables";
-import { statusbar } from "./app/configs/variables";
 
 export default function App() {
   return (
@@ -17,8 +16,10 @@ export default function App() {
       {/* <ViewRequest/> */}
       {/* <AddRemarks/> */}
       {/* <AllRequests /> */}
-      <UserProfile />
+      {/* <UserProfile /> */}
       {/* <Text>Hello</Text> */}
+      <Drawer />
+      {/* <MakeRequest /> */}
     </View>
   );
 }
