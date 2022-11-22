@@ -1,24 +1,24 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react';
 import { StatusBar } from 'react-native';
-import ResourceCard from '../components/ResourceCard';
+import RequestCard from '../components/RequestCard';
 
 const AllRequests = () => {
     return (
         <>
             <View style={styles.container}>
                 <ScrollView>
-                    <ResourceCard />
-                    <ResourceCard />
-                    <ResourceCard />
-                    <ResourceCard />
-                    <ResourceCard />
-                    <ResourceCard />
-                    <ResourceCard />
-                    <ResourceCard />
-                    <ResourceCard />
-                    <ResourceCard />
-                    <ResourceCard />
+                    <RequestCard />
+                    <RequestCard />
+                    <RequestCard />
+                    <RequestCard />
+                    <RequestCard />
+                    <RequestCard />
+                    <RequestCard />
+                    <RequestCard />
+                    <RequestCard />
+                    <RequestCard />
+                    <RequestCard />
                 </ScrollView>
 
             </View>
