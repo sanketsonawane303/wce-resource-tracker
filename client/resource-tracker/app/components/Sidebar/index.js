@@ -13,7 +13,7 @@ const Sidebar = (props) => {
             <View style={styles.container}>
                 <DrawerContentScrollView>
                     <AccountItem />
-                    <DrawerItemList {...props} />
+                    <DrawerItemList {...props}/>
                 </DrawerContentScrollView>
             </View>
 

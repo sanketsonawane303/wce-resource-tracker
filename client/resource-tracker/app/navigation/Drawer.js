@@ -22,7 +22,7 @@ const drawerStyles = {
     backgroundColor: colors.grey5,
   },
   drawerLabelStyle: {
-    color: "green",
+    color: "black",
     fontSize: 18
   }
 }
@@ -41,11 +41,11 @@ export default function Drawer() {
               color: "#00aced",
             },
             drawerStyle: {
-              //   padding: 10,
             },
             drawerItemStyle: {
               paddingLeft: 20,
             },
+
           }}
         >
           <AppDrawer.Screen name='MakeRequest' component={MakeRequest} options={{
