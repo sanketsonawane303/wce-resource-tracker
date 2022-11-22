@@ -44,6 +44,7 @@ export default function AddResource() {
                                 open={open}
                                 value={value}
                                 items={items}
+                                placeholder="Select Department"
                                 setOpen={setOpen}
                                 setValue={setValue}
                                 onChangeValue={(value) => {
