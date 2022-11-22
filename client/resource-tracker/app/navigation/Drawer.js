@@ -15,6 +15,7 @@ import ViewRequest from '../screens/ViewRequest';
 import UserProfile from '../screens/UserProfile';
 import QRCode from '../screens/QRCode';
 import { colors } from 'react-native-elements';
+import ResourceList from '../screens/ResourceList';
 const AppDrawer = createDrawerNavigator();
 
 const drawerStyles = {
@@ -75,6 +76,12 @@ export default function Drawer() {
           <AppDrawer.Screen name='QRScanner' component={QRCode} options={{
             headerTitle: 'Scan QR Code',
             drawerLabel: 'Scan QR Code',
+            ...drawerStyles
+          }} />
+
+          <AppDrawer.Screen name='ManageResources' component={ResourceList} options={{
+            headerTitle: 'Manage Resources',
+            drawerLabel: 'Manage Resources',
             ...drawerStyles
           }} />
 
