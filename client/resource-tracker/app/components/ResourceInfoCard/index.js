@@ -29,6 +29,32 @@ export default function ResourceInfoCard() {
             <View>
                 <Text style={styles.subheading}>Department of Computer Science and Engineering</Text>
             </View>
+
+            <View style={styles.buttonrow}>
+                <View>
+                    <AppButton
+                        title={"Delete"} onPress={() => { }}
+                        buttonStyles={{
+                            backgroundColor: uicolors.error,
+                            width: 100,
+                            paddingVertical: 5,
+                        }}
+
+                    />
+                </View>
+                <View>
+                    <AppButton
+                        title={"Edit"}
+                        onPress={() => { }}
+                        buttonStyles={{
+                            backgroundColor: uicolors.primary,
+                            width: 100,
+                            paddingVertical: 5,
+                        }}
+
+                    />
+                </View>
+            </View>
         </View>
     )
 }
@@ -80,7 +106,18 @@ const styles = StyleSheet.create({
     resourcename: {
         flex: 7,
         flexDirection: "row",
-        flexWrap: "wrap"
+        flexWrap: "wrap",
+        alignItems: "center",
+        borderLeftColor: uicolors.grey,
+        marginLeft: -10,
+        borderLeftWidth: 5,
+        paddingLeft: 5
+
+    },
+    buttonrow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginHorizontal: 10
     }
 
 })
