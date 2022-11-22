@@ -13,6 +13,7 @@ export default function RNEInput({
   defaultValue,
   name,
   error,
+  ...otherProps
 }) {
   const { setFieldValue } = useFormikContext();
   return (
@@ -25,6 +26,7 @@ export default function RNEInput({
       inputStyle={{
         backgroundColor: bg ? bg : colors.lightgrey,
       }}
+
       inputContainerStyle={{
         borderBottomWidth: 2,
         // borderWidth: 2,
@@ -32,13 +34,14 @@ export default function RNEInput({
         paddingHorizontal: 10,
         backgroundColor: bg ? bg : colors.lightgrey,
         borderRadius: 5,
-        
+
       }}
       labelStyle={{
         color: "black",
         marginBottom: 5,
       }}
       errorMessage={error}
+      {...otherProps}
     />
   );
 }
