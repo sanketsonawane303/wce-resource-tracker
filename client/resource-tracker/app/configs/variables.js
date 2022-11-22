@@ -7,6 +7,7 @@ const colors = {
   grey: "#787878",
   lightcyan: "#E0FFFF",
   lightskyblue: "#87CEFA",
+  error: "#ff3333",
   lightgrey: "#D3D3D3",
   lightblue: "#e6ecff",
   successbg: "#ccffcc",
