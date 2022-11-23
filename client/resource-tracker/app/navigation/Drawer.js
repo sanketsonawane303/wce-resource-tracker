@@ -13,9 +13,11 @@ import MakeRequest from '../screens/MakeRequest';
 import AllRequests from '../screens/AllRequests';
 import ViewRequest from '../screens/ViewRequest';
 import UserProfile from '../screens/UserProfile';
-import QRCode from '../screens/QRCode';
 import { colors } from 'react-native-elements';
 import ResourceList from '../screens/ResourceList';
+import EditResoure from '../screens/EditResource';
+import AddResource from '../screens/AddResource';
+import ApproveResource from '../screens/ApproveResource';
 const AppDrawer = createDrawerNavigator();
 
 const drawerStyles = {
@@ -73,9 +75,9 @@ export default function Drawer() {
             ...drawerStyles
           }} />
 
-          <AppDrawer.Screen name='QRScanner' component={QRCode} options={{
-            headerTitle: 'Scan QR Code',
-            drawerLabel: 'Scan QR Code',
+          <AppDrawer.Screen name='ApproveScreen' component={ApproveResource} options={{
+            headerTitle: 'Resource Operations',
+            drawerLabel: 'Resource Operations',
             ...drawerStyles
           }} />
 
@@ -84,6 +86,20 @@ export default function Drawer() {
             drawerLabel: 'Manage Resources',
             ...drawerStyles
           }} />
+
+          <AppDrawer.Screen name='AddResource' component={AddResource} options={{
+            headerTitle: 'Add Resource',
+            drawerLabel: 'Add Resource',
+            ...drawerStyles
+          }} />
+
+          <AppDrawer.Screen name='EditResource' component={EditResoure} options={{
+            headerTitle: 'Edit Resource',
+            drawerLabel: 'Edit Resource',
+            ...drawerStyles
+          }} />
+
+
 
         </AppDrawer.Navigator>
       </NavigationContainer>
