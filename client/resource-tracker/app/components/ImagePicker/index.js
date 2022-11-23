@@ -9,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { launchImageLibrary } from "react-native-image-picker";
+import * as ImagePicker from 'expo-image-picker';
 import { colors } from "../../configs/variables";
 
 export default function AppImagePicker({ imageUri, onChangeImage }) {
@@ -38,10 +38,10 @@ export default function AppImagePicker({ imageUri, onChangeImage }) {
 
   const selectImage = async () => {
     try {
-      const result = await launchImageLibrary({
-        mediaType: "photo",
-      });
-      if (!result.didCancel) {
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images
+      })
+      if (!result.canceled) {
         onChangeImage(result.assets[0]);
       }
     } catch (error) {
@@ -56,15 +56,22 @@ export default function AppImagePicker({ imageUri, onChangeImage }) {
         alignItems: "center",
       }}
     >
-      <View style={styles.picker}>
+
+      {imageUri == null ? (
         <TouchableWithoutFeedback onPress={handlePress}>
-          {imageUri == null ? (
+          <View style={styles.attachment}>
             <MaterialCommunityIcons name="camera" size={35} />
-          ) : (
-            <Image source={{ uri: imageUri }} style={styles.image} />
-          )}
+          </View>
         </TouchableWithoutFeedback>
-      </View>
+
+      ) : (
+        <View style={styles.picker}>
+          <TouchableWithoutFeedback onPress={handlePress}>
+            <Image source={{ uri: imageUri }} style={styles.image} />
+          </TouchableWithoutFeedback>
+        </View>
+
+      )}
 
       <View
         style={{
@@ -101,4 +108,13 @@ const styles = StyleSheet.create({
     height: 100,
     resizeMode: "cover",
   },
+  attachment: {
+    marginVertical: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+    backgroundColor: colors.lightgrey,
+    width: 100,
+    borderRadius: 5,
+    alignItems: "center"
+  }
 });
