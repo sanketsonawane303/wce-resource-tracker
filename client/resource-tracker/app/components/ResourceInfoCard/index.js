@@ -2,9 +2,9 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { FontAwesome } from '@expo/vector-icons';
 import AppButton from '../AppButton';
-import { AntDesign } from '@expo/vector-icons';
 import { colors, Switch } from 'react-native-elements';
 import { colors as uicolors } from '../../configs/variables';
+
 export default function ResourceInfoCard() {
 
     const [switchstate, chageSwitch] = useState(0);
