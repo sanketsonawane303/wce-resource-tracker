@@ -28,7 +28,7 @@ const addRequest = async (req, res) => {
     return sendFailResponse({
       res,
       statusCode: 400,
-      err: "Resources already occupied for given time period",
+      err: { msg: "Resources already occupied for given time period", request },
     });
   } else {
     try {

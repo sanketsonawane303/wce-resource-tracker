@@ -7,7 +7,11 @@ import {
 const addReport = async (req, res) => {
   const { report, id } = req.body;
   try {
-    const data = await requestsSchema.findByIdAndUpdate(id, { report });
+    const data = await requestsSchema.findByIdAndUpdate(
+      id,
+      { report },
+      { new: true }
+    );
     sendSuccessResponse({ res, data });
   } catch (err) {
     sendFailResponse({ res, err, statusCode: 400 });

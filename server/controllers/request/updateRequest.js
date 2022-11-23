@@ -7,10 +7,14 @@ import {
 const updateRequest = async (req, res) => {
   const { id, link } = req.body;
   try {
-    const request = requestSchema.findByIdAndUpdate(id, {
-      status: "pending",
-      link,
-    });
+    const request = await requestSchema.findByIdAndUpdate(
+      id,
+      {
+        status: "pending",
+        letter: link,
+      },
+      { new: true }
+    );
     sendSuccessResponse({
       res,
       data: request,

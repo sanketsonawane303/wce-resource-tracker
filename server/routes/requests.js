@@ -6,6 +6,7 @@ import getRequests from "../controllers/request/getRequests.js";
 import approveRequest from "../controllers/request/approveRequest.js";
 import updateRequest from "../controllers/request/updateRequest.js";
 import addReport from "../controllers/request/addReport.js";
+import deleteRequest from "../controllers/request/deleteRequest.js";
 
 const router = Router();
 
@@ -14,5 +15,6 @@ router.get("/", getRequests);
 router.post("/approve", role(["advisor", "hod"]), approveRequest);
 router.put("/approve", role(["representative"]), updateRequest);
 router.put("/report", role(["representative"]), addReport);
+router.delete("/:id", role(["representative"]), deleteRequest);
 
 export default router;

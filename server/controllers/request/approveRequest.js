@@ -15,7 +15,7 @@ const approveRequest = async (req, res) => {
         approver: req.user.email,
         remarks,
       });
-      if (action !== "approve") request.status = action;
+      if (action !== "approved") request.status = action;
 
       await request.save();
     } else {
