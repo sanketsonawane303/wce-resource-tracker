@@ -17,12 +17,15 @@ const requestsSchema = new mongoose.Schema(
       ],
     },
     resources: {
-      type: [String],
-      required: true,
-      validate: [
-        (val) => val.length >= 1,
-        "${PATH} should atleast have 1 resource",
-      ],
+      list: {
+        type: [String],
+        required: true,
+        validate: [
+          (val) => val.length >= 1,
+          "${PATH} should atleast have 1 resource",
+        ],
+      },
+      department: { type: String, required: true },
     },
     time: {
       type: {
@@ -42,6 +45,10 @@ const requestsSchema = new mongoose.Schema(
         type: new mongoose.Schema(
           {
             approver: { type: String, required: true },
+            role: {
+              type: String,
+              enum: ["representative", "advisor", "hod", "helper", "admin"],
+            },
             status: {
               type: String,
               enum: ["approved", "declined", "changesRequired"],
@@ -55,6 +62,7 @@ const requestsSchema = new mongoose.Schema(
     ],
     report: { type: String },
     invite_status: { type: Boolean, required: true, default: false },
+    key_holder: { photo: String, id_card: String },
   },
   { timestamps: true }
 );

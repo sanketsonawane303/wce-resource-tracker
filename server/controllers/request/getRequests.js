@@ -5,10 +5,14 @@ import {
 } from "../../utils/responses.js";
 
 const getRequests = async (req, res) => {
-  const requests = await requestsSchema.find();
+  const requests = await requestsSchema.find(req.body);
 
   if (!requests)
-    return sendFailResponse({ res, statusCode: 404, err: "Requests not found" });
+    return sendFailResponse({
+      res,
+      statusCode: 404,
+      err: "Requests not found",
+    });
 
   sendSuccessResponse({ res, data: requests });
 };

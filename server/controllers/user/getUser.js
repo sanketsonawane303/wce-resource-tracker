@@ -5,9 +5,9 @@ import {
 } from "../../utils/responses.js";
 
 const getUser = async (req, res) => {
-  const id = req.params.id;
+  const info = req.body;
 
-  const user = await usersSchema.findById(id, "-password");
+  const user = await usersSchema.find(info, "-password");
 
   if (!user)
     return sendFailResponse({ res, statusCode: 404, err: "User not found" });
