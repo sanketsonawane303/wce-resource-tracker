@@ -4,10 +4,12 @@ import {
     DrawerItemList,
     DrawerContentScrollView,
 } from "@react-navigation/drawer";
+import useAuth from "../../auth/useAuth";
 
 import AppButton from "../AppButton";
 import AccountItem from "../AccountItem";
 const Sidebar = (props) => {
+    const { user, logOut } = useAuth();
     return (
         <>
             <View style={styles.container}>
@@ -21,7 +23,7 @@ const Sidebar = (props) => {
                 <AppButton
                     title="LogOut"
                     onPress={() => {
-
+                        logOut()
                     }}
                 />
             </View>

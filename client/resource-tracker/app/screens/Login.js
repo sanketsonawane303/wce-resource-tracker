@@ -4,8 +4,35 @@ import { Formik } from "formik";
 import RNEInput from "../components/RNEInput";
 import AppButton from "../components/AppButton";
 import { colors } from "../configs/variables";
-
+import {signIn} from '../apis/auth';
+import useAuth from "../auth/useAuth";
 export default function Login() {
+    const { logIn, user } = useAuth();
+    const handleSignin = async (values) =>{
+
+        try{
+            const res = await signIn(values);
+            
+            if(res.ok && res.data.status =="success"){
+                const token = res.data.data.token;
+                console.log(token);
+                logIn(token);
+
+                console.log(user)
+            }
+            else{
+                console.log(res.data.status);
+            }
+                
+            
+            
+        }
+        catch(err){
+            console.log(err);
+        }
+
+    }
+
   return (
     <View style={styles.container}>
       <View
@@ -46,9 +73,9 @@ export default function Login() {
             password: "",
           }}
           //   validationSchema={validationSchema}
-          //   onSubmit={handleSignin}
+          onSubmit={handleSignin}
         >
-          {({ handleSubmit, values, errors, touched, setFieldValue }) => (
+          {({ values, errors, touched, setFieldValue, submitForm}) => (
             <>
               <View>
                 <RNEInput
@@ -81,7 +108,7 @@ export default function Login() {
                 <View>
                   <AppButton
                     title="Sign In"
-                    onPress={handleSubmit}
+                    onPress={submitForm}
                     buttonStyles={{
                       paddingHorizontal: 20,
                       borderRadius: 5,

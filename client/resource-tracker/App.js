@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-
+import {useState} from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 import MakeRequest from './app/screens/MakeRequest';
 import ViewRequest from './app/screens/ViewRequest';
@@ -12,17 +12,33 @@ import Requests from "./app/screens/Requests";
 import AddResource from "./app/screens/AddResource";
 import ResourceList from "./app/screens/ResourceList";
 import QRCode from "./app/screens/ApproveResource";
+import AuthContext from "./app/auth/context";
+import Login from "./app/screens/Login";
 
 export default function App() {
+  const [user, setUser] = useState(null);
+
   return (
     <View style={styles.container}>
+    {user ? (
+      
+      <AuthContext.Provider value={{ user, setUser }}>
+        <Drawer />
+      </AuthContext.Provider>
+    ) : (
+
+      <AuthContext.Provider value={{ user, setUser }}>
+        <Login/>
+      </AuthContext.Provider>
+    )}
+    
       {/* <MakeRequest /> */}
       {/* <ViewRequest /> */}
       {/* <AddRemarks/> */}
       {/* <AllRequests /> */}
       {/* <UserProfile /> */}
       {/* <Text>Hello</Text> */}
-      <Drawer />
+      {/* <Drawer /> */}
       {/* <MakeRequest /> */}
       {/* <Requests /> */}
       {/* <AddResource /> */}
