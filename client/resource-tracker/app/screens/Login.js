@@ -15,17 +15,14 @@ export default function Login() {
             
             if(res.ok && res.data.status =="success"){
                 const token = res.data.data.token;
-                console.log(token);
+                // console.log(token);
                 logIn(token);
 
-                console.log(user)
+                // console.log(user)
             }
             else{
                 console.log(res.data.status);
             }
-                
-            
-            
         }
         catch(err){
             console.log(err);
