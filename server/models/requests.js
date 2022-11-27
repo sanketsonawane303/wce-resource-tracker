@@ -17,7 +17,7 @@ const requestsSchema = new mongoose.Schema(
         required: true,
         validate: [
           (val) => val.length >= 1,
-          "${PATH} should atleast have 1 resource",
+          "{PATH} should atleast have 1 resource",
         ],
       },
       department: { type: String, required: true, enum: departmentList },

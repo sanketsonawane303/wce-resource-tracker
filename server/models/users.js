@@ -25,6 +25,7 @@ const usersSchema = new mongoose.Schema(
         },
       ],
       required: true,
+      validate: [(val) => val.length >= 1, "{PATH} should atleast have 1 role"],
     },
     department: {
       type: String,

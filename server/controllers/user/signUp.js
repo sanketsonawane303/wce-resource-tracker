@@ -48,7 +48,12 @@ const signUp = async (req, res) => {
   const hashedPassword = hashPassword(password);
 
   try {
-    await usersSchema.create({ email, password: hashedPassword, ...data });
+    await usersSchema.create({
+      email,
+      password: hashedPassword,
+      role,
+      ...data,
+    });
 
     sendSuccessResponse({ res, data: "User created successfully" });
   } catch (err) {
