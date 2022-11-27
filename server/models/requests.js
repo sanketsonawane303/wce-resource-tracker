@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import departmentList from "../constants/departments.js";
+import clubsList from "../constants/clubs.js";
 
 const requestsSchema = new mongoose.Schema(
   {
@@ -7,14 +9,7 @@ const requestsSchema = new mongoose.Schema(
     club: {
       type: String,
       required: true,
-      enum: [
-        /* list of clubs, WCE */
-        "Walchand Linux Users' Group",
-        "Association of Computer Science and Engineering Students",
-        "Student Association of Information Technology",
-        "Google Developer Students' Club",
-        "ACM Student Chapter",
-      ],
+      enum: clubsList,
     },
     resources: {
       list: {
@@ -25,7 +20,7 @@ const requestsSchema = new mongoose.Schema(
           "${PATH} should atleast have 1 resource",
         ],
       },
-      department: { type: String, required: true },
+      department: { type: String, required: true, enum: departmentList },
     },
     time: {
       type: {
@@ -47,7 +42,8 @@ const requestsSchema = new mongoose.Schema(
             approver: { type: String, required: true },
             role: {
               type: String,
-              enum: ["representative", "advisor", "hod", "helper", "admin"],
+              enum: ["advisor", "hod"],
+              required: true,
             },
             status: {
               type: String,

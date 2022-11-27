@@ -25,7 +25,7 @@ import { hashPassword } from "../../utils/passwords.js";
 // };
 
 const signUp = async (req, res) => {
-  const { email, password, ...data } = req.body;
+  const { email, password, role, ...data } = req.body;
 
   let user = await usersSchema.findOne({ email });
   if (user)
@@ -34,6 +34,16 @@ const signUp = async (req, res) => {
       statusCode: 400,
       err: "User already exists",
     });
+
+  if (role.length > 1) {
+    role.sort();
+    if (!(role[0] === "advisor" && role[1] === "hod"))
+      return sendFailResponse({
+        res,
+        statusCode: 400,
+        err: "Invalid role combination",
+      });
+  }
 
   const hashedPassword = hashPassword(password);
 

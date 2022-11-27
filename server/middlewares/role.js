@@ -2,7 +2,7 @@ import { sendFailResponse } from "../utils/responses.js";
 
 const role = (roles) => {
   return (req, res, next) => {
-    if (roles.includes(req.user.role)) next();
+    if (req.user.role.some((role) => roles.includes(role))) next();
     else
       sendFailResponse({
         res,
