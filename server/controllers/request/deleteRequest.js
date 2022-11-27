@@ -8,10 +8,17 @@ const deleteRequest = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const request = requestSchema.findByIdAndDelete(id);
+    const request = requestSchema.findOneAndDelete({
+      _id: id,
+      applicant: req.user.email,
+    });
 
     if (!request)
-      sendFailResponse({ res, statusCode: 404, err: "Request not found" });
+      sendFailResponse({
+        res,
+        statusCode: 404,
+        err: "Given request not found in your submitted requests",
+      });
     else sendSuccessResponse({ res, data: "Request deleted successfully" });
   } catch (err) {
     sendFailResponse({ res, statusCode: 400, err });

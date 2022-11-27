@@ -7,12 +7,18 @@ import {
 const addReport = async (req, res) => {
   const { report, id } = req.body;
   try {
-    const data = await requestsSchema.findByIdAndUpdate(
-      id,
+    const data = await requestsSchema.findByOneAndUpdate(
+      { _id: id, applicant: req.user.email },
       { report },
       { new: true }
     );
-    sendSuccessResponse({ res, data });
+    if (!request)
+      sendFailResponse({
+        res,
+        statusCode: 404,
+        err: "Given request not found in your submitted requests",
+      });
+    else sendSuccessResponse({ res, data });
   } catch (err) {
     sendFailResponse({ res, err, statusCode: 400 });
   }

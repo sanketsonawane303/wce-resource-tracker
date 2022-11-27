@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import departmentList from "../constants/departments.js";
 
 const resourcesSchema = new mongoose.Schema(
   {
@@ -6,17 +7,11 @@ const resourcesSchema = new mongoose.Schema(
     department: {
       type: String,
       required: true,
-      enum: [
-        "Civil",
-        "Mechanical",
-        "Electrical",
-        "Electronics",
-        "Computer Science and Engineering",
-        "Information Technology",
-        "WCE",
-      ],
+      enum: departmentList,
       default: "WCE",
     },
+    is_room: { type: Boolean, required: true },
+    capacity: String,
     is_available: { type: Boolean, default: false },
   },
   { timestamps: true }

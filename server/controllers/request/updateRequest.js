@@ -7,18 +7,26 @@ import {
 const updateRequest = async (req, res) => {
   const { id, link } = req.body;
   try {
-    const request = await requestSchema.findByIdAndUpdate(
-      id,
+    const request = await requestSchema.findByOneAndUpdate(
+      { _id: id, applicant: req.user.email },
       {
         status: "pending",
         letter: link,
       },
       { new: true }
     );
-    sendSuccessResponse({
-      res,
-      data: request,
-    });
+
+    if (!request)
+      return sendFailResponse({
+        res,
+        statusCode: 404,
+        err: "Given request not found in your submitted requests",
+      });
+    else
+      sendSuccessResponse({
+        res,
+        data: request,
+      });
   } catch (err) {
     sendFailResponse({ err, res, statusCode: 400 });
   }
