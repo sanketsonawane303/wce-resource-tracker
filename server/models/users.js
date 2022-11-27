@@ -23,12 +23,8 @@ const usersSchema = new mongoose.Schema(
       trim: true,
     },
     role: {
-      type: [
-        {
-          type: String,
-          enum: ["representative", "advisor", "hod", "helper", "admin"],
-        },
-      ],
+      type: String,
+      enum: ["representative", "advisor", "hod", "helper", "admin"],
       required: true,
     },
     department: {

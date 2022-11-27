@@ -18,6 +18,5 @@ export const compress = async (filepath) => {
       }),
     ],
   });
-  console.log(files[0]);
   return files[0];
 };
