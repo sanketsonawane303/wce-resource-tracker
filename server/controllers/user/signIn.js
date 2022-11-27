@@ -61,9 +61,24 @@ const signIn = async (req, res) => {
       err: "Invalid email or password",
     });
 
-  const { password: pwd, access_token, ...jwtData } = user;
+  const {
+    mobile_number,
+    name,
+    role,
+    department,
+    representative_club,
+    advisor_club,
+  } = user;
 
-  const token = await generateAccessToken(jwtData);
+  const token = await generateAccessToken({
+    email,
+    mobile_number,
+    name,
+    role,
+    department,
+    representative_club,
+    advisor_club,
+  });
   sendSuccessResponse({ res, data: token });
 };
 
