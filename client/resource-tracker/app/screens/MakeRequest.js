@@ -9,10 +9,13 @@ import { Formik } from "formik";
 import { Feather } from "@expo/vector-icons";
 import { colors } from "react-native-elements";
 import DropDownPicker from "react-native-dropdown-picker";
+import MessageModal from "../components/MessageModal";
 
 export default function MakeRequest() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
+  const [modal, setModalState] = useState(false);
+
   const [items, setItems] = useState([
     { label: "Classroom 20", value: "classroom20" },
     { label: "Classroom 21", value: "classroom21" },
@@ -32,6 +35,7 @@ export default function MakeRequest() {
         }}
         onSubmit={(values) => {
           console.log(values);
+          setModalState(!modal)
         }}
       >
         {({ setFieldValue, values, submitForm }) => (
@@ -77,6 +81,17 @@ export default function MakeRequest() {
             </View>
             <AppButton title={"submit"} onPress={submitForm} />
 
+            <View>
+              <MessageModal visible={modal} message="Request Submitted Sucessfully" buttonComponent={<AppButton
+                title="OK"
+                buttonStyles={{
+                  width: 150,
+                  paddingVertical: 10
+                }}
+                onPress={() => {
+                  setModalState(!modal)
+                }} />} />
+            </View>
 
           </>
         )}
