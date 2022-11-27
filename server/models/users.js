@@ -18,8 +18,12 @@ const usersSchema = new mongoose.Schema(
       trim: true,
     },
     role: {
-      type: String,
-      enum: ["representative", "advisor", "hod", "helper", "admin"],
+      type: [
+        {
+          type: String,
+          enum: ["representative", "advisor", "hod", "helper", "admin"],
+        },
+      ],
       required: true,
       validate: [(val) => val.length >= 1, "{PATH} should atleast have 1 role"],
     },
