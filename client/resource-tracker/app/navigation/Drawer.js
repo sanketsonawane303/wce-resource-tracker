@@ -18,6 +18,8 @@ import ResourceList from '../screens/ResourceList';
 import EditResoure from '../screens/EditResource';
 import AddResource from '../screens/AddResource';
 import ApproveResource from '../screens/ApproveResource';
+import Login from '../screens/Login';
+import AddUser from '../screens/AddUser';
 const AppDrawer = createDrawerNavigator();
 
 const drawerStyles = {
@@ -96,6 +98,18 @@ export default function Drawer() {
           <AppDrawer.Screen name='EditResource' component={EditResoure} options={{
             headerTitle: 'Edit Resource',
             drawerLabel: 'Edit Resource',
+            ...drawerStyles
+          }} />
+
+        <AppDrawer.Screen name='Login' component={Login} options={{
+            headerTitle: 'Login',
+            drawerLabel: 'Login',
+            ...drawerStyles
+          }} />
+
+        <AppDrawer.Screen name='AddUser' component={AddUser} options={{
+            headerTitle: 'Add User',
+            drawerLabel: 'Add User',
             ...drawerStyles
           }} />
 
