@@ -4,15 +4,15 @@ import { Formik } from "formik";
 import RNEInput from "../components/RNEInput";
 import AppButton from "../components/AppButton";
 import { colors } from "../configs/variables";
-import { signIn } from '../apis/auth';
+import authApi from '../apis/auth';
 import useAuth from "../auth/useAuth";
 export default function Login() {
   const { logIn, user } = useAuth();
   const handleSignin = async (values) => {
 
     try {
-      const res = await signIn(values);
-
+      const res = await authApi.signIn(values);
+      console.log(res);
       if (res.ok && res.data.status == "success") {
         const token = res.data.data.token;
         // console.log(token);

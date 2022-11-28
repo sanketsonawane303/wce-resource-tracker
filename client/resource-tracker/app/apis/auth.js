@@ -8,4 +8,4 @@ const signUp = (payload) => {
     return apiClient.post("/users/signup", payload);
 };
 
-export { signIn, signUp };
+export default { signIn, signUp };
