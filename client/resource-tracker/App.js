@@ -12,7 +12,7 @@ import Requests from "./app/screens/Requests";
 import AddResource from "./app/screens/AddResource";
 import ResourceList from "./app/screens/ResourceList";
 import QRCode from "./app/screens/ApproveResource";
-
+import Auth
 export default function App() {
   return (
     <View style={styles.container}>

@@ -45,22 +45,23 @@ export default function Login() {
             email: "",
             password: "",
           }}
-          //   validationSchema={validationSchema}
-          //   onSubmit={handleSignin}
+
+        //   validationSchema={validationSchema}
+        //   onSubmit={handleSignin}
         >
-          {({ handleSubmit, values, errors, touched, setFieldValue }) => (
+          {({ handleSubmit, values, errors, touched, setFieldValue, submitForm }) => (
             <>
               <View>
                 <RNEInput
                   placeholder="E-mail"
-                  onInputChange={() => {}}
+                  onInputChange={() => { }}
                   bg="white"
                   name="email"
                   error={touched.email && errors.email}
                 />
                 <RNEInput
                   placeholder="Password"
-                  onInputChange={() => {}}
+                  onInputChange={() => { }}
                   bg="white"
                   name="password"
                   error={touched.password && errors.password}
