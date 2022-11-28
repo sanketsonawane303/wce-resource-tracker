@@ -1,6 +1,7 @@
 import * as SecureStore from "expo-secure-store";
 
 import jwtDecode from "jwt-decode";
+import apiClient from "../apis/client";
 
 const key = "authtoken";
 
@@ -24,7 +25,8 @@ const getToken = async () => {
 const getUser = async () => {
   const token = await getToken();
   if (token) {
-    return jwtDecode(token)?.user;
+    apiClient.setHeader('x-auth-token', token)
+    return jwtDecode(token);
   }
   return null;
 };
