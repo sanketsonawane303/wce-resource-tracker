@@ -6,7 +6,7 @@ import RNEInput from "../components/RNEInput";
 import { Formik } from "formik";
 import { colors } from "react-native-elements";
 import DropDownPicker from "react-native-dropdown-picker";
-
+import resourceApi from "../apis/resource";
 // Department items
 const items = [
     { label: "Computer Science and Engineering", value: "CSE" },
@@ -27,11 +27,12 @@ export default function AddResource() {
                 initialValues={{
                     department: "WCE",
                     name: "",
-                    capacity: 0
+                    capacity: 0,
+                    key_code: ""
 
                 }}
                 onSubmit={(values) => {
-                    console.log(values);
+
                 }}
             >
                 {({ setFieldValue, values, submitForm }) => (
@@ -64,6 +65,14 @@ export default function AddResource() {
                                 name="capacity"
                                 label="Capacity"
                                 keyboardType="numeric"
+                            />
+
+                            <RNEInput
+                                bg={colors.grey5}
+                                multiline={true}
+                                placeholder={"Key Code"}
+                                name="key_code"
+                                label="key_code"
                             />
                         </View>
                         <AppButton title={"submit"} onPress={submitForm} />
