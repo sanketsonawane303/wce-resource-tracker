@@ -5,16 +5,16 @@ import AppButton from '../AppButton';
 import { colors, Switch } from 'react-native-elements';
 import { colors as uicolors } from '../../configs/variables';
 
-export default function ResourceInfoCard() {
+export default function ResourceInfoCard(props) {
 
-    const [switchstate, chageSwitch] = useState(0);
+    const [switchstate, chageSwitch] = useState(props?.is_available);
 
 
     return (
         <View style={styles.card}>
             <View style={styles.row}>
                 <View style={styles.resourcename}>
-                    <Text style={styles.heading}>Advanced Software Engineering Lab </Text>
+                    <Text style={styles.heading}>{props?.name}</Text>
                 </View>
                 <View style={styles.icon}>
                     <FontAwesome name="building-o" size={40} color="blue" />
@@ -27,7 +27,7 @@ export default function ResourceInfoCard() {
             </View>
 
             <View>
-                <Text style={styles.subheading}>Department of Computer Science and Engineering</Text>
+                <Text style={styles.subheading}>Department of {props?.department}</Text>
             </View>
 
             <View style={styles.buttonrow}>
