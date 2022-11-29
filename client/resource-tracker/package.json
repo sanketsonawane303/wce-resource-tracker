@@ -23,6 +23,7 @@
     "expo-status-bar": "~1.4.2",
     "formik": "^2.2.9",
     "jwt-decode": "^3.1.2",
+    "moment": "^2.29.4",
     "react-native": "0.70.5",
     "react-native-dropdown-picker": "^5.4.3",
     "react-native-elements": "^3.4.2",
