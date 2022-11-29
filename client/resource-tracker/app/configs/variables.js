@@ -35,11 +35,11 @@ const Clubs = [
 ];
 
 const Roles = [
-  {label: "Admin", value: "admin"},
   {label: "Representative", value: "representative"},
   {label: "Advisor", value: "advisor"},
   {label: "HOD", value: "hod"},
-  {label: "Helper", value: "helper"}
+  {label: "Helper", value: "helper"},
+  {label: "HOD and Advisor", value: "hodAndAdvisor"}
 ]
 
 export { statusbar, colors, Departments, Clubs, Roles };

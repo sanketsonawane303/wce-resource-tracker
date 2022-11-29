@@ -1,9 +1,11 @@
 import { View, Text, StyleSheet, Modal, Image } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppButton from "../components/AppButton";
 import ShowTitleInfo from "../components/ShowTitleInfo";
 import { Input } from "react-native-elements";
 import { colors } from "../configs/variables";
+import useAuth from "../auth/useAuth";
+import { updateRequest } from "../apis/request";
 
 const obj = [
   { title: "Applicant", data: "Vinayak Gaikwad" },
@@ -15,15 +17,36 @@ const obj = [
 ];
 
 export default function ViewRequest() {
-  const [role, setRole] = useState("teacher");
+  const { user } = useAuth();
+
   const [suggestModalVisible, setSuggestModalVisible] = useState(false);
   const [suggestions, setSuggestions] = useState("");
   const [qrModalVisible, setQRModalVisible] = useState(false);
+  const [status, setStatus] = useState("");
+  // "approved", "declined", "pending", "changesRequired"
+  const handleSuggestionSubmit = async () => {
+    const body = {
+      id: "6385ad7d0d17f478202fc6ff",
+      action: status,
+      remarks: suggestions,
+    };
+    console.log(body);
+    try {
+      const res = await updateRequest(body);
+      status;
+      if (res.ok && res.data.status == "success") {
+        
+        setSuggestModalVisible(!suggestModalVisible);
+      } else {
+        console.log(res.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
 
-  const handleSuggestionSubmit = (values) => {
-    setSuggestModalVisible(!suggestModalVisible);
-    console.log(suggestions);
+    console.log(status);
   };
+
   return (
     <>
       <View style={styles.container}>
@@ -37,22 +60,44 @@ export default function ViewRequest() {
           })}
         </View>
 
-        {role !== "teacher" ? (
+        {!user.role.includes("advisor") || !user.role.includes("HOD") ? (
           <>
             <View style={styles.buttonGroup}>
               <AppButton
-                onPress={() => setSuggestModalVisible(!modalVisible)}
+                onPress={() => {
+                  setStatus("changesRequired");
+                  setSuggestModalVisible(!suggestModalVisible);
+                }}
                 title={"Ask Details"}
+                name={"changesRequired"}
               />
-              <AppButton buttonStyles={styles.button} title={"Reject"} />
-              <AppButton title={"Accept"} />
+              <AppButton
+                onPress={() => {
+                  setStatus("declined");
+                  setSuggestModalVisible(!suggestModalVisible);
+                }}
+                buttonStyles={styles.button}
+                name={"declined"}
+                title={"Reject"}
+              />
+              <AppButton
+                onPress={() => {
+                  setStatus("approved");
+                  setSuggestModalVisible(!suggestModalVisible);
+                }}
+                name={"accept"}
+                title={"Accept"}
+              />
             </View>
           </>
         ) : (
           <>
             <View style={styles.buttonGroup}>
               <AppButton buttonStyles={styles.button} title={"Edit"} />
-              <AppButton onPress={() => setQRModalVisible(!qrModalVisible)} title={"Show QR"} />
+              <AppButton
+                onPress={() => setQRModalVisible(!qrModalVisible)}
+                title={"Show QR"}
+              />
               <AppButton title={"Withdraw"} />
             </View>
           </>
@@ -62,20 +107,19 @@ export default function ViewRequest() {
 
       <View>
         <Modal
-          animationType="slide"//slide, fade, none
+          animationType="slide" //slide, fade, none
           transparent={true}
           visible={suggestModalVisible}
           onRequestClose={() => {
             setSuggestModalVisible(!suggestModalVisible);
           }}
-         
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Input
                 onChangeText={(text) => setSuggestions(text)}
-                placeholder={"Enter Suggestions"}
-                label={"Add Suggestions"}
+                placeholder={"Add details/suggestions"}
+                label={"Details"}
                 multiline={true}
                 inputStyle={{
                   backgroundColor: colors.lightgrey,
@@ -93,7 +137,7 @@ export default function ViewRequest() {
                 }}
               />
               <AppButton
-                onPress={handleSuggestionSubmit}
+                onPress={() => handleSuggestionSubmit()}
                 buttonStyles={{ padding: 12 }}
                 title={"Submit"}
               />
@@ -104,21 +148,21 @@ export default function ViewRequest() {
 
       <View>
         <Modal
-          animationType="slide"//slide, fade, none
+          animationType="slide" //slide, fade, none
           transparent={true}
           visible={qrModalVisible}
           onRequestClose={() => {
-            setQRModalVisible(!qrModalVisible)
+            setQRModalVisible(!qrModalVisible);
           }}
-         
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
+              <Image
+                style={styles.image}
+                source={require("../../assets/testQR.png")}
+              ></Image>
 
-              <Image style={styles.image} source={require("../../assets/testQR.png")} ></Image>
-             
               <AppButton
-                
                 buttonStyles={{ padding: 12 }}
                 title={"Hide QR"}
                 onPress={() => setQRModalVisible(!qrModalVisible)}
@@ -181,8 +225,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
   },
-  image:{
-    width: 300, 
-    height:300
-  }
+  image: {
+    width: 300,
+    height: 300,
+  },
 });

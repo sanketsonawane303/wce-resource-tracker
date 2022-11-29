@@ -6,6 +6,8 @@ import AppButton from "../components/AppButton";
 import { Formik } from "formik";
 import DropDownPicker from "react-native-dropdown-picker";
 import { colors, Departments, Clubs, Roles } from "../configs/variables";
+import {signUp} from "../apis/auth";
+import { Modal } from "react-native";
 
 // Department items
 
@@ -19,6 +21,9 @@ export default function AddUser() {
   const [roleOpen, setRoleOpen] = useState(false);
   const [roleValue, setRoleValue] = useState(null);
 
+  const [modalVisible, setModalVisible] = useState(false);
+
+
   return (
     <View style={styles.container}>
       <Formik
@@ -31,16 +36,41 @@ export default function AddUser() {
           password: "",
           mobile: "",
         }}
-        onSubmit={(values) => {
-          console.log(values);
+        onSubmit={ async(values) => {
+          const body = {
+            department: deptValue,
+            representative_club: roleValue === 'representative' ? clubValue : [clubValue] ,
+            role: roleValue === 'hodAndAdvisor' ? ['hod', 'advisor'] : [roleValue],
+            name: values.name,
+            email: values.email,
+            password: values.password,
+            mobile_number: values.mobile,
+          };
+        console.log({body});
+
+          try{
+            const res = await signUp(body);
+            console.log(res);
+            if(res.ok && res.data.status === 'success'){
+              console.log('success');
+
+            }
+            else{
+              console.log(res.data)
+            }
+
+          }catch(e){
+            console.log(e);
+          }
+
         }}
       >
-        {({ setFieldValue, values, submitForm }) => (
+        {({ setFieldValue, values, submitForm, }) => (
           <>
             <View>
               <RNEInput
                 bg={colors.grey5}
-                placeholder={"Name of Resource"}
+                placeholder={"Name"}
                 name="name"
                 label={"Name"}
               />
@@ -79,8 +109,11 @@ export default function AddUser() {
                 label="Mobile"
                 keyboardType="numeric"
               />
-
-              <Text style={styles.title}>Club</Text>
+              
+              {
+                ["representative", "advisor", "hodAndAdvisor"].includes(roleValue) && (
+                  <>
+                  <Text style={styles.title}>Club</Text>
               <DropDownPicker
                 containerProps={{ style: styles.dropdown }}
                 open={clubOpen}
@@ -93,6 +126,10 @@ export default function AddUser() {
                   setFieldValue("club", value);
                 }}
               />
+                  </>
+                )
+              }
+              
 
               <Text style={styles.title}>Department</Text>
               <DropDownPicker
@@ -112,6 +149,27 @@ export default function AddUser() {
           </>
         )}
       </Formik>
+
+      <Modal
+          animationType="slide" //slide, fade, none
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+            <Text style={styles.modalText}>User Added</Text>
+              <AppButton
+                onPress={() => setModalVisible(!modalVisible)}
+                buttonStyles={{ padding: 12 }}
+                title={"Submit"}
+              />
+            </View>
+          </View>
+        </Modal>
+
     </View>
   );
 }
