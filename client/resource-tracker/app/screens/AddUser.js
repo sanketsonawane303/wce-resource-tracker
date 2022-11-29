@@ -7,6 +7,7 @@ import { Formik } from "formik";
 import DropDownPicker from "react-native-dropdown-picker";
 import { colors, Departments, Clubs, Roles } from "../configs/variables";
 import {signUp} from "../apis/auth";
+import { Modal } from "react-native";
 
 // Department items
 
@@ -20,6 +21,9 @@ export default function AddUser() {
   const [roleOpen, setRoleOpen] = useState(false);
   const [roleValue, setRoleValue] = useState(null);
 
+  const [modalVisible, setModalVisible] = useState(false);
+
+
   return (
     <View style={styles.container}>
       <Formik
@@ -32,7 +36,7 @@ export default function AddUser() {
           password: "",
           mobile: "",
         }}
-        onSubmit={(values) => {
+        onSubmit={ async(values) => {
           const body = {
             department: deptValue,
             club: roleValue === 'representative' ? clubValue : [clubValue] ,
@@ -40,12 +44,12 @@ export default function AddUser() {
             name: values.name,
             email: values.email,
             password: values.password,
-            mobile: values.mobile,
+            mobile_number: values.mobile,
           };
           console.log(body);
 
           try{
-            const res = signUp(body);
+            const res = await signUp(body);
             console.log(res);
             if(res.ok && res.data.status === 'success'){
               console.log('success');
@@ -145,6 +149,27 @@ export default function AddUser() {
           </>
         )}
       </Formik>
+
+      <Modal
+          animationType="slide" //slide, fade, none
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+            <Text style={styles.modalText}>User Added</Text>
+              <AppButton
+                onPress={() => setModalVisible(!modalVisible)}
+                buttonStyles={{ padding: 12 }}
+                title={"Submit"}
+              />
+            </View>
+          </View>
+        </Modal>
+
     </View>
   );
 }
