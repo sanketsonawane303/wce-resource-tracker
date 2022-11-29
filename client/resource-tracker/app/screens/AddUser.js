@@ -39,14 +39,14 @@ export default function AddUser() {
         onSubmit={ async(values) => {
           const body = {
             department: deptValue,
-            club: roleValue === 'representative' ? clubValue : [clubValue] ,
+            representative_club: roleValue === 'representative' ? clubValue : [clubValue] ,
             role: roleValue === 'hodAndAdvisor' ? ['hod', 'advisor'] : [roleValue],
             name: values.name,
             email: values.email,
             password: values.password,
             mobile_number: values.mobile,
           };
-          console.log(body);
+        console.log({body});
 
           try{
             const res = await signUp(body);
