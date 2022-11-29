@@ -17,4 +17,4 @@ const deleteResource = (payload) => {
 
 }
 
-export default { getResource, createResource, updateResource, deleteResource };
+export { getResource, createResource, updateResource, deleteResource };

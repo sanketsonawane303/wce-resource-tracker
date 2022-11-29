@@ -3,7 +3,7 @@ import apiClient from "./client";
 
 const makeRequest = (payload) => {
 
-    return apiClient.post('/', payload);
+    return apiClient.post('/requests', payload);
 
 }
 const updateRequest = (payload) => {
@@ -23,4 +23,4 @@ const approveRequest = (payload) => {
 }
 
 
-export default { makeRequest, updateRequest, deleteRequest, approveRequest }
+export  { makeRequest, updateRequest, deleteRequest, approveRequest }

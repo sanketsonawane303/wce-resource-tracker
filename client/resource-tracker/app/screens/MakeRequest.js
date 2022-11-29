@@ -1,5 +1,5 @@
 import { View, Text, Button, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppButton from "../components/AppButton";
 import AppTextInput from "../components/AppTextInput";
 import DateTimePicker from "../components/DateTimePicker";
@@ -10,20 +10,81 @@ import { Feather } from "@expo/vector-icons";
 import { colors } from "react-native-elements";
 import DropDownPicker from "react-native-dropdown-picker";
 import MessageModal from "../components/MessageModal";
+import { getResource } from "../apis/resource";
+import { Departments } from "../configs/variables";
+import useAuth from "../auth/useAuth";
+import { makeRequest } from "../apis/request";
 
 export default function MakeRequest() {
+  const [deptValue, setDeptValue] = useState("");
+  const [deptOpen, setDeptOpen] = useState(false);
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  // const [value, setValue] = useState(null);
   const [modal, setModalState] = useState(false);
+  const [resources, setResources] = useState([]);
+  const [currResource, setCurrResource] = useState(null);
 
-  const [items, setItems] = useState([
-    { label: "Classroom 20", value: "classroom20" },
-    { label: "Classroom 21", value: "classroom21" },
-    { label: "Classroom 22", value: "classroom22" },
-    { label: "Classroom 23", value: "classroom23" },
-    { label: "Mini CCF", value: "miniCCF" },
-    { label: "PG Lab", value: "pgLab" },
-  ]);
+  // const [items, setItems] = useState([
+  //   { label: "Classroom 20", value: "classroom20" },
+  //   { label: "Classroom 21", value: "classroom21" },
+  //   { label: "Classroom 22", value: "classroom22" },
+  //   { label: "Classroom 23", value: "classroom23" },
+  //   { label: "Mini CCF", value: "miniCCF" },
+  //   { label: "PG Lab", value: "pgLab" },
+  // ]);\
+  const { user } = useAuth();
+
+  const handleOnSubmit = async (values) => {
+    values.resource = currResource;
+    const body = {
+      applicant: user.name,
+      club: user.representative_club,
+      resources: {
+        list: [values.resource],
+        department: deptValue,
+      },
+      time: {
+        from: values.fromDate,
+        to: values.toDate,
+      },
+      letter: values.letterLink,
+      details: values.details,
+    };
+    console.log({ body });
+    try {
+      const res = await makeRequest(body);
+      console.log(res);
+      if (res.ok && res.data.status == "success") {
+        setModalState(true);
+      } else {
+        console.log(res.data.status);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    const loadResources = async () => {
+      try {
+        const res = await getResource({ department: deptValue });
+        if (res.ok && res.data.status == "success") {
+          const list = res.data.data.map((item) => {
+            return { label: item.name, value: item.name };
+          });
+          console.log(user);
+          console.log({ list });
+          setResources(list);
+        } else {
+          console.log(res.data.status);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    loadResources();
+  }, [deptValue]);
 
   return (
     <View style={styles.container}>
@@ -32,25 +93,35 @@ export default function MakeRequest() {
           resource: "",
           fromDate: new Date(),
           toDate: new Date(),
+          letterLink: "",
+          details: "",
         }}
-        onSubmit={(values) => {
-          console.log(values);
-          setModalState(!modal)
-        }}
+        onSubmit={(values) => handleOnSubmit(values)}
       >
         {({ setFieldValue, values, submitForm }) => (
           <>
             <View>
+              <Text style={styles.title}>Select Department</Text>
+              <DropDownPicker
+                containerProps={{ style: styles.dropdown }}
+                open={deptOpen}
+                value={deptValue}
+                items={Departments}
+                setOpen={setDeptOpen}
+                setValue={setDeptValue}
+                setItems={deptValue}
+              />
+
               <Text style={styles.title}>Select Resource</Text>
 
               <DropDownPicker
                 containerProps={{ style: styles.dropdown }}
                 open={open}
-                value={value}
-                items={items}
+                value={currResource}
+                items={resources}
                 setOpen={setOpen}
-                setValue={setValue}
-                setItems={setItems}
+                setValue={setCurrResource}
+                setItems={setResources}
               />
 
               <View>
@@ -82,18 +153,23 @@ export default function MakeRequest() {
             <AppButton title={"submit"} onPress={submitForm} />
 
             <View>
-              <MessageModal visible={modal} message="Request Submitted Sucessfully" buttonComponent={<AppButton
-                title="OK"
-                buttonStyles={{
-                  width: 150,
-                  paddingVertical: 10
-                }}
-                onPress={() => {
-                  setModalState(!modal)
-                }} />}
+              <MessageModal
+                visible={modal}
+                message="Request Submitted Sucessfully"
+                buttonComponent={
+                  <AppButton
+                    title="OK"
+                    buttonStyles={{
+                      width: 150,
+                      paddingVertical: 10,
+                    }}
+                    onPress={() => {
+                      setModalState(!modal);
+                    }}
+                  />
+                }
               />
             </View>
-
           </>
         )}
       </Formik>
