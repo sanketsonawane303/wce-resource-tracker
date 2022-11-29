@@ -14,6 +14,7 @@ import { getResource } from "../apis/resource";
 import { Departments } from "../configs/variables";
 import useAuth from "../auth/useAuth";
 import { makeRequest } from "../apis/request";
+import { Modal } from "react-native";
 
 export default function MakeRequest() {
   const [deptValue, setDeptValue] = useState("");
@@ -23,6 +24,8 @@ export default function MakeRequest() {
   const [modal, setModalState] = useState(false);
   const [resources, setResources] = useState([]);
   const [currResource, setCurrResource] = useState(null);
+  const [resourceModalVisible, setResourceModalVisible] = useState(false);
+  const [message, setMessage] = useState(null);
 
   // const [items, setItems] = useState([
   //   { label: "Classroom 20", value: "classroom20" },
@@ -50,14 +53,28 @@ export default function MakeRequest() {
       letter: values.letterLink,
       details: values.details,
     };
-    console.log({ body });
+    //console.log({ body });
     try {
       const res = await makeRequest(body);
-      console.log(res);
+     // console.log(res);
       if (res.ok && res.data.status == "success") {
+        console.log(res.data)
         setModalState(true);
       } else {
-        console.log(res.data.status);
+        if(res.data.err.msg === "Resources already occupied for given time period"){
+          const request = res.data.err.request[0];
+          console.log(request);
+          const msg = {
+            message: res.data.err.msg,
+            applicant: request.applicant,
+            club: request.club,
+            status: request.status,
+            
+          }
+          setMessage(msg);
+          setResourceModalVisible(true);
+        }
+        
       }
     } catch (err) {
       console.log(err);
@@ -173,6 +190,35 @@ export default function MakeRequest() {
           </>
         )}
       </Formik>
+
+      <Modal
+          animationType="slide"//slide, fade, none
+          transparent={true}
+          visible={resourceModalVisible}
+          onRequestClose={() => {
+            setResourceModalVisible(!resourceModalVisible);
+          }}
+         
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              {message && (
+                <>
+                <Text style={styles.modalText}>{message.message}</Text>
+                <Text style={styles.modalText}>{message.applicant}</Text>
+                <Text style={styles.modalText}>{message.club}</Text>
+                <Text style={styles.modalText}>{message.status}</Text>
+                </>
+              )}
+              
+              <AppButton
+                onPress={()=>setResourceModalVisible(!resourceModalVisible)}
+                buttonStyles={{ padding: 12 }}
+                title={"OK"}
+              />
+            </View>
+          </View>
+        </Modal>
     </View>
   );
 }
@@ -190,4 +236,29 @@ const styles = StyleSheet.create({
     marginHorizontal: 3,
     marginBottom: 5,
   },
+  modalView: {
+    flexDirection: "column",
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  }
 });
