@@ -16,7 +16,9 @@ const obj = [
   { title: "Letter", data: "Letter.link" },
 ];
 
-export default function ViewRequest() {
+export default function ViewRequest({ navigation, route }) {
+  const { request } = route?.params;
+  console.log(request);
   const { user } = useAuth();
 
   const [suggestModalVisible, setSuggestModalVisible] = useState(false);
@@ -26,7 +28,7 @@ export default function ViewRequest() {
   // "approved", "declined", "pending", "changesRequired"
   const handleSuggestionSubmit = async () => {
     const body = {
-      id: "6385ad7d0d17f478202fc6ff",
+      id: request._id,
       action: status,
       remarks: suggestions,
     };
@@ -35,7 +37,7 @@ export default function ViewRequest() {
       const res = await updateRequest(body);
       status;
       if (res.ok && res.data.status == "success") {
-        
+
         setSuggestModalVisible(!suggestModalVisible);
       } else {
         console.log(res.data);

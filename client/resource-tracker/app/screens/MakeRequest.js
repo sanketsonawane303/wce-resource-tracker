@@ -57,16 +57,14 @@ export default function MakeRequest() {
     //console.log({ body });
     try {
       const res = await makeRequest(body);
-<<<<<<< HEAD
-      console.log(res)
-=======
-     // console.log(res);
->>>>>>> 49c4bce316bf40b7ecd2245c90009f04aa9e75cc
+      //console.log(res)
+      // console.log(res);
+
       if (res.ok && res.data.status == "success") {
         console.log(res.data)
         setModalState(true);
       } else {
-        if(res.data.err.msg === "Resources already occupied for given time period"){
+        if (res.data.err.msg === "Resources already occupied for given time period") {
           const request = res.data.err.request[0];
           console.log(request);
           const msg = {
@@ -74,12 +72,12 @@ export default function MakeRequest() {
             applicant: request.applicant,
             club: request.club,
             status: request.status,
-            
+
           }
           setMessage(msg);
           setResourceModalVisible(true);
         }
-        
+
       }
     } catch (err) {
       console.log(err);
@@ -197,33 +195,33 @@ export default function MakeRequest() {
       </Formik>
 
       <Modal
-          animationType="slide"//slide, fade, none
-          transparent={true}
-          visible={resourceModalVisible}
-          onRequestClose={() => {
-            setResourceModalVisible(!resourceModalVisible);
-          }}
-         
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              {message && (
-                <>
+        animationType="slide"//slide, fade, none
+        transparent={true}
+        visible={resourceModalVisible}
+        onRequestClose={() => {
+          setResourceModalVisible(!resourceModalVisible);
+        }}
+
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            {message && (
+              <>
                 <Text style={styles.modalText}>{message.message}</Text>
                 <Text style={styles.modalText}>{message.applicant}</Text>
                 <Text style={styles.modalText}>{message.club}</Text>
                 <Text style={styles.modalText}>{message.status}</Text>
-                </>
-              )}
-              
-              <AppButton
-                onPress={()=>setResourceModalVisible(!resourceModalVisible)}
-                buttonStyles={{ padding: 12 }}
-                title={"OK"}
-              />
-            </View>
+              </>
+            )}
+
+            <AppButton
+              onPress={() => setResourceModalVisible(!resourceModalVisible)}
+              buttonStyles={{ padding: 12 }}
+              title={"OK"}
+            />
           </View>
-        </Modal>
+        </View>
+      </Modal>
     </View>
   );
 }
