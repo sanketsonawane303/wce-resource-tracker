@@ -90,7 +90,8 @@ export default function MakeRequest() {
                 }}
                 onPress={() => {
                   setModalState(!modal)
-                }} />} />
+                }} />}
+              />
             </View>
 
           </>
