@@ -8,7 +8,7 @@ const makeRequest = (payload) => {
 }
 const updateRequest = (payload) => {
 
-    return apiClient.post('/', payload);
+    return apiClient.post('/requests/approve', payload);
 
 }
 

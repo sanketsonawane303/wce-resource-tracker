@@ -6,6 +6,7 @@ import AppButton from "../components/AppButton";
 import { Formik } from "formik";
 import DropDownPicker from "react-native-dropdown-picker";
 import { colors, Departments, Clubs, Roles } from "../configs/variables";
+import {signUp} from "../apis/auth";
 
 // Department items
 
@@ -32,15 +33,40 @@ export default function AddUser() {
           mobile: "",
         }}
         onSubmit={(values) => {
-          console.log(values);
+          const body = {
+            department: deptValue,
+            club: roleValue === 'representative' ? clubValue : [clubValue] ,
+            role: roleValue === 'hodAndAdvisor' ? ['hod', 'advisor'] : [roleValue],
+            name: values.name,
+            email: values.email,
+            password: values.password,
+            mobile: values.mobile,
+          };
+          console.log(body);
+
+          try{
+            const res = signUp(body);
+            console.log(res);
+            if(res.ok && res.data.status === 'success'){
+              console.log('success');
+
+            }
+            else{
+              console.log(res.data)
+            }
+
+          }catch(e){
+            console.log(e);
+          }
+
         }}
       >
-        {({ setFieldValue, values, submitForm }) => (
+        {({ setFieldValue, values, submitForm, }) => (
           <>
             <View>
               <RNEInput
                 bg={colors.grey5}
-                placeholder={"Name of Resource"}
+                placeholder={"Name"}
                 name="name"
                 label={"Name"}
               />
@@ -79,8 +105,11 @@ export default function AddUser() {
                 label="Mobile"
                 keyboardType="numeric"
               />
-
-              <Text style={styles.title}>Club</Text>
+              
+              {
+                ["representative", "advisor", "hodAndAdvisor"].includes(roleValue) && (
+                  <>
+                  <Text style={styles.title}>Club</Text>
               <DropDownPicker
                 containerProps={{ style: styles.dropdown }}
                 open={clubOpen}
@@ -93,6 +122,10 @@ export default function AddUser() {
                   setFieldValue("club", value);
                 }}
               />
+                  </>
+                )
+              }
+              
 
               <Text style={styles.title}>Department</Text>
               <DropDownPicker
