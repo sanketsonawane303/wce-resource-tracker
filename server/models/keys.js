@@ -3,7 +3,7 @@ import departmentList from "../constants/departments.js";
 
 const keysSchema = new mongoose.Schema(
   {
-    resource_name: { type: String, required: true },
+    resource_name: { type: String, required: true, unique: true },
     department: {
       type: String,
       required: true,
