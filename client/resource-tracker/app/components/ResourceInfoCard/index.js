@@ -37,8 +37,9 @@ export default function ResourceInfoCard(props) {
                         }}
                         buttonStyles={{
                             backgroundColor: uicolors.primary,
-                            width: 100,
+                            width: 80,
                             paddingVertical: 5,
+                            borderRadius: 3
                         }}
 
                     />

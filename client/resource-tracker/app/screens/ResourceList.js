@@ -1,32 +1,73 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, RefreshControl, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { colors } from 'react-native-elements'
 import RequestCard from '../components/RequestCard'
 import ResourceInfoCard from '../components/ResourceInfoCard';
-import resourceApi from '../apis/resource';
+import { createResource, getResource } from '../apis/resource';
+import { useIsFocused } from "@react-navigation/native";
 
 const ResourceList = () => {
     const [resources, setResources] = useState([])
+    const [refreshing, setRefreshing] = useState(false);
+    const focus = useIsFocused();
+
+
     useEffect(() => {
-        resourceApi.getResource({}).then((res) => {
-            console.log(res.data?.data)
+        if (!focus) return;
+        getResource({}).then((res) => {
+            console.log(res)
             if (res.ok && res.data.status == "success") {
                 setResources(res?.data?.data)
             }
         })
     }, [])
 
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setResources([]);
+        if (!focus) return;
+        getResource()
+            .then((res) => {
+                if (res.ok == true && res.data.status == "success") setResources(res.data.data);
+                else {
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        setRefreshing(false);
+    }, []);
+
     return (
         <View style={styles.container}>
-            <ScrollView>
-                {
-                    resources.map((value, index) => {
-                        return (<View key={value._id}>
-                            <ResourceInfoCard {...value} />
-                        </View>)
-                    })
-                }
-            </ScrollView>
+            {
+                resources.length > 0 ? (
+                    <ScrollView
+                        refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                        }
+                        showsVerticalScrollIndicator={false}
+                    >
+                        {
+                            resources.map((value, index) => {
+                                return (<View key={value._id}>
+                                    <ResourceInfoCard {...value} />
+                                </View>)
+                            })
+                        }
+                    </ScrollView>)
+                    :
+                    (<View
+                        style={{
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flex: 1,
+                        }}
+                    >
+                        <ActivityIndicator size="large" color="#0000ff" />
+                    </View>)
+            }
+
 
 
         </View>

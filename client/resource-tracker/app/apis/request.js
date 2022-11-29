@@ -22,5 +22,9 @@ const approveRequest = (payload) => {
     return apiClient.post('/', payload)
 }
 
+const getAllRequests = (payload) => {
+    return apiClient.get('/requests', payload)
+}
 
-export  { makeRequest, updateRequest, deleteRequest, approveRequest }
+
+export { makeRequest, updateRequest, deleteRequest, approveRequest, getAllRequests }
