@@ -6,14 +6,14 @@ import { StyleSheet, Text } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import Home from '../screens/Home';
 import Sidebar from '../components/Sidebar';
+import { colors } from 'react-native-elements';
 
+import ResourceStack from './ResourceStack';
 import MakeRequest from '../screens/MakeRequest';
 import AllRequests from '../screens/AllRequests';
 import ViewRequest from '../screens/ViewRequest';
 import UserProfile from '../screens/UserProfile';
-import { colors } from 'react-native-elements';
 import ResourceList from '../screens/ResourceList';
 import EditResoure from '../screens/EditResource';
 import AddResource from '../screens/AddResource';
@@ -53,17 +53,18 @@ export default function Drawer() {
 
           }}
         >
+          <AppDrawer.Screen name='AllRequests' component={AllRequests} options={{
+            headerTitle: 'All Requests',
+            drawerLabel: 'All Requests',
+            ...drawerStyles
+          }} />
           <AppDrawer.Screen name='MakeRequest' component={MakeRequest} options={{
             headerTitle: 'Make Request',
             drawerLabel: 'Make Request',
             ...drawerStyles
 
           }} />
-          <AppDrawer.Screen name='AllRequests' component={AllRequests} options={{
-            headerTitle: 'All Requests',
-            drawerLabel: 'All Requests',
-            ...drawerStyles
-          }} />
+
 
           <AppDrawer.Screen name='ViewRequest' component={ViewRequest} options={{
             headerTitle: 'View Request',
@@ -83,31 +84,20 @@ export default function Drawer() {
             ...drawerStyles
           }} />
 
-          <AppDrawer.Screen name='ManageResources' component={ResourceList} options={{
+          <AppDrawer.Screen name='ResourcesStack' component={ResourceStack} options={{
             headerTitle: 'Manage Resources',
             drawerLabel: 'Manage Resources',
+            header: () => null,
             ...drawerStyles
           }} />
 
-          <AppDrawer.Screen name='AddResource' component={AddResource} options={{
-            headerTitle: 'Add Resource',
-            drawerLabel: 'Add Resource',
-            ...drawerStyles
-          }} />
-
-          <AppDrawer.Screen name='EditResource' component={EditResoure} options={{
-            headerTitle: 'Edit Resource',
-            drawerLabel: 'Edit Resource',
-            ...drawerStyles
-          }} />
-
-        <AppDrawer.Screen name='Login' component={Login} options={{
+          <AppDrawer.Screen name='Login' component={Login} options={{
             headerTitle: 'Login',
             drawerLabel: 'Login',
             ...drawerStyles
           }} />
 
-        <AppDrawer.Screen name='AddUser' component={AddUser} options={{
+          <AppDrawer.Screen name='AddUser' component={AddUser} options={{
             headerTitle: 'Add User',
             drawerLabel: 'Add User',
             ...drawerStyles
