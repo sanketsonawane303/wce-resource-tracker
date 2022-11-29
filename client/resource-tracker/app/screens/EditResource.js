@@ -7,7 +7,7 @@ import { Formik } from "formik";
 import { colors } from "react-native-elements";
 import DropDownPicker from "react-native-dropdown-picker";
 import MessageModal from "../components/MessageModal";
-import resourceApi from "../apis/resource";
+import { updateResource } from "../apis/resource";
 
 // Department items
 const items = [
@@ -24,15 +24,30 @@ export default function EditResoure({ route, navigation }) {
     const { resource } = route.params;
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(resource ? resource.department : null);
-
+    const [message, setMessage] = useState(null);
+    const [messageBox, setMessageBox] = useState(false);
     const handleResourceEdit = (values) => {
-        resourceApi.updateResource(values)
-            .then((response) => {
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        updateResource({ ...values }).then((response) => {
+            console.log(response);
+            if (response.ok) {
+                if (response?.data?.status == "success") {
+                    setMessage("Resource added successfully");
+                    setMessageBox(true);
+                }
+                else {
+                    setMessage("Resource already exists");
+                    setMessageBox(true);
+                }
+            }
+            else {
+                setMessage("Something went wrong, Please Try Again");
+                setMessageBox(true);
+            }
+
+        }).catch((error) => {
+            setMessage("Something went wrong, Please Try Again");
+            setMessageBox(true);
+        })
     }
 
     return (
@@ -82,6 +97,27 @@ export default function EditResoure({ route, navigation }) {
                             />
                         </View>
                         <AppButton title={"submit"} onPress={submitForm} />
+
+                        <View>
+                            {
+                                messageBox == true &&
+                                <MessageModal
+                                    message={message}
+                                    buttonComponent={
+                                        <AppButton
+                                            title="Manage Resources"
+                                            buttonStyles={{
+                                                width: 150,
+                                                paddingVertical: 10
+                                            }}
+                                            onPress={() => {
+                                                setMessageBox(false);
+                                            }}
+                                        />
+                                    }
+                                />
+                            }
+                        </View>
                     </>
                 )}
             </Formik>

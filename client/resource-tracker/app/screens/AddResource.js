@@ -6,7 +6,7 @@ import { Formik } from "formik";
 import { colors } from "react-native-elements";
 import DropDownPicker from "react-native-dropdown-picker";
 import MessageModal from '../components/MessageModal';
-import resourceApi from "../apis/resource";
+import { createResource } from "../apis/resource";
 // Department items
 const items = [
     { label: "Computer Science and Engineering", value: "Computer Science and Engineering" },
@@ -18,7 +18,7 @@ const items = [
     { label: "Other(WCE)", value: "WCE" }
 ]
 
-export default function AddResource() {
+export default function AddResource({ navigation }) {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
 
@@ -26,7 +26,7 @@ export default function AddResource() {
     const [messageBox, setMessageBox] = useState(false);
 
     const handleResoureSubmit = (values) => {
-        resourceApi.createResource({ ...values, is_room: true }).then((response) => {
+        createResource({ ...values, is_room: true }).then((response) => {
             console.log(response);
             if (response.ok) {
                 if (response?.data?.status == "success") {
@@ -114,6 +114,7 @@ export default function AddResource() {
                                                 paddingVertical: 10
                                             }}
                                             onPress={() => {
+                                                navigation.navigate("ManageResources");
                                                 setMessageBox(false);
                                             }}
                                         />
