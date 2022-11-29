@@ -5,7 +5,7 @@ const getResource = (payload) => {
 }
 
 const createResource = (payload) => {
-    return apiClient.post('/', payload);
+    return apiClient.post('/resources', payload);
 }
 
 const updateResource = (payload) => {

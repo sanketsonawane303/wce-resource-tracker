@@ -4,10 +4,13 @@ import { FontAwesome } from '@expo/vector-icons';
 import AppButton from '../AppButton';
 import { colors, Switch } from 'react-native-elements';
 import { colors as uicolors } from '../../configs/variables';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function ResourceInfoCard(props) {
 
     const [switchstate, chageSwitch] = useState(props?.is_available);
+    const navigation = useNavigation()
 
 
     return (
@@ -21,31 +24,17 @@ export default function ResourceInfoCard(props) {
                 </View>
             </View>
 
-            <View style={styles.switchrow}>
-                <Text style={styles.subheading}>Availability: </Text>
-                <Switch value={switchstate} onValueChange={chageSwitch} />
-            </View>
-
-            <View>
-                <Text style={styles.subheading}>Department of {props?.department}</Text>
-            </View>
 
             <View style={styles.buttonrow}>
-                <View>
-                    <AppButton
-                        title={"Delete"} onPress={() => { }}
-                        buttonStyles={{
-                            backgroundColor: uicolors.error,
-                            width: 100,
-                            paddingVertical: 5,
-                        }}
-
-                    />
+                <View style={styles.department}>
+                    <Text style={styles.subheading}>Department of {props?.department}</Text>
                 </View>
                 <View>
                     <AppButton
                         title={"Edit"}
-                        onPress={() => { }}
+                        onPress={() => {
+                            navigation.navigate('EditResource', { resource: props })
+                        }}
                         buttonStyles={{
                             backgroundColor: uicolors.primary,
                             width: 100,
@@ -117,7 +106,13 @@ const styles = StyleSheet.create({
     buttonrow: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginHorizontal: 10
+        marginHorizontal: 10,
+        alignItems: "center"
+    },
+    department: {
+        flex: 7,
+        flexDirection: "row",
+        flexWrap: "wrap",
     }
 
 })
