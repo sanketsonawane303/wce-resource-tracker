@@ -33,6 +33,7 @@ export default function MakeRequest() {
   //   { label: "PG Lab", value: "pgLab" },
   // ]);\
   const { user } = useAuth();
+  console.log(user);
 
   const handleOnSubmit = async (values) => {
     values.resource = currResource;
@@ -50,10 +51,10 @@ export default function MakeRequest() {
       letter: values.letterLink,
       details: values.details,
     };
-    console.log({ body });
+    //console.log({ body });
     try {
       const res = await makeRequest(body);
-      console.log(res);
+      console.log(res)
       if (res.ok && res.data.status == "success") {
         setModalState(true);
       } else {
