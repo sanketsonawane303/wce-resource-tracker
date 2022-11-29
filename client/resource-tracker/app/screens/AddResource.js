@@ -1,26 +1,53 @@
 import { View, Text, Button, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import AppButton from "../components/AppButton";
-import DateTimePicker from "../components/DateTimePicker";
 import RNEInput from "../components/RNEInput";
 import { Formik } from "formik";
 import { colors } from "react-native-elements";
 import DropDownPicker from "react-native-dropdown-picker";
+import MessageModal from '../components/MessageModal';
 import resourceApi from "../apis/resource";
 // Department items
 const items = [
-    { label: "Computer Science and Engineering", value: "CSE" },
+    { label: "Computer Science and Engineering", value: "Computer Science and Engineering" },
     { label: "Civil Engineering", value: "CV" },
-    { label: "Mechanical Engineering", value: "ME" },
-    { label: "Electronics Engineering", value: "ELN" },
-    { label: "Electrical Engineering", value: "ELE" },
-    { label: "Information Tehhnology", value: "IT" },
+    { label: "Mechanical Engineering", value: "Mechanical" },
+    { label: "Electronics Engineering", value: "Electronics" },
+    { label: "Electrical Engineering", value: "Electrical" },
+    { label: "Information Tehhnology", value: "Information Tehhnology" },
     { label: "Other(WCE)", value: "WCE" }
 ]
 
 export default function AddResource() {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
+
+    const [message, setMessage] = useState(null);
+    const [messageBox, setMessageBox] = useState(false);
+
+    const handleResoureSubmit = (values) => {
+        resourceApi.createResource({ ...values, is_room: true }).then((response) => {
+            console.log(response);
+            if (response.ok) {
+                if (response?.data?.status == "success") {
+                    setMessage("Resource added successfully");
+                    setMessageBox(true);
+                }
+                else {
+                    setMessage("Resource already exists");
+                    setMessageBox(true);
+                }
+            }
+            else {
+                setMessage("Something went wrong, Please Try Again");
+                setMessageBox(true);
+            }
+
+        }).catch((error) => {
+            setMessage("Something went wrong, Please Try Again");
+            setMessageBox(true);
+        })
+    }
     return (
         <View style={styles.container}>
             <Formik
@@ -31,9 +58,7 @@ export default function AddResource() {
                     key_code: ""
 
                 }}
-                onSubmit={(values) => {
-
-                }}
+                onSubmit={handleResoureSubmit}
             >
                 {({ setFieldValue, values, submitForm }) => (
                     <>
@@ -72,10 +97,30 @@ export default function AddResource() {
                                 multiline={true}
                                 placeholder={"Key Code"}
                                 name="key_code"
-                                label="key_code"
+                                label="Key Code"
                             />
                         </View>
                         <AppButton title={"submit"} onPress={submitForm} />
+                        <View>
+                            {
+                                messageBox == true &&
+                                <MessageModal
+                                    message={message}
+                                    buttonComponent={
+                                        <AppButton
+                                            title="Manage Resources"
+                                            buttonStyles={{
+                                                width: 150,
+                                                paddingVertical: 10
+                                            }}
+                                            onPress={() => {
+                                                setMessageBox(false);
+                                            }}
+                                        />
+                                    }
+                                />
+                            }
+                        </View>
                     </>
                 )}
             </Formik>
