@@ -34,8 +34,8 @@ const formatAMPM = (date) => {
 };
 
 export default function ViewRequest({ navigation, route }) {
-  
-  
+
+
   const { user } = useAuth();
 
   const [suggestModalVisible, setSuggestModalVisible] = useState(false);
@@ -43,7 +43,7 @@ export default function ViewRequest({ navigation, route }) {
   const [qrModalVisible, setQRModalVisible] = useState(false);
   const [status, setStatus] = useState("");
 
-  const {request} = route.params;
+  const { request } = route.params;
   // "approved", "declined", "pending", "changesRequired"
   const handleSuggestionSubmit = async () => {
     const body = {
@@ -76,7 +76,7 @@ export default function ViewRequest({ navigation, route }) {
             <Text style={styles.title}>Applicant</Text>
             <Text style={styles.data}>{request.applicant}</Text>
           </View>
-          
+
           <View style={styles.info}>
             <Text style={styles.title}>Club</Text>
             <Text style={styles.data}>{request.club}</Text>
@@ -84,33 +84,33 @@ export default function ViewRequest({ navigation, route }) {
 
           <View style={styles.info}>
             <Text style={styles.title}>Resource</Text>
-           
+
             {
-              request.resources.list.map(item =>{
+              request.resources.list.map(item => {
                 return <Text style={styles.data}>{item}</Text>
               })
             }
-             <Text style={styles.data}>{request.resources.department}</Text>
+            <Text style={styles.data}>{request.resources.department}</Text>
           </View>
 
           <View style={styles.info}>
             <Text style={styles.title}>Duration</Text>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}} >
-            <Text style={styles.data}>From </Text>
-            <Text style={styles.data}>{formatAMPM(new Date(request.time.from))}</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
+              <Text style={styles.data}>From </Text>
+              <Text style={styles.data}>{formatAMPM(new Date(request?.time?.from))}</Text>
             </View>
 
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={styles.data}>To </Text>
-            <Text style={styles.data}>{formatAMPM(new Date(request.time.to))}</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={styles.data}>To </Text>
+              <Text style={styles.data}>{formatAMPM(new Date(request?.time?.to))}</Text>
             </View>
-           
+
           </View>
-          
-        
 
 
-          
+
+
+
         </View>
 
         {!user.role.includes("advisor") || !user.role.includes("HOD") ? (
