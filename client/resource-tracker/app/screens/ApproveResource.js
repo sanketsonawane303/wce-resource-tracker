@@ -3,24 +3,24 @@ import { Text, View, StyleSheet, Button, ScrollView } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AppButton from '../components/AppButton';
-import AppImagePicker from '../components/ImagePicker';
-import ResourceInfoCard from '../components/ResourceInfoCard';
-import RequestCard from '../components/RequestCard';
-import RequestInfoShortCard from '../components/RequestInfoShortCard';
 
+import RequestInfoShortCard from '../components/RequestInfoShortCard';
+import { getAllRequests } from '../apis/request';
+import { useIsFocused } from '@react-navigation/native';
 const items = [{
   label: "Handover Keys", value: "handover"
 },
 { label: "Return", value: "return" }
 ]
 
-export default function ApproveResource() {
-  const [photo, setPhoto] = useState({})
+export default function ApproveResource({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-
+  const [requestid, setRequestid] = useState('6385ad7d0d17f478202fc6ff');
+  const [request, setRequest] = useState(null);
+  const focus = useIsFocused()
 
   const handleCamera = async () => {
     try {
@@ -32,17 +32,39 @@ export default function ApproveResource() {
 
   }
 
+  const getRequestDetails = () => {
+    const body = {
+      _id: requestid
+    }
+
+    getAllRequests(body).then(res => {
+      console.log(res?.data?.data[0])
+      setRequest(res?.data?.data[0])
+    }).catch(err => {
+      console.log(err)
+    }
+    )
+  }
+
   useEffect(() => {
+    if (!focus) return;
+    setRequest(null);
+    setRequestid(null);
+    setScanned(false);
     const getBarCodeScannerPermissions = async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     };
 
     getBarCodeScannerPermissions();
-  }, []);
+
+
+
+  }, [focus]);
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
+    getRequestDetails();
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
 
@@ -72,41 +94,43 @@ export default function ApproveResource() {
               }}
             />
           </View>
-          <View style={styles.scanner}>
-            <Text style={{
-              fontWeight: "bold",
-              marginBottom: 5,
-              fontSize: 20
-            }}>
-              Scan the QR Code of Request
-            </Text>
-            <BarCodeScanner
-              onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-              // style={StyleSheet.absoluteFillObject}
-              style={{
-                width: 200,
-                height: 200
-              }}
-            />
-            {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+          {
+            scanned ? null :
+              <View style={styles.scanner}>
+                <Text style={{
+                  fontWeight: "bold",
+                  marginBottom: 5,
+                  fontSize: 20
+                }}>
+                  Scan the QR Code of Request
+                </Text>
 
-          </View>
+                <BarCodeScanner
+                  onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                  // style={StyleSheet.absoluteFillObject}
+                  style={{
+                    width: 200,
+                    height: 200
+                  }}
+                />
 
-          <View style={styles.resourceinfo}>
-            <RequestInfoShortCard />
-          </View>
+              </View>
 
-          <View style={styles.capture}>
-            <View>
-              <Text style={styles.heading}>Attach the Image</Text>
-            </View>
-            <AppImagePicker
-              imageUri={photo?.uri}
-              onChangeImage={(val) => {
-                setPhoto(val)
-              }}
-            />
-          </View>
+          }
+          {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+
+          {
+            request ? (
+              <View>
+                <View style={styles.resourceinfo}>
+                  <RequestInfoShortCard {...request} />
+                </View>
+
+
+              </View>)
+              : null
+          }
+
         </View>
 
 
@@ -114,9 +138,9 @@ export default function ApproveResource() {
       </ScrollView>
       <View>
         <AppButton
-          title={"Submit"}
+          title={"Proceed To Approve"}
           onPress={() => {
-
+            navigation.navigate("AttachImage", { request: request })
           }}
         />
       </View>

@@ -20,6 +20,8 @@ import AddResource from '../screens/AddResource';
 import ApproveResource from '../screens/ApproveResource';
 import Login from '../screens/Login';
 import AddUser from '../screens/AddUser';
+import RequestStack from './RequestStack';
+import ApprovalStack from './ApprovalStack';
 const AppDrawer = createDrawerNavigator();
 
 const drawerStyles = {
@@ -49,13 +51,22 @@ export default function Drawer() {
             },
             drawerItemStyle: {
               paddingLeft: 20,
+
+
+
+
             },
 
           }}
         >
-          <AppDrawer.Screen name='AllRequests' component={AllRequests} options={{
-            headerTitle: 'All Requests',
-            drawerLabel: 'All Requests',
+          <AppDrawer.Screen name='ApprovalStack' component={ApprovalStack} options={{
+            headerTitle: 'Resource Operations',
+            drawerLabel: 'Resource Operations',
+            ...drawerStyles
+          }} />
+          <AppDrawer.Screen name='RequestStack' component={RequestStack} options={{
+            headerTitle: 'Requests',
+            drawerLabel: 'Requests',
             ...drawerStyles
           }} />
           <AppDrawer.Screen name='MakeRequest' component={MakeRequest} options={{
@@ -65,24 +76,13 @@ export default function Drawer() {
 
           }} />
 
-
-          <AppDrawer.Screen name='ViewRequest' component={ViewRequest} options={{
-            headerTitle: 'View Request',
-            drawerLabel: 'View Request',
-            ...drawerStyles
-          }} />
-
           <AppDrawer.Screen name='UserProfile' component={UserProfile} options={{
             headerTitle: 'User Profile',
             drawerLabel: 'User Profile',
             ...drawerStyles
           }} />
 
-          <AppDrawer.Screen name='ApproveScreen' component={ApproveResource} options={{
-            headerTitle: 'Resource Operations',
-            drawerLabel: 'Resource Operations',
-            ...drawerStyles
-          }} />
+
 
           <AppDrawer.Screen name='ResourcesStack' component={ResourceStack} options={{
             headerTitle: 'Manage Resources',
@@ -90,20 +90,11 @@ export default function Drawer() {
             header: () => null,
             ...drawerStyles
           }} />
-
-          <AppDrawer.Screen name='Login' component={Login} options={{
-            headerTitle: 'Login',
-            drawerLabel: 'Login',
-            ...drawerStyles
-          }} />
-
           <AppDrawer.Screen name='AddUser' component={AddUser} options={{
             headerTitle: 'Add User',
             drawerLabel: 'Add User',
             ...drawerStyles
           }} />
-
-
 
         </AppDrawer.Navigator>
       </NavigationContainer>
