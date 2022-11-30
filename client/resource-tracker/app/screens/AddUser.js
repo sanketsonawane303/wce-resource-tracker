@@ -6,7 +6,7 @@ import AppButton from "../components/AppButton";
 import { Formik } from "formik";
 import DropDownPicker from "react-native-dropdown-picker";
 import { colors, Departments, Clubs, Roles } from "../configs/variables";
-import {signUp} from "../apis/auth";
+import { signUp } from "../apis/auth";
 import { Modal } from "react-native";
 
 // Department items
@@ -36,31 +36,26 @@ export default function AddUser() {
           password: "",
           mobile: "",
         }}
-        onSubmit={ async(values) => {
+        onSubmit={async (values) => {
           const body = {
             department: deptValue,
-            representative_club: roleValue === 'representative' ? clubValue : [clubValue] ,
+            representative_club: roleValue === 'representative' ? clubValue : [clubValue],
             role: roleValue === 'hodAndAdvisor' ? ['hod', 'advisor'] : [roleValue],
             name: values.name,
             email: values.email,
             password: values.password,
             mobile_number: values.mobile,
           };
-        console.log({body});
 
-          try{
+          try {
             const res = await signUp(body);
-            console.log(res);
-            if(res.ok && res.data.status === 'success'){
-              console.log('success');
+            if (res.ok && res.data.status === 'success') {
 
             }
-            else{
-              console.log(res.data)
+            else {
             }
 
-          }catch(e){
-            console.log(e);
+          } catch (e) {
           }
 
         }}
@@ -109,27 +104,27 @@ export default function AddUser() {
                 label="Mobile"
                 keyboardType="numeric"
               />
-              
+
               {
                 ["representative", "advisor", "hodAndAdvisor"].includes(roleValue) && (
                   <>
-                  <Text style={styles.title}>Club</Text>
-              <DropDownPicker
-                containerProps={{ style: styles.dropdown }}
-                open={clubOpen}
-                value={clubValue}
-                items={Clubs}
-                placeholder="Select Club"
-                setOpen={setClubOpen}
-                setValue={setClubValue}
-                onChangeValue={(value) => {
-                  setFieldValue("club", value);
-                }}
-              />
+                    <Text style={styles.title}>Club</Text>
+                    <DropDownPicker
+                      containerProps={{ style: styles.dropdown }}
+                      open={clubOpen}
+                      value={clubValue}
+                      items={Clubs}
+                      placeholder="Select Club"
+                      setOpen={setClubOpen}
+                      setValue={setClubValue}
+                      onChangeValue={(value) => {
+                        setFieldValue("club", value);
+                      }}
+                    />
                   </>
                 )
               }
-              
+
 
               <Text style={styles.title}>Department</Text>
               <DropDownPicker
@@ -151,24 +146,24 @@ export default function AddUser() {
       </Formik>
 
       <Modal
-          animationType="slide" //slide, fade, none
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
+        animationType="slide" //slide, fade, none
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
             <Text style={styles.modalText}>User Added</Text>
-              <AppButton
-                onPress={() => setModalVisible(!modalVisible)}
-                buttonStyles={{ padding: 12 }}
-                title={"Submit"}
-              />
-            </View>
+            <AppButton
+              onPress={() => setModalVisible(!modalVisible)}
+              buttonStyles={{ padding: 12 }}
+              title={"Submit"}
+            />
           </View>
-        </Modal>
+        </View>
+      </Modal>
 
     </View>
   );

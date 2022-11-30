@@ -8,7 +8,7 @@ export default function AccountItem() {
       <View style={styles.image}>
         {user?.profile_picture ? (
           <Image
-            source={require("../../../assets/user-icon.png")}
+            source={require("../../images/user.jpg")}
             style={{
               width: 70,
               height: 70,
@@ -18,7 +18,7 @@ export default function AccountItem() {
           />
         ) : (
           <Image
-            source={require("../../../assets/user-icon.png")}
+            source={require("../../images/user.jpg")}
             style={{
               width: 70,
               height: 70,

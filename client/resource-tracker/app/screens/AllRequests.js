@@ -14,7 +14,6 @@ const AllRequests = () => {
     useEffect(() => {
         if (!focus) return;
         getAllRequests().then((res) => {
-            console.log(res)
             if (res.ok && res.data.status == "success") {
                 setRequests(res?.data?.data)
             }
@@ -32,7 +31,6 @@ const AllRequests = () => {
                 }
             })
             .catch((err) => {
-                console.log(err);
             });
         setRefreshing(false);
     }, []);

@@ -15,7 +15,7 @@ export default function ProfileCard() {
       <View style={{
       }}>
         <View style={styles.imagecontainer}>
-          <Image style={styles.image} source={require("../../../assets/user-icon.png")} />
+          <Image style={styles.image} source={require("../../images/user.jpg")} />
         </View>
         <View style={{ flexDirection: "row" }}>
           <Text style={styles.label}> Name:  </Text>
@@ -29,7 +29,7 @@ export default function ProfileCard() {
           <Text style={styles.label}> Department:  </Text>
           <Text style={styles.info}> {user.department}</Text>
         </View>
-        
+
         <View style={{ flexDirection: "row" }}>
           <Text style={styles.label}> Club:  </Text>
           {
@@ -37,12 +37,12 @@ export default function ProfileCard() {
           {
             user.role[0] === "advisor" && <Text style={styles.info}>{user.advisor_clubs}</Text>
           }
-          
+
         </View>
 
         <View style={{ flexDirection: "row" }}>
           <Text style={styles.label}> Role  </Text>
-          { user.role.map((role, index) => {
+          {user.role.map((role, index) => {
             return <Text style={styles.info}> {capitalizeFirstLetter(role)} </Text>
           }
           )}

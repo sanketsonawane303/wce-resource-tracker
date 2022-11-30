@@ -11,7 +11,6 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function RequestCard(props) {
     const navigation = useNavigation()
-    console.log(props)
     return (
         <View style={styles.card}>
             <View style={styles.row}>

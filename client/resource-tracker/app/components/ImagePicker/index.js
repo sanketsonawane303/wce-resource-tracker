@@ -45,8 +45,7 @@ export default function AppImagePicker({ imageUri, onChangeImage }) {
         onChangeImage(result.assets[0]);
       }
     } catch (error) {
-      console.log(error);
-      console.log("Error Reading Image");
+      console.error("Error Reading Image");
     }
   };
   return (

@@ -15,7 +15,7 @@ const ResourceList = () => {
     useEffect(() => {
         if (!focus) return;
         getResource({}).then((res) => {
-            console.log(res)
+            // console.log(res)
             if (res.ok && res.data.status == "success") {
                 setResources(res?.data?.data)
             }
@@ -33,7 +33,7 @@ const ResourceList = () => {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                //  console.log(err);
             });
         setRefreshing(false);
     }, []);

@@ -34,7 +34,7 @@ export default function App() {
       try {
         // Preload Account
         const user = await authStorage.getUser()
-        console.log(user);
+
         setUser(user)
       } catch (e) {
         console.warn(e);

@@ -27,7 +27,6 @@ export default function AddResource({ navigation }) {
 
     const handleResoureSubmit = (values) => {
         createResource({ ...values, is_room: true }).then((response) => {
-            console.log(response);
             if (response.ok) {
                 if (response?.data?.status == "success") {
                     setMessage("Resource added successfully");

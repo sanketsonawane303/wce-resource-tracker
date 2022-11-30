@@ -51,7 +51,7 @@ export default function ViewRequest({ navigation, route }) {
       action: status,
       remarks: suggestions,
     };
-    console.log(body);
+    //console.log(body);
     try {
       const res = await updateRequest(body);
       status;
@@ -59,13 +59,13 @@ export default function ViewRequest({ navigation, route }) {
 
         setSuggestModalVisible(!suggestModalVisible);
       } else {
-        console.log(res.data);
+        //  console.log(res.data);
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
 
-    console.log(status);
+    //    console.log(status);
   };
 
   return (

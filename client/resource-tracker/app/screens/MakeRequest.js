@@ -36,7 +36,7 @@ export default function MakeRequest() {
   //   { label: "PG Lab", value: "pgLab" },
   // ]);\
   const { user } = useAuth();
-  console.log(user);
+  // console.log(user);
 
   const handleOnSubmit = async (values) => {
     values.resource = currResource;
@@ -61,12 +61,12 @@ export default function MakeRequest() {
       // console.log(res);
 
       if (res.ok && res.data.status == "success") {
-        console.log(res.data)
+        // console.log(res.data)
         setModalState(true);
       } else {
         if (res.data.err.msg === "Resources already occupied for given time period") {
           const request = res.data.err.request[0];
-          console.log(request);
+          //console.log(request);
           const msg = {
             message: res.data.err.msg,
             applicant: request.applicant,
@@ -80,7 +80,7 @@ export default function MakeRequest() {
 
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -92,14 +92,14 @@ export default function MakeRequest() {
           const list = res.data.data.map((item) => {
             return { label: item.name, value: item.name };
           });
-          console.log(user);
-          console.log({ list });
+          // console.log(user);
+          // console.log({ list });
           setResources(list);
         } else {
-          console.log(res.data.status);
+          // console.log(res.data.status);
         }
       } catch (err) {
-        console.log(err);
+        //console.log(err);
       }
     };
 
