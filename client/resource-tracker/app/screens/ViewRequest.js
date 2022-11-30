@@ -6,6 +6,7 @@ import { Input } from "react-native-elements";
 import { colors } from "../configs/variables";
 import useAuth from "../auth/useAuth";
 import { updateRequest } from "../apis/request";
+import ResourceList from "./ResourceList";
 
 const obj = [
   { title: "Applicant", data: "Vinayak Gaikwad" },
@@ -16,15 +17,33 @@ const obj = [
   { title: "Letter", data: "Letter.link" },
 ];
 
+const formatAMPM = (date) => {
+  var month = date.getUTCMonth() + 1; //months from 1-12
+  var day = date.getUTCDate();
+  var year = date.getUTCFullYear();
+
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  var strTime = hours + ":" + minutes + " " + ampm;
+  var strDate = day + "/" + month + "/" + year;
+  return strDate + " " + strTime;
+};
+
 export default function ViewRequest({ navigation, route }) {
-  const { request } = route?.params;
-  console.log(request);
+  
+  
   const { user } = useAuth();
 
   const [suggestModalVisible, setSuggestModalVisible] = useState(false);
   const [suggestions, setSuggestions] = useState("");
   const [qrModalVisible, setQRModalVisible] = useState(false);
   const [status, setStatus] = useState("");
+
+  const {request} = route.params;
   // "approved", "declined", "pending", "changesRequired"
   const handleSuggestionSubmit = async () => {
     const body = {
@@ -53,13 +72,45 @@ export default function ViewRequest({ navigation, route }) {
     <>
       <View style={styles.container}>
         <View>
-          {obj.map((info, index) => {
-            return (
-              <View key={index}>
-                <ShowTitleInfo title={info.title} data={info.data} />
-              </View>
-            );
-          })}
+          <View style={styles.info}>
+            <Text style={styles.title}>Applicant</Text>
+            <Text style={styles.data}>{request.applicant}</Text>
+          </View>
+          
+          <View style={styles.info}>
+            <Text style={styles.title}>Club</Text>
+            <Text style={styles.data}>{request.club}</Text>
+          </View>
+
+          <View style={styles.info}>
+            <Text style={styles.title}>Resource</Text>
+           
+            {
+              request.resources.list.map(item =>{
+                return <Text style={styles.data}>{item}</Text>
+              })
+            }
+             <Text style={styles.data}>{request.resources.department}</Text>
+          </View>
+
+          <View style={styles.info}>
+            <Text style={styles.title}>Duration</Text>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}} >
+            <Text style={styles.data}>From </Text>
+            <Text style={styles.data}>{formatAMPM(new Date(request.time.from))}</Text>
+            </View>
+
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={styles.data}>To </Text>
+            <Text style={styles.data}>{formatAMPM(new Date(request.time.to))}</Text>
+            </View>
+           
+          </View>
+          
+        
+
+
+          
         </View>
 
         {!user.role.includes("advisor") || !user.role.includes("HOD") ? (
@@ -230,5 +281,18 @@ const styles = StyleSheet.create({
   image: {
     width: 300,
     height: 300,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  info: {
+    paddingVertical: 10,
+  },
+  data: {
+    fontSize: 18,
+  },
+  buttons: {
+    flexDirection: "row",
   },
 });
