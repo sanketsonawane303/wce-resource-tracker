@@ -27,7 +27,6 @@ export default function ApproveResource({ navigation }) {
       const result = await launchImageLibrary()
 
     } catch (error) {
-      console.log(error)
     }
 
   }
@@ -38,7 +37,6 @@ export default function ApproveResource({ navigation }) {
     }
 
     getAllRequests(body).then(res => {
-      console.log(res?.data?.data[0])
       setRequest(res?.data?.data[0])
     }).catch(err => {
       console.log(err)

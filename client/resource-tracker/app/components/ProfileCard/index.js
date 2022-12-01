@@ -15,7 +15,7 @@ export default function ProfileCard() {
       <View style={styles.imagecontainer}>
         <Image
           style={styles.image}
-          source={require("../../../assets/user-icon.png")}
+          source={require("../../images/user.jpg")}
         />
 
         <View style={styles.textContainer}>

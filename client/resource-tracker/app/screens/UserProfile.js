@@ -19,8 +19,9 @@ export default function UserProfile() {
       <View style={styles.imagecontainer}>
         <Image
           style={styles.image}
-          source={require("../../assets/user-icon.png")}
+          source={require("../images/user.jpg")}
         />
+
 
         <View style={styles.textContainer}>
           {/* <Text style={styles.label}> Name: </Text> */}

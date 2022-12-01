@@ -7,7 +7,6 @@ import useModal from "../../hooks/useModal";
 export default function TimePicker({ modal }) {
   const { setVisible } = useModal();
   const { date, changeDate } = useDate();
-  console.log(date);
   if (!modal) return null;
   return (
     <DateTimePicker
@@ -20,7 +19,6 @@ export default function TimePicker({ modal }) {
       onT
       minuteInterval={15}
       onTouchEnd={() => {
-        console.log("End");
         setVisible(false);
       }}
     />

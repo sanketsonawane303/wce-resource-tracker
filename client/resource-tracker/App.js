@@ -1,6 +1,7 @@
 import "react-native-gesture-handler";
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+
 import MakeRequest from './app/screens/MakeRequest';
 import ViewRequest from './app/screens/ViewRequest';
 import AllRequests from "./app/screens/AllRequests";
@@ -16,12 +17,14 @@ import AuthContext from "./app/auth/context";
 import Login from "./app/screens/Login";
 import authStorage from './app/auth/storage';
 import * as SplashScreen from 'expo-splash-screen';
-
+import * as Network from 'expo-network';
+import InternetError from "./app/animations/InternetError";
 
 
 export default function App() {
   const [user, setUser] = useState(null);
   const [appIsReady, setAppIsReady] = useState(false);
+  const [network, setNetwork] = useState(true);
 
   const restoreUser = async () => {
     const user = await authStorage.getUser();
@@ -34,17 +37,30 @@ export default function App() {
       try {
         // Preload Account
         const user = await authStorage.getUser()
-        console.log(user);
+
         setUser(user)
       } catch (e) {
         console.warn(e);
       } finally {
         // Tell the application to render
+
+      }
+    }
+
+    async function getNetworkState() {
+      const networkState = await Network.getNetworkStateAsync();
+      console.log(networkState)
+      if (networkState.isInternetReachable) {
+        setAppIsReady(true);
+      } else {
+        setNetwork(false);
         setAppIsReady(true);
       }
     }
 
     prepare();
+    getNetworkState();
+
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
@@ -60,6 +76,12 @@ export default function App() {
 
   if (!appIsReady) {
     return null;
+  }
+
+  if (!network) {
+    return (<>
+      <InternetError />
+    </>);
   }
 
 
@@ -97,6 +119,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: statusbar,
+    // marginTop: statusbar,
   },
 });

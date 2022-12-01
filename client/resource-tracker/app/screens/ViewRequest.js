@@ -51,7 +51,7 @@ export default function ViewRequest({ navigation, route }) {
       action: status,
       remarks: suggestions,
     };
-    console.log(body);
+    //console.log(body);
     try {
       const res = await updateRequest(body);
       status;
@@ -60,13 +60,13 @@ export default function ViewRequest({ navigation, route }) {
         setSuggestModalVisible(!suggestModalVisible);
         navigation.navigate("AllRequests");
       } else {
-        console.log(res.data);
+        //  console.log(res.data);
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
 
-    console.log(status);
+    //    console.log(status);
   };
 
   return (
@@ -114,7 +114,7 @@ export default function ViewRequest({ navigation, route }) {
 
         </View>
 
-        {!user.role.includes("advisor") || !user.role.includes("HOD") ? (
+        {user.role.includes("advisor") || user.role.includes("HOD") ? (
           <>
             <View style={styles.buttonGroup}>
               <AppButton

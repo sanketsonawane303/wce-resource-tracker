@@ -36,7 +36,7 @@ export default function MakeRequest() {
   //   { label: "PG Lab", value: "pgLab" },
   // ]);\
   const { user } = useAuth();
-  console.log(user);
+  // console.log(user);
 
   const handleOnSubmit = async (values) => {
     values.resource = currResource;
@@ -54,20 +54,20 @@ export default function MakeRequest() {
       letter: values.letterLink,
       details: values.details,
     };
-    //console.log({ body });
+    console.log({ body });
     try {
       const res = await makeRequest(body);
       console.log(res)
       // console.log(res);
 
       if (res.ok && res.data.status == "success") {
-        console.log(res.data)
+        // console.log(res.data)
         setModalState(true);
         //TODO: navigate to the home screen
       } else {
         if (res.data.err.msg === "Resources already occupied for given time period") {
           const request = res.data.err.request[0];
-          console.log(request);
+          //console.log(request);
           const msg = {
             message: res.data.err.msg,
             applicant: request.applicant,
@@ -81,7 +81,7 @@ export default function MakeRequest() {
 
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -98,10 +98,10 @@ export default function MakeRequest() {
           console.log({ list });
           setResources(list);
         } else {
-          console.log(res.data.status);
+          // console.log(res.data.status);
         }
       } catch (err) {
-        console.log(err);
+        //console.log(err);
       }
     };
 

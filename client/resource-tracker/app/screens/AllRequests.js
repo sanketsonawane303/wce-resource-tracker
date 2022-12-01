@@ -13,36 +13,37 @@ import { useIsFocused } from "@react-navigation/native";
 import { getAllRequests } from "../apis/request";
 
 const AllRequests = () => {
-  const [requests, setRequests] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
-  const focus = useIsFocused();
+    const [requests, setRequests] = useState([])
+    const [refreshing, setRefreshing] = useState(false);
+    const focus = useIsFocused();
 
-  useEffect(() => {
-    if (!focus) return;
-    getAllRequests().then((res) => {
-      console.log(res);
-      if (res.ok && res.data.status == "success") {
-        setRequests(res?.data?.data);
-      }
-    });
-  }, []);
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    setRequests([]);
-    if (!focus) return;
-    getAllRequests()
-      .then((res) => {
-        if (res.ok == true && res.data.status == "success")
-          setRequests(res.data.data);
-        else {
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    setRefreshing(false);
-  }, []);
+    useEffect(() => {
+        if (!focus) return;
+        getAllRequests().then((res) => {
+            if (res.ok && res.data.status == "success") {
+                setRequests(res?.data?.data)
+            }
+        })
+    }, [])
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setRequests([]);
+        if (!focus) return;
+        getAllRequests()
+            .then((res) => {
+                if (res.ok == true && res.data.status == "success") setRequests(res.data.data);
+                else {
+                }
+            })
+            .catch((err) => {
+            });
+        setRefreshing(false);
+    }, []);
+
+
+ 
 
   return (
     <View style={styles.container}>

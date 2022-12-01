@@ -14,7 +14,7 @@ export default function Login() {
 
     try {
       const res = await signIn(values);
-      console.log(res);
+      //console.log(res);
       if (res.ok && res.data.status == "success") {
         const token = res.data.data.token;
         // console.log(token);
@@ -23,11 +23,11 @@ export default function Login() {
         // console.log(user)
       }
       else {
-        console.log(res.data.status);
+        //console.log(res.data.status);
       }
     }
     catch (err) {
-      console.log(err);
+      //console.log(err);
     }
 
   }

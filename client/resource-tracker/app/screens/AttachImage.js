@@ -6,7 +6,6 @@ const AttachImage = ({ route, navigation }) => {
     const [photo, setPhoto] = useState({})
 
     const { request } = route.params;
-    console.log(request)
 
     const handleSubmit = () => {
         if (photo?.uri) {
@@ -18,7 +17,6 @@ const AttachImage = ({ route, navigation }) => {
             })
             body.append('requestid', request?._id)
             // body.append('type', 'handover')
-            console.log(body)
         }
         else {
             alert("Please attach an image")
