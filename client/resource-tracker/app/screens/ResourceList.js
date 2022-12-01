@@ -14,8 +14,9 @@ const ResourceList = () => {
 
     useEffect(() => {
         if (!focus) return;
-        getResource({}).then((res) => {
+        getResource().then((res) => {
             // console.log(res)
+            console.log(res.data)
             if (res.ok && res.data.status == "success") {
                 setResources(res?.data?.data)
             }

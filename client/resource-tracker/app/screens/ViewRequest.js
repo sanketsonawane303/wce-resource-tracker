@@ -58,7 +58,7 @@ export default function ViewRequest({ navigation, route }) {
       if (res.ok && res.data.status == "success") {
 
         setSuggestModalVisible(!suggestModalVisible);
-        navigation.navigate("AllRequests");
+        navigation.navigate("ResorcesStack");
       } else {
         //  console.log(res.data);
       }

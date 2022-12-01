@@ -76,7 +76,7 @@ export default function UserProfile() {
         </View>
         {user.role.map((role, index) => {
           return (
-            <Text style={styles.info}>{capitalizeFirstLetter(role)} </Text>
+            <Text key={index} style={styles.info}>{capitalizeFirstLetter(role)} </Text>
           );
         })}
       </View>
