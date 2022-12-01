@@ -49,7 +49,6 @@ export default function App() {
 
     async function getNetworkState() {
       const networkState = await Network.getNetworkStateAsync();
-      console.log(networkState)
       if (networkState.isInternetReachable) {
         setAppIsReady(true);
       } else {
