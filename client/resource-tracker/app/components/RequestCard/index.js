@@ -79,6 +79,11 @@ export default function RequestCard(props) {
                         <Text>Accepted</Text>
                     </View>)
                 }
+                {
+                    props?.status === "changesRequired" && (<View style={styles.pendingstatus}>
+                        <Text>Chnage Req</Text>
+                    </View>)
+                }
             </View>
 
 

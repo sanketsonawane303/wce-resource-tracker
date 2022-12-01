@@ -1,7 +1,7 @@
 import apiClient from "./client";
 
 const getResource = (payload) => {
-    return apiClient.get('/resources', payload);
+    return apiClient.post('/resources/get', payload);
 }
 
 const createResource = (payload) => {

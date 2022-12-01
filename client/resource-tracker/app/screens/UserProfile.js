@@ -42,29 +42,31 @@ export default function UserProfile() {
         <Text style={styles.info}>{user.department}</Text>
       </View>
 
-      
-        {user.role[0] === "representative" && (
-          <View style={styles.textContainer}>
-            <View style={{ flexDirection: "row" }}>
-              <FontAwesome5 name="building" size={20} color="black" />
-              <Text style={styles.label}>Club </Text>
-            </View>
-            <Text style={styles.info}>{user.representative_club}</Text>
-            </View>
-        )}
+      {user.role[0] === "representative" && (
+        <View style={styles.textContainer}>
+          <View style={{ flexDirection: "row" }}>
+            <FontAwesome5 name="building" size={20} color="black" />
+            <Text style={styles.label}>Representative Club </Text>
+          </View>
 
-        {user.role[0] === "advisor" && (
-          
+          <Text style={styles.info}>{user.representative_club}</Text>
+        </View>
+      )}
 
-          <View style={styles.textContainer}>
-            <View style={{ flexDirection: "row" }}>
-              <FontAwesome5 name="building" size={20} color="black" />
-              <Text style={styles.label}>Club </Text>
-            </View>
-            <Text style={styles.info}>{user.advisor_clubs}</Text>
-            </View>
-        )}
-     
+      {user.role[0] === "advisor" && (
+        <View style={styles.textContainer}>
+          <View style={{ flexDirection: "row" }}>
+            <FontAwesome5 name="building" size={20} color="black" />
+            <Text style={styles.label}>Advisor Club </Text>
+          </View>
+
+          {user.advisor_club.map((club, index) => {
+            return (
+              <Text style={styles.info}>{capitalizeFirstLetter(club)} </Text>
+            );
+          })}
+        </View>
+      )}
 
       <View style={styles.textContainer}>
         <View style={{ flexDirection: "row" }}>

@@ -57,12 +57,13 @@ export default function MakeRequest() {
     //console.log({ body });
     try {
       const res = await makeRequest(body);
-      //console.log(res)
+      console.log(res)
       // console.log(res);
 
       if (res.ok && res.data.status == "success") {
         console.log(res.data)
         setModalState(true);
+        //TODO: navigate to the home screen
       } else {
         if (res.data.err.msg === "Resources already occupied for given time period") {
           const request = res.data.err.request[0];
@@ -87,12 +88,13 @@ export default function MakeRequest() {
   useEffect(() => {
     const loadResources = async () => {
       try {
+        console.log({deptValue});
         const res = await getResource({ department: deptValue });
         if (res.ok && res.data.status == "success") {
           const list = res.data.data.map((item) => {
             return { label: item.name, value: item.name };
           });
-          console.log(user);
+          // console.log(user);
           console.log({ list });
           setResources(list);
         } else {
@@ -208,9 +210,9 @@ export default function MakeRequest() {
             {message && (
               <>
                 <Text style={styles.modalText}>{message.message}</Text>
-                <Text style={styles.modalText}>{message.applicant}</Text>
-                <Text style={styles.modalText}>{message.club}</Text>
-                <Text style={styles.modalText}>{message.status}</Text>
+                <Text style={styles.modalText}>Applicant: {message.applicant}</Text>
+                <Text style={styles.modalText}>Club: {message.club}</Text>
+                <Text style={styles.modalText}>Status: {message.status}</Text>
               </>
             )}
 
