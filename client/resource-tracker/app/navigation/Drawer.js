@@ -24,7 +24,9 @@ import RequestStack from './RequestStack';
 import ApprovalStack from './ApprovalStack';
 import ServerError from '../animations/ServerError';
 import InternetError from '../animations/InternetError';
+import useAuth from '../auth/useAuth';
 const AppDrawer = createDrawerNavigator();
+
 
 const drawerStyles = {
   drawerItemStyle: {
@@ -37,6 +39,7 @@ const drawerStyles = {
 }
 
 export default function Drawer() {
+  const { user } = useAuth();
   return (
     <>
       <NavigationContainer>
@@ -52,33 +55,36 @@ export default function Drawer() {
             drawerStyle: {
             },
             drawerItemStyle: {
-              paddingLeft: 20,
-
-
-
-
+              paddingLeft: 20
             },
 
           }}
         >
 
-          <AppDrawer.Screen name='RequestStack' component={RequestStack} options={{
-            headerTitle: 'Requests',
-            drawerLabel: 'Requests',
-            ...drawerStyles
-          }} />
+          {
+            !user.role.includes("admin") &&
+            <AppDrawer.Screen name='RequestStack' component={RequestStack} options={{
+              headerTitle: 'Requests',
+              drawerLabel: 'Requests',
+              ...drawerStyles
+            }} />
+          }
+
           <AppDrawer.Screen name='ApprovalStack' component={ApprovalStack} options={{
             headerTitle: 'Resource Operations',
             drawerLabel: 'Resource Operations',
             ...drawerStyles
           }} />
 
-          <AppDrawer.Screen name='MakeRequest' component={MakeRequest} options={{
-            headerTitle: 'Make Request',
-            drawerLabel: 'Make Request',
-            ...drawerStyles
+          {
+            user.role.includes("representative") &&
+            <AppDrawer.Screen name='MakeRequest' component={MakeRequest} options={{
+              headerTitle: 'Make Request',
+              drawerLabel: 'Make Request',
+              ...drawerStyles
 
-          }} />
+            }} />
+          }
 
           <AppDrawer.Screen name='UserProfile' component={UserProfile} options={{
             headerTitle: 'User Profile',
@@ -87,19 +93,25 @@ export default function Drawer() {
           }} />
 
 
+          {
+            user.role.includes("admin") &&
+            <AppDrawer.Screen name='ResourcesStack' component={ResourceStack} options={{
+              headerTitle: 'Manage Resources',
+              drawerLabel: 'Manage Resources',
+              header: () => null,
+              ...drawerStyles
+            }} />
+          }
 
-          <AppDrawer.Screen name='ResourcesStack' component={ResourceStack} options={{
-            headerTitle: 'Manage Resources',
-            drawerLabel: 'Manage Resources',
-            header: () => null,
-            ...drawerStyles
-          }} />
-          <AppDrawer.Screen name='AddUser' component={AddUser} options={{
-            headerTitle: 'Add User',
-            drawerLabel: 'Add User',
-            ...drawerStyles
-          }} />
+          {
+            user.role.includes("admin") &&
+            <AppDrawer.Screen name='AddUser' component={AddUser} options={{
+              headerTitle: 'Add User',
+              drawerLabel: 'Add User',
+              ...drawerStyles
+            }} />
 
+          }
           <AppDrawer.Screen name="InternetError" component={InternetError}
             options={{
               headerShown: false,
@@ -113,11 +125,6 @@ export default function Drawer() {
               drawerItemStyle: { display: 'none' },
             }}
           />
-
-
-
-
-
         </AppDrawer.Navigator>
       </NavigationContainer>
     </>

@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
+import useAuth from "../../auth/useAuth";
 
 export default function AccountItem() {
-  const user = {};
+  const { user } = useAuth();
   return (
     <View style={styles.container}>
       <View style={styles.image}>
@@ -27,8 +28,8 @@ export default function AccountItem() {
           />
         )}
       </View>
-      <Text style={styles.heading}>Sanket Sonwane</Text>
-      <Text style={styles.subheading}>sanket.cse@walchandsangli.ac.in</Text>
+      <Text style={styles.heading}>{user?.name}</Text>
+      <Text style={styles.subheading}>{user?.email}</Text>
     </View>
   );
 }
