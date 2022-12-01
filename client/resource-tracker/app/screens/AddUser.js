@@ -37,6 +37,7 @@ export default function AddUser() {
           mobile: "",
         }}
         onSubmit={async (values) => {
+
           const body = {
             department: deptValue,
             representative_club: roleValue === 'representative' ? clubValue : [clubValue],
@@ -50,7 +51,7 @@ export default function AddUser() {
           try {
             const res = await signUp(body);
             if (res.ok && res.data.status === 'success') {
-
+              setModalVisible(!modalVisible)
             }
             else {
             }
@@ -185,4 +186,29 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     marginBottom: 5,
   },
+  modalView: {
+    flexDirection: "column",
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  }
 });

@@ -19,8 +19,9 @@ export default function UserProfile() {
       <View style={styles.imagecontainer}>
         <Image
           style={styles.image}
-          source={require("../../assets/user-icon.png")}
+          source={require("../images/user.jpg")}
         />
+
 
         <View style={styles.textContainer}>
           {/* <Text style={styles.label}> Name: </Text> */}
@@ -42,29 +43,29 @@ export default function UserProfile() {
         <Text style={styles.info}>{user.department}</Text>
       </View>
 
-      
-        {user.role[0] === "representative" && (
-          <View style={styles.textContainer}>
-            <View style={{ flexDirection: "row" }}>
-              <FontAwesome5 name="building" size={20} color="black" />
-              <Text style={styles.label}>Club </Text>
-            </View>
-            <Text style={styles.info}>{user.representative_club}</Text>
-            </View>
-        )}
 
-        {user.role[0] === "advisor" && (
-          
+      {user.role[0] === "representative" && (
+        <View style={styles.textContainer}>
+          <View style={{ flexDirection: "row" }}>
+            <FontAwesome5 name="building" size={20} color="black" />
+            <Text style={styles.label}>Club </Text>
+          </View>
+          <Text style={styles.info}>{user.representative_club}</Text>
+        </View>
+      )}
 
-          <View style={styles.textContainer}>
-            <View style={{ flexDirection: "row" }}>
-              <FontAwesome5 name="building" size={20} color="black" />
-              <Text style={styles.label}>Club </Text>
-            </View>
-            <Text style={styles.info}>{user.advisor_clubs}</Text>
-            </View>
-        )}
-     
+      {user.role[0] === "advisor" && (
+
+
+        <View style={styles.textContainer}>
+          <View style={{ flexDirection: "row" }}>
+            <FontAwesome5 name="building" size={20} color="black" />
+            <Text style={styles.label}>Club </Text>
+          </View>
+          <Text style={styles.info}>{user.advisor_clubs}</Text>
+        </View>
+      )}
+
 
       <View style={styles.textContainer}>
         <View style={{ flexDirection: "row" }}>
