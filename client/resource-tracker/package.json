@@ -2,8 +2,8 @@
   "name": "resource-tracker",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start --dev-client",
-    "android": "expo run:android",
+    "start": "npx expo start",
+    "android": "npx expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web"
   },
