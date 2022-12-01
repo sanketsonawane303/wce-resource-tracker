@@ -54,7 +54,7 @@ export default function MakeRequest() {
       letter: values.letterLink,
       details: values.details,
     };
-    //console.log({ body });
+    console.log({ body });
     try {
       const res = await makeRequest(body);
       //console.log(res)
