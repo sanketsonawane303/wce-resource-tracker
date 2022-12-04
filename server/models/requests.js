@@ -65,6 +65,11 @@ const requestsSchema = new mongoose.Schema(
     report: { type: String },
     invite_status: { type: Boolean, default: false },
     key_holder: { photo: String, id_card: String },
+    key_status: {
+      type: String,
+      enum: ["pending", "granted", "returned"],
+      default: "pending",
+    },
   },
   { timestamps: true }
 );
