@@ -25,6 +25,7 @@ import ApprovalStack from './ApprovalStack';
 import ServerError from '../animations/ServerError';
 import InternetError from '../animations/InternetError';
 import useAuth from '../auth/useAuth';
+import Home from '../screens/Home';
 const AppDrawer = createDrawerNavigator();
 
 
@@ -60,7 +61,16 @@ export default function Drawer() {
 
           }}
         >
-
+          <AppDrawer.Screen name='Home' component={Home} options={{
+            headerTitle: 'Home',
+            drawerLabel: 'Home',
+            ...drawerStyles
+          }} />
+          <AppDrawer.Screen name='ApprovalStack' component={ApprovalStack} options={{
+            headerTitle: 'Resource Operations',
+            drawerLabel: 'Resource Operations',
+            ...drawerStyles
+          }} />
           {
             !user.role.includes("admin") &&
             <AppDrawer.Screen name='RequestStack' component={RequestStack} options={{
@@ -70,11 +80,7 @@ export default function Drawer() {
             }} />
           }
 
-          <AppDrawer.Screen name='ApprovalStack' component={ApprovalStack} options={{
-            headerTitle: 'Resource Operations',
-            drawerLabel: 'Resource Operations',
-            ...drawerStyles
-          }} />
+
 
           {
             user.role.includes("representative") &&

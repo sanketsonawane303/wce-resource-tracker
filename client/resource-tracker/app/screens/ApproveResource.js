@@ -6,7 +6,7 @@ import AppButton from '../components/AppButton';
 
 import RequestInfoShortCard from '../components/RequestInfoShortCard';
 import { getAllRequests } from '../apis/request';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 const items = [{
   label: "Handover Keys", value: "handover"
 },
@@ -14,30 +14,20 @@ const items = [{
 ]
 
 export default function ApproveResource({ navigation }) {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
-  const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [requestid, setRequestid] = useState('6385ad7d0d17f478202fc6ff');
-  const [request, setRequest] = useState(null);
-  const focus = useIsFocused()
-
-  const handleCamera = async () => {
-    try {
-      const result = await launchImageLibrary()
-
-    } catch (error) {
-    }
-
-  }
-
+  const [open, setOpen] = useState(false);
+  const [request, setRequest] = useState([]);
+  const focus = useIsFocused();
   const getRequestDetails = () => {
-    const body = {
-      _id: requestid
-    }
+    getAllRequests().then(res => {
+      console.log(res)
+      if (res.ok && res.data.status == "success") {
+        setRequest(res?.data?.data)
+      }
 
-    getAllRequests(body).then(res => {
-      setRequest(res?.data?.data[0])
+      if (res.problem == "NETWORK_ERROR") {
+        navigation.navigate("ServerError")
+      }
     }).catch(err => {
       console.log(err)
     }
@@ -46,32 +36,10 @@ export default function ApproveResource({ navigation }) {
 
   useEffect(() => {
     if (!focus) return;
-    setRequest(null);
-    setRequestid(null);
-    setScanned(false);
-    const getBarCodeScannerPermissions = async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    };
-
-    getBarCodeScannerPermissions();
-
-
-
+    getRequestDetails();
   }, [focus]);
 
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    getRequestDetails();
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-  };
 
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
 
   return (
     <View style={styles.container}>
@@ -92,41 +60,18 @@ export default function ApproveResource({ navigation }) {
               }}
             />
           </View>
-          {
-            scanned ? null :
-              <View style={styles.scanner}>
-                <Text style={{
-                  fontWeight: "bold",
-                  marginBottom: 5,
-                  fontSize: 20
-                }}>
-                  Scan the QR Code of Request
-                </Text>
-
-                <BarCodeScanner
-                  onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-                  // style={StyleSheet.absoluteFillObject}
-                  style={{
-                    width: 200,
-                    height: 200
-                  }}
-                />
-
-              </View>
-
-          }
-          {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
 
           {
-            request ? (
-              <View>
-                <View style={styles.resourceinfo}>
-                  <RequestInfoShortCard {...request} />
-                </View>
+            request.length > 0 ? (
+              request.map((req, index) => {
+                //if (req.status != "approved") return;
 
-
-              </View>)
-              : null
+                return (<View key={req._id}>
+                  <RequestInfoShortCard request={req} onPress={() => {
+                    navigation.navigate("AttachImage", { request: { ...req, type: value } })
+                  }} />
+                </View>)
+              })) : (<Text>No Requests</Text>)
           }
 
         </View>

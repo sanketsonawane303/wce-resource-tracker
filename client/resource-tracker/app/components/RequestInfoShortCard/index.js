@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { FontAwesome } from '@expo/vector-icons';
 import AppButton from '../AppButton';
@@ -11,39 +11,43 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function RequestCard(props) {
     const navigation = useNavigation()
+
     return (
-        <View style={styles.card}>
-            <View style={styles.row}>
-                <View style={styles.details}>
-                    <View style={styles.content}>
-                        <Text style={styles.heading}>Resources Requested:</Text>
-                        {
-                            props?.resources?.list.map((resource, index) => {
-                                return (
-                                    <View key={index} >
-                                        <Text style={styles.subheading}>{resource}</Text>
-                                    </View>
+        <TouchableOpacity onPress={props.onPress}>
+            <View style={styles.card}>
+                <View style={styles.row}>
+                    <View style={styles.details}>
+                        <View style={styles.content}>
+                            <Text style={styles.heading}>Resources Requested:</Text>
+                            {
+                                props.request?.resources?.list.map((resource, index) => {
+                                    return (
+                                        <View key={index} >
+                                            <Text style={styles.subheading}>{resource}</Text>
+                                        </View>
+                                    )
+                                }
                                 )
                             }
-                            )
-                        }
-                    </View>
-                    <View style={styles.content}>
-                        <Text style={styles.heading}>Date of Request:</Text>
-                        <Text>{moment(props?.createdAt).format('LLL')}</Text>
+                        </View>
+                        <View style={styles.content}>
+                            <Text style={styles.heading}>Date of Request:</Text>
 
+                            <Text>{moment(props.request?.createdAt).format('LLL')}</Text>
+
+                        </View>
+                        {/* <View>
+                            <Text style={styles.heading}>Applicant:</Text>
+                            <Text>{props.request.applicant}</Text>
+                        </View> */}
                     </View>
-                    <View>
-                        <Text style={styles.heading}>Applicant:</Text>
-                        <Text>{props.applicant}</Text>
+                    <View style={styles.icon}>
+                        <FontAwesome name="building-o" size={40} color="blue" />
                     </View>
                 </View>
-                <View style={styles.icon}>
-                    <FontAwesome name="building-o" size={40} color="blue" />
-                </View>
+
             </View>
-
-        </View>
+        </TouchableOpacity>
     )
 }
 

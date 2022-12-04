@@ -24,18 +24,14 @@ const AllRequests = () => {
         if (!focus) return;
         let query
         if (user?.role.includes("hod")) {
-            query = {
-                department: user.department,
-            }
+            query = { filter: true }
         }
         else if (user?.role.includes("advisor")) {
-            query = {
-                club: user.advisor_club,
-            }
+            query = { filter: true }
         }
         else if (user?.role.includes("representative")) {
             query = {
-                club: user.representative_club,
+                filter: true
             }
         }
 
