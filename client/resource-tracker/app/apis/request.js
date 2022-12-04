@@ -12,9 +12,9 @@ const updateRequest = (payload) => {
 
 }
 
-const deleteRequest = (payload) => {
+const deleteRequest = (requestId) => {
 
-    return apiClient.delete('/', payload);
+    return apiClient.delete(`/requests/${requestId}`);
 
 }
 
@@ -23,7 +23,7 @@ const approveRequest = (payload) => {
 }
 
 const getAllRequests = (payload) => {
-    return apiClient.get('/requests', payload)
+    return apiClient.get('/requests?filter=true')
 }
 
 
