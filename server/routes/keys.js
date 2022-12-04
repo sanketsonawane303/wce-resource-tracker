@@ -18,11 +18,6 @@ router.put(
   ]),
   uploadId
 );
-router.put(
-  "/status",
-  role(["helper"]),
-
-  updateKeyStatus
-);
+router.put("/status", role(["helper"]), updateKeyStatus);
 
 export default router;

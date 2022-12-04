@@ -6,9 +6,9 @@ import {
 } from "../../utils/responses.js";
 
 const createResource = async (req, res) => {
-  const { name, department, is_room, capacity, key_code } = req.body;
-
   try {
+    const { name, department, is_room, capacity, key_code } = req.body;
+
     const key = await keysSchema.create({
       resource_name: name,
       department,

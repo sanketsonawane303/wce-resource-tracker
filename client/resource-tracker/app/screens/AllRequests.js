@@ -16,6 +16,7 @@ import useAuth from "../auth/useAuth";
 const AllRequests = () => {
     const [requests, setRequests] = useState([])
     const [refreshing, setRefreshing] = useState(false);
+    const [loaded, setLoaded] = useState(false);
     const focus = useIsFocused();
     const { user } = useAuth();
 
@@ -35,26 +36,46 @@ const AllRequests = () => {
             }
         }
 
+        setLoaded(false)
+        setRequests([])
+
         getAllRequests(query).then((res) => {
             if (res.ok && res.data.status == "success") {
                 setRequests(res?.data?.data)
+                setLoaded(true)
             }
+            else {
+                setLoaded(true)
+            }
+
         })
-    }, [])
+    }, [focus])
 
     const onRefresh = React.useCallback(() => {
-        setRefreshing(true);
-        setRequests([]);
+
         if (!focus) return;
-        getAllRequests({ club: "Google Developer Students' Club" })
+        setRefreshing(true);
+        setLoaded(false)
+
+        setRequests([]);
+        getAllRequests({ filter: true })
             .then((res) => {
-                if (res.ok == true && res.data.status == "success") setRequests(res.data.data);
+                if (res.ok == true && res.data.status == "success") {
+                    setRequests(res.data.data);
+                    setLoaded(true)
+
+                    setRefreshing(false);
+                }
                 else {
+                    setLoaded(true)
+
+                    setRefreshing(false);
                 }
             })
             .catch((err) => {
             });
-        setRefreshing(false);
+
+
     }, []);
 
 
@@ -76,15 +97,18 @@ const AllRequests = () => {
                     })}
                 </ScrollView>
             ) : (
-                <View
-                    style={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                        flex: 1,
-                    }}
-                >
-                    <ActivityIndicator size="large" color="#0000ff" />
-                </View>
+                loaded && refreshing === false ? (<View>
+                    <Text style={{ textAlign: "center", fontSize: 20, marginTop: 20 }}> No Requests Found </Text>
+                </View>) :
+                    (<View
+                        style={{
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flex: 1,
+                        }}
+                    >
+                        <ActivityIndicator size="large" color="#0000ff" />
+                    </View>)
             )}
         </View>
     );

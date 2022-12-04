@@ -8,6 +8,7 @@ import useAuth from "../auth/useAuth";
 import { approveRequest, deleteRequest, updateRequest} from "../apis/request";
 import ResourceList from "./ResourceList";
 
+
 const obj = [
   { title: "Applicant", data: "Vinayak Gaikwad" },
   { title: "Club", data: "Walchnad Linux Users Group" },
@@ -57,7 +58,7 @@ export default function ViewRequest({ navigation, route }) {
       status;
       if (res.ok && res.data.status == "success") {
         setSuggestModalVisible(!suggestModalVisible);
-        navigation.navigate("RequestStack", { screen: "RequestList" });
+        navigation.navigate("RequestStack", { screen: "AllRequests" });
       } else {
         //  console.log(res.data);
       }
@@ -72,7 +73,8 @@ export default function ViewRequest({ navigation, route }) {
     try {
       const res = await deleteRequest(request._id);
       if (res.ok && res.data.status == "success") {
-        navigation.navigate("RequestStack", { screen: "RequestList" });
+        alert("Request Withdrawn");
+        navigation.navigate("RequestStack", { screen: "AllRequests" });
       } else {
         console.log(res.data);
       }
@@ -117,9 +119,11 @@ export default function ViewRequest({ navigation, route }) {
           <View style={styles.info}>
             <Text style={styles.title}>Resource</Text>
 
-            {request.resources.list.map((item) => {
-              return <Text style={styles.data}>{item}</Text>;
-            })}
+            {
+              request.resources.list.map((item, index) => {
+                return <Text key={index} style={styles.data}>{item}</Text>
+              })
+            }
             <Text style={styles.data}>{request.resources.department}</Text>
           </View>
 

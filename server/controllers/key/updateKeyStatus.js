@@ -14,6 +14,7 @@ const updateKeyStatus = async (req, res) => {
     photo_link,
     to,
     is_available = false,
+    key_status,
   } = req.body;
   try {
     await keysSchema.findByIdAndUpdate(key_id, {
@@ -32,6 +33,7 @@ const updateKeyStatus = async (req, res) => {
       request_id,
       {
         key_holder: { id_card: id_link, photo: photo_link },
+        key_status,
       },
       { new: true, runValidators: true }
     );

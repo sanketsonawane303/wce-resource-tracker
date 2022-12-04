@@ -10,6 +10,7 @@ import { signIn } from "../apis/auth";
 
 export default function Login() {
   const { logIn, user } = useAuth();
+  const [error, setError] = React.useState(false);
   const handleSignin = async (values) => {
 
     try {
@@ -23,7 +24,7 @@ export default function Login() {
         // console.log(user)
       }
       else {
-        //console.log(res.data.status);
+        setError(true);
       }
     }
     catch (err) {
@@ -82,14 +83,16 @@ export default function Login() {
                   onInputChange={() => { }}
                   bg="white"
                   name="email"
-                  error={touched.email && errors.email}
+                  error={error}
                 />
                 <RNEInput
+
                   placeholder="Password"
                   onInputChange={() => { }}
                   bg="white"
                   name="password"
-                  error={touched.password && errors.password}
+                  error={error && "Invalid email or password"}
+                  
                 />
               </View>
               {/* {loading && (
@@ -117,9 +120,9 @@ export default function Login() {
                 </View>
               </View>
               <View style={styles.text}>
-                <Text style={{ fontSize: 15 }}>Don't have an account?</Text>
+                {/* <Text style={{ fontSize: 15 }}>Don't have an account?</Text> */}
 
-                <Text
+                {/* <Text
                   onPress={() => {
                     // navigation.navigate("Signup");
                   }}
@@ -133,7 +136,7 @@ export default function Login() {
                   }}
                 >
                   Sign Up
-                </Text>
+                </Text> */}
               </View>
             </>
           )}

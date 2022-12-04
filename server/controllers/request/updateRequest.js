@@ -5,28 +5,27 @@ import {
 } from "../../utils/responses.js";
 
 const updateRequest = async (req, res) => {
-  const { id, link } = req.body;
   try {
-    const request = await requestSchema.findByOneAndUpdate(
-      { _id: id, applicant: req.user.email },
-      {
-        status: "pending",
-        letter: link,
-      },
-      { new: true }
-    );
+    const { id, link } = req.body;
 
-    if (!request)
-      return sendFailResponse({
-        res,
-        statusCode: 404,
-        err: "Given request not found in your submitted requests",
-      });
-    else
-      sendSuccessResponse({
-        res,
-        data: request,
-      });
+    const request = await requestSchema.findOne({
+      _id: id,
+      applicant: req.user.email,
+    });
+    if (!request) throw "Given request not found in your submitted requests";
+
+    if (request.status !== "changes required")
+      throw 'You are only allowed to update when status is "changes required"';
+
+    request.letter = link;
+
+    const lastApproval = request.approvals[request.approvals.length - 1];
+    if (lastApproval.role === "advisor") request.status = "pending";
+    else request.status = "approved by advisor";
+
+    await request.save();
+
+    sendSuccessResponse({ res, data: request });
   } catch (err) {
     sendFailResponse({ err, res, statusCode: 400 });
   }

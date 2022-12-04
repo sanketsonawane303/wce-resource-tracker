@@ -5,10 +5,13 @@ import {
 } from "../../utils/responses.js";
 
 const getResources = async (req, res) => {
-  const filter = req.body;
-
   try {
-    const resources = await resourceSchema.find(filter);
+    const { name, department } = req.query;
+    let resources;
+
+    if (name) resources = await resourceSchema.findOne({ name });
+    else if (department) resources = await resourceSchema.find({ department });
+    else resources = await resourceSchema.find({});
 
     sendSuccessResponse({ res, data: resources });
   } catch (err) {

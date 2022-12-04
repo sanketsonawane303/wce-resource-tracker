@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const eventsSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true },
     mode: { type: String, enum: ["online", "offline"], default: "offline" },
     type: {
       type: String,

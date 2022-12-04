@@ -16,7 +16,7 @@ import useAuth from "../auth/useAuth";
 import { makeRequest } from "../apis/request";
 import { Modal } from "react-native";
 
-export default function MakeRequest() {
+export default function MakeRequest({ navigation }) {
   const [deptValue, setDeptValue] = useState("");
   const [deptOpen, setDeptOpen] = useState(false);
   const [open, setOpen] = useState(false);
@@ -197,6 +197,7 @@ export default function MakeRequest() {
               }}
               onPress={() => {
                 setModalState(!modal);
+                navigation.navigate("RequestStack");
               }}
             />
           }
