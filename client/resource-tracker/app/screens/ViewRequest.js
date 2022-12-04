@@ -59,7 +59,11 @@ export default function ViewRequest({ navigation, route }) {
       if (res.ok && res.data.status == "success") {
 
         setSuggestModalVisible(!suggestModalVisible);
+<<<<<<< HEAD
         navigation.navigate("ResourceStack");
+=======
+        navigation.navigate("RequestStack", { screen: "RequestList" });
+>>>>>>> 6ba7b17513a590e4ab8a7f8c72a0c331edea60cc
       } else {
         //  console.log(res.data);
       }
@@ -70,6 +74,7 @@ export default function ViewRequest({ navigation, route }) {
     //    console.log(status);
   };
 
+<<<<<<< HEAD
   const handleRequestDelete = async () => {
     try{
       const res = await deleteRequest(request._id);
@@ -85,6 +90,20 @@ export default function ViewRequest({ navigation, route }) {
 
     }
   }
+=======
+  const handleDeleteRequest = async () => {
+    try{
+      const res = await deleteRequest(request._id);
+      if (res.ok && res.data.status == "success") {
+        navigation.navigate("RequestStack", { screen: "RequestList" });
+      } else {
+          console.log(res.data);
+      }
+    }catch(err){
+      console.log(err);
+    }
+    }
+>>>>>>> 6ba7b17513a590e4ab8a7f8c72a0c331edea60cc
 
   return (
     <>
@@ -170,7 +189,12 @@ export default function ViewRequest({ navigation, route }) {
                 title={"Show QR"}
               /> */}
               <AppButton
+<<<<<<< HEAD
               onPress={()=> handleRequestDelete()} title={"Withdraw"} />
+=======
+              onPress={() => handleDeleteRequest(request._id)}
+               title={"Withdraw"} />
+>>>>>>> 6ba7b17513a590e4ab8a7f8c72a0c331edea60cc
             </View>
           </>
         )}
