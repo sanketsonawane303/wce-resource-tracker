@@ -9,8 +9,9 @@ const getResources = async (req, res) => {
     const { name, department } = req.query;
     let resources;
 
-    if (!name) resources = await resourceSchema.find({ department });
-    else resources = await resourceSchema.findOne({ name });
+    if (name) resources = await resourceSchema.findOne({ name });
+    else if (department) resources = await resourceSchema.find({ department });
+    else resources = await resourceSchema.find({});
 
     sendSuccessResponse({ res, data: resources });
   } catch (err) {

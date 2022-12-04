@@ -11,6 +11,9 @@ const uploadId = async (req, res) => {
     const photo = req.files.photo[0];
     const id_card = req.files.id_card[0];
 
+    console.log(photo);
+    console.log(id_card);
+
     const { sourcePath: photoSource, destinationPath: photoDestination } =
       await compress(photo.path);
     const { sourcePath: idSource, destinationPath: idDestination } =
@@ -31,10 +34,10 @@ const uploadId = async (req, res) => {
       res,
       data: { ...data, uploaded: req.files.length },
     });
-    fs.unlinkSync(idSource);
-    fs.unlinkSync(idDestination);
-    fs.unlinkSync(photoSource);
-    fs.unlinkSync(photoDestination);
+    // fs.unlinkSync(idSource);
+    // fs.unlinkSync(idDestination);
+    // fs.unlinkSync(photoSource);
+    // fs.unlinkSync(photoDestination);
   } catch (err) {
     console.log(err);
     sendFailResponse({
