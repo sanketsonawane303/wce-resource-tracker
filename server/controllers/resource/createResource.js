@@ -15,10 +15,13 @@ const createResource = async (req, res) => {
       key_code,
     });
 
+    const { _id: key_id } = key;
+
     const resource = await resourcesSchema.create({
       name,
       department,
       is_room,
+      key_id,
       capacity,
     });
 
