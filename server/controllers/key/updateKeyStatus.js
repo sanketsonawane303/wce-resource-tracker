@@ -6,18 +6,27 @@ import {
 } from "../../utils/responses.js";
 
 const updateKeyStatus = async (req, res) => {
-  const { key_id, request_id, from, id_link, photo_link } = req.body;
+  const {
+    key_id,
+    request_id,
+    from,
+    id_link,
+    photo_link,
+    to,
+    is_available = false,
+  } = req.body;
   try {
     await keysSchema.findByIdAndUpdate(key_id, {
       $push: {
         holder_history: {
           from,
-          to: { role: req.user.role[0], email: req.user.email },
+          to,
           id_card: id_link,
           timestamps: Date(),
           photo: photo_link,
         },
       },
+      is_available,
     });
     const data = await requestsSchema.findByIdAndUpdate(
       request_id,
@@ -31,9 +40,10 @@ const updateKeyStatus = async (req, res) => {
 
     sendSuccessResponse({
       res,
-      data: { ...data, uploaded: req.files.length },
+      data: { ...data },
     });
   } catch (err) {
+    console.log(err);
     sendFailResponse({
       err,
       res,

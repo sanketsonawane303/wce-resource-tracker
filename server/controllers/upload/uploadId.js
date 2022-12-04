@@ -24,7 +24,6 @@ const uploadId = async (req, res) => {
 
     const id_link = (await idData).Location;
     const photo_link = (await photoData).Location;
-    console.log("links", id_link, photo_link);
 
     const data = { photo_link, id_link };
 

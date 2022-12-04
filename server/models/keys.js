@@ -11,7 +11,7 @@ const keysSchema = new mongoose.Schema(
       default: "WCE",
     },
     key_code: { type: Number, required: true },
-    is_available: { type: Boolean, default: false },
+    is_available: { type: Boolean, default: true },
     holder_history: {
       type: [
         {
