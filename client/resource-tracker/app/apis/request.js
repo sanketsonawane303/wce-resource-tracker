@@ -14,11 +14,7 @@ const updateRequest = (payload) => {
 
 const deleteRequest = (requestId) => {
 
-<<<<<<< HEAD
-    return apiClient.delete(`requests/${requestId}`);
-=======
     return apiClient.delete(`/requests/${requestId}`);
->>>>>>> 6ba7b17513a590e4ab8a7f8c72a0c331edea60cc
 
 }
 
