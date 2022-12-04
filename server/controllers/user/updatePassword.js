@@ -6,17 +6,13 @@ import {
 import { hashPassword } from "../../utils/passwords.js";
 
 const updatePassword = async (req, res) => {
-  const { currentPassword, newPassword } = req.body;
-
   try {
+    const { currentPassword, newPassword } = req.body;
+
     const user = await usersSchema.findOne({ email: req.user.email });
 
     if (user.password !== hashPassword(currentPassword))
-      return sendFailResponse({
-        res,
-        statusCode: 400,
-        err: "Incorrect current password",
-      });
+      throw "Incorrect current password";
 
     user.password = hashPassword(newPassword);
     await user.save();

@@ -5,40 +5,19 @@ import {
 } from "../../utils/responses.js";
 
 const getKeys = async (req, res) => {
-  const role = req.user.role;
-  const id = req.params.id;
-
   try {
-    // if no id is sent
+    const { id } = req.query;
+
     if (!id) {
-      if (role === "hod" || role === "advisor") {
-        const keys = await keysSchema.find({});
-        sendSuccessResponse({ res, data: keys });
-      } else {
-        return sendFailResponse({
-          res,
-          statusCode: 400,
-          err: "Key ID is required",
-        });
-      }
-    }
+      const keys = await keysSchema.find({ department: req.user.department });
+      if (!keys) throw "Keys not found";
 
-    // if student
-    if (role === "representative") {
-      const key = await keysSchema.findById(id, { is_available: 1 });
-      return sendSuccessResponse({ res, data: key });
-    }
-
-    // if staff advisor
-    else if (role === "advisor" || role === "hod") {
-      const keys = await keysSchema.findById(id);
-      return sendSuccessResponse({ res, data: keys });
+      sendSuccessResponse({ res, data: keys });
     } else {
-      sendFailResponse({
-        res,
-        statusCode: 400,
-        err: "Role and key Id required",
-      });
+      const key = await keysSchema.findById(id);
+      if (!key) throw "Key not found";
+
+      sendSuccessResponse({ res, data: key });
     }
   } catch (err) {
     sendFailResponse({ res, statusCode: 400, err });

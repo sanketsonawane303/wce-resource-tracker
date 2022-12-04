@@ -32,7 +32,13 @@ const requestsSchema = new mongoose.Schema(
     letter: { type: String, required: true },
     status: {
       type: String,
-      enum: ["approved", "declined", "pending", "changesRequired"],
+      enum: [
+        "pending",
+        "approved by advisor",
+        "approved",
+        "declined",
+        "changes required",
+      ],
       default: "pending",
     },
     approvals: [
@@ -47,7 +53,7 @@ const requestsSchema = new mongoose.Schema(
             },
             status: {
               type: String,
-              enum: ["approved", "declined", "changesRequired"],
+              enum: ["approved", "declined", "changes required"],
               required: true,
             },
             remarks: { type: String },
@@ -57,8 +63,13 @@ const requestsSchema = new mongoose.Schema(
       },
     ],
     report: { type: String },
-    invite_status: { type: Boolean, required: true, default: false },
+    invite_status: { type: Boolean, default: false },
     key_holder: { photo: String, id_card: String },
+    key_status: {
+      type: String,
+      enum: ["pending", "granted", "returned"],
+      default: "pending",
+    },
   },
   { timestamps: true }
 );

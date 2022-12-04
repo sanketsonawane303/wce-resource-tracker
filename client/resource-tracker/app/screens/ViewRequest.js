@@ -5,8 +5,9 @@ import ShowTitleInfo from "../components/ShowTitleInfo";
 import { Input } from "react-native-elements";
 import { colors } from "../configs/variables";
 import useAuth from "../auth/useAuth";
-import { updateRequest } from "../apis/request";
+import { updateRequest, deleteRequest } from "../apis/request";
 import ResourceList from "./ResourceList";
+
 
 const obj = [
   { title: "Applicant", data: "Vinayak Gaikwad" },
@@ -58,7 +59,7 @@ export default function ViewRequest({ navigation, route }) {
       if (res.ok && res.data.status == "success") {
 
         setSuggestModalVisible(!suggestModalVisible);
-        navigation.navigate("ResorcesStack");
+        navigation.navigate("ResourceStack");
       } else {
         //  console.log(res.data);
       }
@@ -68,6 +69,22 @@ export default function ViewRequest({ navigation, route }) {
 
     //    console.log(status);
   };
+
+  const handleRequestDelete = async () => {
+    try{
+      const res = await deleteRequest(request._id);
+      if(res.ok && res.data.status == "success"){
+        navigation.navigate("RequestStack");
+      }
+      else{
+        console.log(res.data);
+      }
+    }
+    catch(err){
+      console.log(err);
+
+    }
+  }
 
   return (
     <>
@@ -87,8 +104,8 @@ export default function ViewRequest({ navigation, route }) {
             <Text style={styles.title}>Resource</Text>
 
             {
-              request.resources.list.map(item => {
-                return <Text style={styles.data}>{item}</Text>
+              request.resources.list.map((item, index) => {
+                return <Text key={index} style={styles.data}>{item}</Text>
               })
             }
             <Text style={styles.data}>{request.resources.department}</Text>
@@ -148,11 +165,12 @@ export default function ViewRequest({ navigation, route }) {
           <>
             <View style={styles.buttonGroup}>
               <AppButton buttonStyles={styles.button} title={"Edit"} />
-              <AppButton
+              {/* <AppButton
                 onPress={() => setQRModalVisible(!qrModalVisible)}
                 title={"Show QR"}
-              />
-              <AppButton title={"Withdraw"} />
+              /> */}
+              <AppButton
+              onPress={()=> handleRequestDelete()} title={"Withdraw"} />
             </View>
           </>
         )}

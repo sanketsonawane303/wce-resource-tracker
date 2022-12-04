@@ -5,14 +5,17 @@ import {
 } from "../../utils/responses.js";
 
 const getUser = async (req, res) => {
-  const info = req.body;
+  try {
+    const info = req.body;
 
-  const user = await usersSchema.find(info, "-password");
+    const user = await usersSchema.find(info, "-password");
 
-  if (!user)
-    return sendFailResponse({ res, statusCode: 404, err: "User not found" });
+    if (!user) throw "User not found";
 
-  sendSuccessResponse({ res, data: user });
+    sendSuccessResponse({ res, data: user });
+  } catch (err) {
+    sendFailResponse({ res, statusCode: 400, err });
+  }
 };
 
 export default getUser;

@@ -6,64 +6,52 @@ import {
 } from "../../utils/responses.js";
 
 const addRequest = async (req, res) => {
-  const {
-    resources,
-    time: { from, to },
-    ...data
-  } = req.body;
+  try {
+    const {
+      resources,
+      time: { from, to },
+      ...data
+    } = req.body;
 
-  if (Date(from) > Date(to)) {
-    return sendFailResponse({
-      res,
-      statusCode: 400,
-      err: "Invalid time period",
-    });
-  }
+    if (Date(from) > Date(to)) throw "Invalid time period";
 
-  for (let i = 0; i < resources.list.length; i++) {
-    if (
-      !(await resourcesSchema.findOne({
+    const rooms = [];
+    for (let i = 0; i < resources.list.length; i++) {
+      const resource = await resourcesSchema.findOne({
         name: resources.list[i],
         department: resources.department,
-      }))
-    )
-      return sendFailResponse({
-        res,
-        statusCode: 400,
-        err: `Invalid resource ${resources.list[i]} in given department ${resources.department}`,
       });
-  }
 
-  const request = await requestsSchema.find({
-    resource: { $in: resources },
-    $and: [{ "time.to": { $gt: from } }, { "time.from": { $lt: to } }],
-  });
-  console.log(request);
+      if (!resource)
+        throw `Invalid resource ${resources.list[i]} in given department ${resources.department}`;
 
-  if (request.length > 0) {
-    return sendFailResponse({
-      res,
-      statusCode: 400,
-      err: { msg: "Resources already occupied for given time period", request },
-    });
-  } else {
-    try {
-      const response = await requestsSchema.create({
-        ...data,
-        time: { from, to },
-        resources,
-      });
-      sendSuccessResponse({
-        res,
-        data: response,
-      });
-    } catch (err) {
-      sendFailResponse({
-        res,
-        err: err,
-        statusCode: 400,
-      });
+      if (resource.is_room) rooms.push(resource);
     }
+
+    const request = await requestsSchema.find({
+      resource: { $in: rooms },
+      status: { $ne: "declined" },
+      $and: [{ "time.to": { $gt: from } }, { "time.from": { $lt: to } }],
+    });
+    console.log(request);
+
+    if (request.length > 0)
+      throw {
+        msg: "Resources already occupied for given time period",
+        request,
+      };
+
+    const response = await requestsSchema.create({
+      ...data,
+      applicant: req.user.email,
+      club: req.user.representative_club,
+      time: { from, to },
+      resources,
+    });
+
+    sendSuccessResponse({ res, data: response });
+  } catch (err) {
+    sendFailResponse({ res, statusCode: 400, err });
   }
 };
 
