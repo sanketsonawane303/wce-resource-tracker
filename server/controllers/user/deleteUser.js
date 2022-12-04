@@ -5,14 +5,17 @@ import {
 } from "../../utils/responses.js";
 
 const getUser = async (req, res) => {
-  const id = req.params.id;
+  try {
+    const id = req.params.id;
 
-  const user = await usersSchema.findByIdAndDelete(id);
+    const user = await usersSchema.findByIdAndDelete(id);
 
-  if (!user)
-    return sendFailResponse({ res, statusCode: 404, err: "User not found" });
+    if (!user) throw "User not found";
 
-  sendSuccessResponse({ res, data: "User deleted successfully" });
+    sendSuccessResponse({ res, data: "User deleted successfully" });
+  } catch (err) {
+    sendFailResponse({ res, statusCode: 400, err });
+  }
 };
 
 export default getUser;

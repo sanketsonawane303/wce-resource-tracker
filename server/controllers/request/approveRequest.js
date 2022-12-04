@@ -6,77 +6,68 @@ import {
 } from "../../utils/responses.js";
 
 const approveRequest = async (req, res) => {
-  const { id, action, remarks } = req.body;
-
   try {
+    const { id, action, remarks } = req.body;
+
     const request = await requestSchema.findById(id);
+    const user = await userSchema.findOne({ email: req.user.email });
 
-    const approveByAdvisor = async () => {
-      const user = await userSchema.findOne({ email: req.user.email });
-      if (!user.advisor_club.includes(request.club))
-        return sendFailResponse({
-          res,
-          statusCode: 400,
-          err: "You are not allowed to approve this request",
-        });
-
-      request.approvals.push({
-        status: action,
-        approver: req.user.email,
-        role: "advisor",
-        remarks,
-      });
-      if (action !== "approved") request.status = action;
-
-      await request.save();
-    };
-
-    const approveByHod = async () => {
-      const user = await userSchema.findOne({ email: req.user.email });
-      if (user.department !== request.resources.department)
-        return sendFailResponse({
-          res,
-          statusCode: 400,
-          err: "You are not allowed to approve this request",
-        });
+    if (
+      user.role.includes("hod") &&
+      user.department === request.resources.department &&
+      action === "declined"
+    ) {
+      // hod can decline anything anytime
+      if (request.status === "declined") throw "Request is already declined";
 
       request.approvals.push({
-        status: action,
-        approver: req.user.email,
+        status: "declined",
+        approver: user.email,
         role: "hod",
         remarks,
       });
+
+      request.status = "declined";
+
+      // gap for readability
+    } else if (
+      request.status === "pending" &&
+      user.role.includes("advisor") &&
+      user.advisor_club.includes(request.club)
+    ) {
+      request.approvals.push({
+        status: action,
+        approver: user.email,
+        role: "advisor",
+        remarks,
+      });
+
+      if (action === "approved") request.status = "approved by advisor";
+      else request.status = action;
+
+      // gap for readability
+    } else if (
+      request.status === "approved by advisor" &&
+      user.role.includes("hod") &&
+      user.department === request.resources.department
+    ) {
+      request.approvals.push({
+        status: action,
+        approver: user.email,
+        role: "hod",
+        remarks,
+      });
+
       request.status = action;
 
-      await request.save();
-    };
+      // gap for readability
+    } else throw "You are not allowed to approve this request";
 
-    if (req.user.role.includes("advisor")) {
-      if (req.user.role.includes("hod")) {
-        if (
-          request.approvals.find(
-            (approval) =>
-              approval.status === "approved" && approval.role === "advisor"
-          )
-        ) {
-          await approveByAdvisor();
-        } else {
-          approveByHod();
-        }
-      } else {
-        await approveByAdvisor();
-      }
-    } else if (req.user.role.includes("hod")) {
-      await approveByHod();
-    }
+    await request.save();
 
     sendSuccessResponse({ res, data: request });
   } catch (err) {
-    sendFailResponse({
-      res,
-      err,
-      statusCode: 400,
-    });
+    sendFailResponse({ res, statusCode: 400, err });
   }
 };
 

@@ -6,80 +6,27 @@ import {
 import { hashPassword } from "../../utils/passwords.js";
 import generateAccessToken from "../../utils/generateAccessToken.js";
 
-// const signIn = async (req, res) => {
-//   const { email, password } = req.body;
-
-//   try {
-//     const user = await usersSchema.findOne({ email: email });
-
-//     if (!user || user == null) {
-//       sendFailResponse({
-//         res,
-//         err: "User Not Found",
-//         code: 404,
-//       });
-//       return null;
-//     }
-
-//     const p = user.password;
-//     const token = generateAccessToken(user.email);
-//     if (generateHashedPassword(password) == p) {
-//       sendSuccessResponse({
-//         res,
-//         data: token,
-//       });
-//     } else {
-//       sendFailResponse({
-//         res,
-//         err: "Invalid Credentials",
-//       });
-//     }
-//   } catch (error) {
-//     sendFailResponse({
-//       res,
-//       err: "Internal Error",
-//     });
-//   }
-// };
-
 const signIn = async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const user = await usersSchema.findOne({ email });
-  if (!user)
-    return sendFailResponse({
-      res,
-      statusCode: 400,
-      err: "Invalid email or password",
-    });
+    const user = await usersSchema.findOne({ email });
+    if (!user) throw "Invalid email or password";
 
-  const hashedPassword = hashPassword(password);
-  if (hashedPassword !== user.password)
-    return sendFailResponse({
-      res,
-      statusCode: 400,
-      err: "Invalid email or password",
-    });
+    const hashedPassword = hashPassword(password);
+    if (hashedPassword !== user.password) throw "Invalid email or password";
 
-  const {
-    mobile_number,
-    name,
-    role,
-    department,
-    representative_club,
-    advisor_club,
-  } = user;
+    const payload = user.toObject();
+    delete payload._id;
+    delete payload.access_token;
+    delete payload.password;
 
-  const token = await generateAccessToken({
-    email,
-    mobile_number,
-    name,
-    role,
-    department,
-    representative_club,
-    advisor_club,
-  });
-  sendSuccessResponse({ res, data: token });
+    const token = await generateAccessToken(payload);
+
+    sendSuccessResponse({ res, data: token });
+  } catch (err) {
+    sendFailResponse({ res, statusCode: 400, err });
+  }
 };
 
 export default signIn;

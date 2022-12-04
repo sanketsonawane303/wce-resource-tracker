@@ -1,5 +1,4 @@
 import resourcesSchema from "../../models/resources.js";
-import keysSchema from "../../models/keys.js";
 import {
   sendFailResponse,
   sendSuccessResponse,
@@ -7,20 +6,14 @@ import {
 
 const createResource = async (req, res) => {
   try {
-    const { name, department, is_room, capacity, key_code } = req.body;
+    const { name, capacity } = req.body;
 
-    const key = await keysSchema.create({
-      resource_name: name,
-      department,
-      key_code,
-    });
+    const resource = await resourcesSchema.findOneAndUpdate(
+      { name },
+      { capacity }
+    );
 
-    const resource = await resourcesSchema.create({
-      name,
-      department,
-      is_room,
-      capacity,
-    });
+    if (!resource) throw "Resource not found";
 
     sendSuccessResponse({ res, data: { resource, key } });
   } catch (err) {

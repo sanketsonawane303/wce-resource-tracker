@@ -5,10 +5,10 @@ import {
 } from "../../utils/responses.js";
 
 const getResources = async (req, res) => {
-  const filter = req.body;
-
   try {
-    const resources = await resourceSchema.find(filter);
+    const { department } = req.query;
+
+    const resources = await resourceSchema.find({ department });
 
     sendSuccessResponse({ res, data: resources });
   } catch (err) {
