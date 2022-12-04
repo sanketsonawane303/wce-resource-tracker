@@ -3,7 +3,7 @@ import departmentList from "../constants/departments.js";
 
 const resourcesSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true },
     key_id: { type: mongoose.Types.ObjectId, default: null },
     department: {
       type: String,

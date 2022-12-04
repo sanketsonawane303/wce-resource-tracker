@@ -6,9 +6,11 @@ import {
 
 const getResources = async (req, res) => {
   try {
-    const { department } = req.query;
+    const { name, department } = req.query;
+    let resources;
 
-    const resources = await resourceSchema.find({ department });
+    if (!name) resources = await resourceSchema.find({ department });
+    else resources = await resourceSchema.findOne({ name });
 
     sendSuccessResponse({ res, data: resources });
   } catch (err) {
