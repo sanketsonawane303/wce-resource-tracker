@@ -5,7 +5,7 @@ import ShowTitleInfo from "../components/ShowTitleInfo";
 import { Input } from "react-native-elements";
 import { colors } from "../configs/variables";
 import useAuth from "../auth/useAuth";
-import { updateRequest, deleteRequest } from "../apis/request";
+import { approveRequest, deleteRequest, updateRequest} from "../apis/request";
 import ResourceList from "./ResourceList";
 
 const obj = [
@@ -34,14 +34,14 @@ const formatAMPM = (date) => {
 };
 
 export default function ViewRequest({ navigation, route }) {
-
-
   const { user } = useAuth();
 
   const [suggestModalVisible, setSuggestModalVisible] = useState(false);
   const [suggestions, setSuggestions] = useState("");
   const [qrModalVisible, setQRModalVisible] = useState(false);
   const [status, setStatus] = useState("");
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [link , setLink] = useState("");
 
   const { request } = route.params;
   // "approved", "declined", "pending", "changesRequired"
@@ -53,10 +53,9 @@ export default function ViewRequest({ navigation, route }) {
     };
     //console.log(body);
     try {
-      const res = await updateRequest(body);
+      const res = await approveRequest(body);
       status;
       if (res.ok && res.data.status == "success") {
-
         setSuggestModalVisible(!suggestModalVisible);
         navigation.navigate("RequestStack", { screen: "RequestList" });
       } else {
@@ -70,17 +69,36 @@ export default function ViewRequest({ navigation, route }) {
   };
 
   const handleDeleteRequest = async () => {
-    try{
+    try {
       const res = await deleteRequest(request._id);
       if (res.ok && res.data.status == "success") {
         navigation.navigate("RequestStack", { screen: "RequestList" });
       } else {
-          console.log(res.data);
+        console.log(res.data);
       }
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleEdit = async () => {
+    try {
+      const res = await updateRequest({
+        id: request._id,
+        link: link,
+      });
+
+      if (res.ok && res.data.status == "success") {
+        setEditModalVisible(!editModalVisible);
+        navigation.navigate("RequestStack", { screen: "RequestList" });
+      } else {
+        console.log(res.data);
+      }
     }
+    catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <>
@@ -99,79 +117,137 @@ export default function ViewRequest({ navigation, route }) {
           <View style={styles.info}>
             <Text style={styles.title}>Resource</Text>
 
-            {
-              request.resources.list.map(item => {
-                return <Text style={styles.data}>{item}</Text>
-              })
-            }
+            {request.resources.list.map((item) => {
+              return <Text style={styles.data}>{item}</Text>;
+            })}
             <Text style={styles.data}>{request.resources.department}</Text>
           </View>
 
           <View style={styles.info}>
             <Text style={styles.title}>Duration</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
               <Text style={styles.data}>From </Text>
-              <Text style={styles.data}>{formatAMPM(new Date(request?.time?.from))}</Text>
+              <Text style={styles.data}>
+                {formatAMPM(new Date(request?.time?.from))}
+              </Text>
             </View>
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
               <Text style={styles.data}>To </Text>
-              <Text style={styles.data}>{formatAMPM(new Date(request?.time?.to))}</Text>
+              <Text style={styles.data}>
+                {formatAMPM(new Date(request?.time?.to))}
+              </Text>
             </View>
-
           </View>
-
-
-
-
-
         </View>
 
         {user.role.includes("advisor") || user.role.includes("hod") ? (
           <>
             <View style={styles.buttonGroup}>
-              <AppButton
-                onPress={() => {
-                  setStatus("changesRequired");
-                  setSuggestModalVisible(!suggestModalVisible);
-                }}
-                title={"Ask Details"}
-                name={"changesRequired"}
-              />
-              <AppButton
-                onPress={() => {
-                  setStatus("declined");
-                  setSuggestModalVisible(!suggestModalVisible);
-                }}
-                buttonStyles={styles.button}
-                name={"declined"}
-                title={"Reject"}
-              />
-              <AppButton
-                onPress={() => {
-                  setStatus("approved");
-                  setSuggestModalVisible(!suggestModalVisible);
-                }}
-                name={"accept"}
-                title={"Accept"}
-              />
+              {((user.role.includes("advisor") &&
+                request.status == "pending") ||
+                (user.role.includes("hod") &&
+                  request.status == "approved by advisor")) && (
+                <>
+                  <AppButton
+                    onPress={() => {
+                     
+                      setStatus("changes required");
+                      setSuggestModalVisible(!suggestModalVisible);
+                    }}
+                    title={"Changes Required"}
+                    name={"changesRequired"}
+                  />
+
+                  <AppButton
+                    onPress={() => {
+                        setStatus("approved");
+                      
+                      setSuggestModalVisible(!suggestModalVisible);
+                    }}
+                    name={"accept"}
+                    title={"Accept"}
+                  />
+                </>
+              )}
+
+              {((user.role.includes("advisor") &&
+                request.status == "pending") ||
+                user.role.includes("hod")) && (
+                <AppButton
+                  onPress={() => {
+                    setStatus("declined");
+                    setSuggestModalVisible(!suggestModalVisible);
+                  }}
+                  buttonStyles={styles.button}
+                  name={"declined"}
+                  title={"Reject"}
+                />
+              )}
             </View>
           </>
         ) : (
           <>
             <View style={styles.buttonGroup}>
-              <AppButton buttonStyles={styles.button} title={"Edit"} />
+              {request.status == "changes required" && <AppButton buttonStyles={styles.button} title={"Edit"} onPress={()=>setEditModalVisible(!editModalVisible)}/>}
+              
               {/* <AppButton
                 onPress={() => setQRModalVisible(!qrModalVisible)}
                 title={"Show QR"}
               /> */}
               <AppButton
-              onPress={() => handleDeleteRequest(request._id)}
-               title={"Withdraw"} />
+                onPress={() => handleDeleteRequest(request._id)}
+                title={"Withdraw"}
+              />
             </View>
           </>
         )}
         {/*  */}
+      </View>
+
+      <View>
+        <Modal
+          animationType="slide" //slide, fade, none
+          transparent={true}
+          visible={editModalVisible}
+          onRequestClose={() => {
+            setEditModalVisible(!editModalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Input
+                onChangeText={(text) => setLink(text)}
+                placeholder={"Add Updated Link"}
+                label={"Link"}
+                multiline={true}
+                inputStyle={{
+                  backgroundColor: colors.lightgrey,
+                }}
+                inputContainerStyle={{
+                  borderBottomWidth: 2,
+                  paddingVertical: 5,
+                  paddingHorizontal: 10,
+                  backgroundColor: colors.lightgrey,
+                  borderRadius: 5,
+                }}
+                labelStyle={{
+                  color: "black",
+                  marginBottom: 5,
+                }}
+              />
+              <AppButton
+                onPress={() => handleEdit()}
+                buttonStyles={{ padding: 12 }}
+                title={"Submit"}
+              />
+            </View>
+          </View>
+        </Modal>
       </View>
 
       <View>
