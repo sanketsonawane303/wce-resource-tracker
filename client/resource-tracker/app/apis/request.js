@@ -12,9 +12,9 @@ const updateRequest = (payload) => {
 
 }
 
-const deleteRequest = (payload) => {
+const deleteRequest = (requestId) => {
 
-    return apiClient.delete('/', payload);
+    return apiClient.delete(`requests/${requestId}`);
 
 }
 
