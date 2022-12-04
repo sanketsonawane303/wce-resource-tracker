@@ -114,7 +114,7 @@ export default function ViewRequest({ navigation, route }) {
 
         </View>
 
-        {user.role.includes("advisor") || user.role.includes("HOD") ? (
+        {user.role.includes("advisor") || user.role.includes("hod") ? (
           <>
             <View style={styles.buttonGroup}>
               <AppButton
