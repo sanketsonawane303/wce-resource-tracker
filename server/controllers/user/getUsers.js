@@ -5,8 +5,9 @@ import {
 } from "../../utils/responses.js";
 
 const getUsers = async (req, res) => {
+  const query = req.query;
   try {
-    const users = await usersSchema.find({}, "-password -access_token");
+    const users = await usersSchema.find(query, "-password -access_token");
 
     if (users.length === 0) throw "No users found";
 
