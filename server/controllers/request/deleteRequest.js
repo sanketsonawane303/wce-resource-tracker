@@ -8,7 +8,7 @@ const deleteRequest = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const request = requestSchema.findOneAndDelete({
+    const request = await requestSchema.findOneAndDelete({
       _id: id,
       applicant: req.user.email,
     });

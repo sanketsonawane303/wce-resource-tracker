@@ -29,6 +29,7 @@ const requestsSchema = new mongoose.Schema(
       },
       required: true,
     },
+    details: { type: String, required: true },
     letter: { type: String, required: true },
     status: {
       type: String,

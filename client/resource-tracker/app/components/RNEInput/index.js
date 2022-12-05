@@ -18,6 +18,7 @@ export default function RNEInput({
   const { setFieldValue } = useFormikContext();
   return (
     <Input
+      secureTextEntry={name === "password" ? true : false}
       defaultValue={defaultValue}
       onChangeText={(text) => setFieldValue(name, text)}
       placeholder={placeholder}
