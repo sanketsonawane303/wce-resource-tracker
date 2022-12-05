@@ -5,7 +5,7 @@ import ShowTitleInfo from "../components/ShowTitleInfo";
 import { Input } from "react-native-elements";
 import { colors } from "../configs/variables";
 import useAuth from "../auth/useAuth";
-import { approveRequest, deleteRequest, updateRequest} from "../apis/request";
+import { approveRequest, deleteRequest, updateRequest } from "../apis/request";
 import ResourceList from "./ResourceList";
 
 
@@ -42,7 +42,7 @@ export default function ViewRequest({ navigation, route }) {
   const [qrModalVisible, setQRModalVisible] = useState(false);
   const [status, setStatus] = useState("");
   const [editModalVisible, setEditModalVisible] = useState(false);
-  const [link , setLink] = useState("");
+  const [link, setLink] = useState("");
 
   const { request } = route.params;
 
@@ -148,7 +148,6 @@ export default function ViewRequest({ navigation, route }) {
                 {formatAMPM(new Date(request?.time?.to))}
               </Text>
             </View>
-<<<<<<< HEAD
 
 
             <View style={styles.status}>
@@ -187,6 +186,7 @@ export default function ViewRequest({ navigation, route }) {
                     <View style={{
                       flexDirection: "row",
                       alignItems: "center",
+                      marginTop: 10
 
                     }}>
                       <View style={{
@@ -208,8 +208,6 @@ export default function ViewRequest({ navigation, route }) {
               }
             </View>
 
-=======
->>>>>>> f949c03e061e8637252bba8050292dabe7f1142c
           </View>
         </View>
 
@@ -220,49 +218,49 @@ export default function ViewRequest({ navigation, route }) {
                 request.status == "pending") ||
                 (user.role.includes("hod") &&
                   request.status == "approved by advisor")) && (
-                <>
-                  <AppButton
-                    onPress={() => {
-                     
-                      setStatus("changes required");
-                      setSuggestModalVisible(!suggestModalVisible);
-                    }}
-                    title={"Changes Required"}
-                    name={"changesRequired"}
-                  />
+                  <>
+                    <AppButton
+                      onPress={() => {
 
-                  <AppButton
-                    onPress={() => {
+                        setStatus("changes required");
+                        setSuggestModalVisible(!suggestModalVisible);
+                      }}
+                      title={"Changes Required"}
+                      name={"changesRequired"}
+                    />
+
+                    <AppButton
+                      onPress={() => {
                         setStatus("approved");
-                      
-                      setSuggestModalVisible(!suggestModalVisible);
-                    }}
-                    name={"accept"}
-                    title={"Accept"}
-                  />
-                </>
-              )}
+
+                        setSuggestModalVisible(!suggestModalVisible);
+                      }}
+                      name={"accept"}
+                      title={"Accept"}
+                    />
+                  </>
+                )}
 
               {((user.role.includes("advisor") &&
                 request.status == "pending") ||
                 user.role.includes("hod")) && (
-                <AppButton
-                  onPress={() => {
-                    setStatus("declined");
-                    setSuggestModalVisible(!suggestModalVisible);
-                  }}
-                  buttonStyles={styles.button}
-                  name={"declined"}
-                  title={"Reject"}
-                />
-              )}
+                  <AppButton
+                    onPress={() => {
+                      setStatus("declined");
+                      setSuggestModalVisible(!suggestModalVisible);
+                    }}
+                    buttonStyles={styles.button}
+                    name={"declined"}
+                    title={"Reject"}
+                  />
+                )}
             </View>
           </>
         ) : (
           <>
             <View style={styles.buttonGroup}>
-              {request.status == "changes required" && <AppButton buttonStyles={styles.button} title={"Edit"} onPress={()=>setEditModalVisible(!editModalVisible)}/>}
-              
+              {request.status == "changes required" && <AppButton buttonStyles={styles.button} title={"Edit"} onPress={() => setEditModalVisible(!editModalVisible)} />}
+
               {/* <AppButton
                 onPress={() => setQRModalVisible(!qrModalVisible)}
                 title={"Show QR"}
@@ -459,6 +457,5 @@ const styles = StyleSheet.create({
     marginTop: 30
   },
   approvalbox: {
-    marginTop: 10
   }
 });
