@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import HistoryCard from '../components/HistoryCard'
 
 const KeyHistory = () => {
     return (
         <View>
-            <Text>KeyHistory</Text>
+            <HistoryCard />
         </View>
     )
 }

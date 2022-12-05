@@ -45,6 +45,8 @@ export default function ViewRequest({ navigation, route }) {
   const [status, setStatus] = useState("");
 
   const { request } = route.params;
+
+  console.log(request);
   // "approved", "declined", "pending", "changesRequired"
   const handleSuggestionSubmit = async () => {
     const body = {
@@ -119,6 +121,64 @@ export default function ViewRequest({ navigation, route }) {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={styles.data}>To </Text>
               <Text style={styles.data}>{formatAMPM(new Date(request?.time?.to))}</Text>
+            </View>
+
+
+            <View style={styles.status}>
+              <Text style={styles.title}>Status: {request.status}</Text>
+            </View>
+
+            <View style={styles.status}>
+              <Text style={styles.title}>History</Text>
+            </View>
+
+
+            <View style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginTop: 10,
+
+            }}>
+              <View style={{
+                width: 10,
+                height: 10,
+                borderRadius: 50,
+                backgroundColor: "green",
+              }}>
+
+              </View>
+              <View style={{ marginLeft: 10 }}><Text style={{
+                color: "green",
+                fontWeight: "500"
+              }}>Request Submitted</Text></View>
+            </View>
+
+            <View style={styles.approvalbox}>
+              {
+                request?.approvals.map((item, index) => {
+                  return (<View key={index}>
+                    <View style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+
+                    }}>
+                      <View style={{
+                        width: 10,
+                        height: 10,
+                        borderRadius: 50,
+                        backgroundColor: "green",
+                      }}>
+
+                      </View>
+                      <View style={{ marginLeft: 10 }}><Text style={{
+                        color: "green",
+                        fontWeight: "500"
+                      }}>Approved by {item.role}</Text></View>
+                    </View>
+
+                  </View>)
+                })
+              }
             </View>
 
           </View>
@@ -313,4 +373,10 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: "row",
   },
+  status: {
+    marginTop: 30
+  },
+  approvalbox: {
+    marginTop: 10
+  }
 });

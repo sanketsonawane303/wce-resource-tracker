@@ -26,6 +26,7 @@ import ServerError from '../animations/ServerError';
 import InternetError from '../animations/InternetError';
 import useAuth from '../auth/useAuth';
 import Home from '../screens/Home';
+import KeyHistory from '../screens/KeyHistory';
 const AppDrawer = createDrawerNavigator();
 
 
@@ -61,6 +62,13 @@ export default function Drawer() {
 
           }}
         >
+
+          {/* <AppDrawer.Screen name='KeyHistory' component={KeyHistory} options={{
+            headerTitle: 'Key History',
+            drawerLabel: 'Key History',
+            ...drawerStyles
+          }} /> */}
+
           <AppDrawer.Screen name='Home' component={Home} options={{
             headerTitle: 'Home',
             drawerLabel: 'Home',
@@ -72,7 +80,7 @@ export default function Drawer() {
             ...drawerStyles
           }} />
           {
-            !user.role.includes("admin") &&
+            !user.role.includes("admin") && !user.role.includes("helper") &&
             <AppDrawer.Screen name='RequestStack' component={RequestStack} options={{
               headerTitle: 'Requests',
               drawerLabel: 'Requests',

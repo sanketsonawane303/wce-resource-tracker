@@ -19,12 +19,15 @@ export default function ApproveResource({ navigation }) {
   const [request, setRequest] = useState([]);
   const focus = useIsFocused();
   const getRequestDetails = () => {
-    getAllRequests().then(res => {
-      console.log(res)
+    const filter = value == "handover" ? { filter: "true", keystatus: "pending" } : { filter: "true", keystatus: "granted" };
+    console.log(filter);
+    setRequest([]);
+
+    getAllRequests(filter).then((res) => {
+      console.log(res.data);
       if (res.ok && res.data.status == "success") {
         setRequest(res?.data?.data)
       }
-
       if (res.problem == "NETWORK_ERROR") {
         navigation.navigate("ServerError")
       }
@@ -36,30 +39,33 @@ export default function ApproveResource({ navigation }) {
 
   useEffect(() => {
     if (!focus) return;
-    getRequestDetails();
   }, [focus]);
 
 
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <View style={styles.form}>
-          <View style={{
-            marginBottom: 20
-          }}>
-            <DropDownPicker
-              containerProps={{ style: styles.dropdown }}
-              open={open}
-              value={value}
-              items={items}
-              placeholder="Select Exchange Type"
-              setOpen={setOpen}
-              setValue={setValue}
-              onChangeValue={(value) => {
-              }}
-            />
-          </View>
+
+      <View style={styles.form}>
+        <View style={{
+          marginBottom: 20
+        }}>
+          <DropDownPicker
+            containerProps={{ style: styles.dropdown }}
+            open={open}
+            value={value}
+            items={items}
+            placeholder="Select Exchange Type"
+            setOpen={setOpen}
+            setValue={setValue}
+            onChangeValue={(value) => {
+              console.log(value)
+              getRequestDetails();
+            }}
+          />
+        </View>
+
+        <ScrollView>
 
           {
             request.length > 0 ? (
@@ -71,14 +77,13 @@ export default function ApproveResource({ navigation }) {
                     navigation.navigate("AttachImage", { request: { ...req, type: value } })
                   }} />
                 </View>)
-              })) : (<Text>No Requests</Text>)
+              })) : (<View><Text>No Requests</Text></View>)
           }
+        </ScrollView>
+      </View>
 
-        </View>
 
 
-
-      </ScrollView>
       <View>
         <AppButton
           title={"Proceed To Approve"}

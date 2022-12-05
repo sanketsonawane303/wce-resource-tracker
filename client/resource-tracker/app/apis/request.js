@@ -23,7 +23,7 @@ const approveRequest = (payload) => {
 }
 
 const getAllRequests = (payload) => {
-    return apiClient.get('/requests?filter=true')
+    return apiClient.get('/requests', payload)
 }
 
 
