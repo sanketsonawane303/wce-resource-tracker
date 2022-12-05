@@ -9,15 +9,7 @@ import { upload } from "../middlewares/upload.js";
 const router = Router();
 
 router.get("/", role(["hod", "advisor"]), getKeys);
-router.put(
-  "/upload",
-  role(["helper"]),
-  upload.fields([
-    { name: "photo", maxCount: 1 },
-    { name: "id_card", maxCount: 1 },
-  ]),
-  uploadId
-);
+
 router.put("/status", role(["helper"]), updateKeyStatus);
 
 export default router;

@@ -34,10 +34,10 @@ const uploadId = async (req, res) => {
       res,
       data: { ...data, uploaded: req.files.length },
     });
-    // fs.unlinkSync(idSource);
-    // fs.unlinkSync(idDestination);
-    // fs.unlinkSync(photoSource);
-    // fs.unlinkSync(photoDestination);
+    fs.unlinkSync(idSource);
+    fs.unlinkSync(idDestination);
+    fs.unlinkSync(photoSource);
+    fs.unlinkSync(photoDestination);
   } catch (err) {
     console.log(err);
     sendFailResponse({

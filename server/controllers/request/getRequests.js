@@ -15,7 +15,7 @@ const getRequests = async (req, res) => {
 
       if (role.includes("representative"))
         requests.push(
-          ...(await requestsSchema.find({ applicant: req.user.email }))
+          ...(await requestsSchema.find({ applicant: req.user.email }).sort('-updatedAt'))
         );
       if (role.includes("advisor"))
         requests.push(

@@ -25,11 +25,12 @@ const addRequest = async (req, res) => {
       if (!resource)
         throw `Invalid resource ${resources.list[i]} in given department ${resources.department}`;
 
-      if (resource.is_room) rooms.push(resource);
+      if (resource.is_room) rooms.push(resources.list[i]);
     }
+    console.log(resources, rooms);
 
     const request = await requestsSchema.find({
-      resource: { $in: rooms },
+      "resources.list": { $in: rooms },
       status: { $ne: "declined" },
       $and: [{ "time.to": { $gt: from } }, { "time.from": { $lt: to } }],
     });
@@ -51,6 +52,7 @@ const addRequest = async (req, res) => {
 
     sendSuccessResponse({ res, data: response });
   } catch (err) {
+    console.log(err);
     sendFailResponse({ res, statusCode: 400, err });
   }
 };
