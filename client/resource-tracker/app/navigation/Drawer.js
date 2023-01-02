@@ -63,11 +63,7 @@ export default function Drawer() {
           }}
         >
 
-          {/* <AppDrawer.Screen name='KeyHistory' component={KeyHistory} options={{
-            headerTitle: 'Key History',
-            drawerLabel: 'Key History',
-            ...drawerStyles
-          }} /> */}
+
 
           <AppDrawer.Screen name='Home' component={Home} options={{
             headerTitle: 'Home',

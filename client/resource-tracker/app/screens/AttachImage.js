@@ -86,6 +86,7 @@ const AttachImage = ({ route, navigation }) => {
 
                                 })
                         }
+                        setLoading(false)
                         alert("Upload Successful")
                         navigation.navigate("Home")
 
@@ -102,7 +103,7 @@ const AttachImage = ({ route, navigation }) => {
 
             }
 
-            setLoading(false)
+
 
 
 

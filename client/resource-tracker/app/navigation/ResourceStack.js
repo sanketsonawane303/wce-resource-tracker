@@ -6,6 +6,7 @@ import { colors } from '../configs/variables';
 const StackNavigator = createStackNavigator();
 import HeaderItem from '../components/HeaderItem';
 import AddResource from '../screens/AddResource';
+import KeyHistory from '../screens/KeyHistory';
 
 
 export default function ResourceStack() {
@@ -34,6 +35,11 @@ export default function ResourceStack() {
           }
         }}
       />
+
+      <StackNavigator.Screen name='KeyHistory' component={KeyHistory} options={{
+        headerTitle: 'Key History',
+
+      }} />
     </StackNavigator.Navigator>
   );
 }

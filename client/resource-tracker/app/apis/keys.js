@@ -8,4 +8,8 @@ const updateKeyStatus = (payload) => {
     return apiClient.put('/keys/status', payload)
 }
 
-export { updateKeyStatus, uploadImages }
+const getKeyById = (payload) => {
+    return apiClient.get('/keys', payload)
+}
+
+export { updateKeyStatus, uploadImages, getKeyById }
