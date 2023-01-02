@@ -43,8 +43,13 @@ export default function Login() {
       >
         <Image
           style={{ width: 180, height: 180, marginBottom: 30 }}
-          source={require("../../assets/icon.png")}
+          source={require("../images/wce.jpg")}
         />
+        <Text style={{
+          fontWeight: "bold",
+          fontSize: 18,
+
+        }}>WCE RESOURCE TRACKER</Text>
       </View>
 
       {/* {wrong && (
@@ -92,7 +97,7 @@ export default function Login() {
                   bg="white"
                   name="password"
                   error={error && "Invalid email or password"}
-                  
+
                 />
               </View>
               {/* {loading && (
