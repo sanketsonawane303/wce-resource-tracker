@@ -4,7 +4,7 @@ import AppButton from "../components/AppButton";
 import AppTextInput from "../components/AppTextInput";
 import DateTimePicker from "../components/DateTimePicker";
 import RNEInput from "../components/RNEInput";
-import { TextInput } from "react-native-gesture-handler";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { Formik } from "formik";
 import { Feather } from "@expo/vector-icons";
 import { colors } from "react-native-elements";
@@ -16,7 +16,7 @@ import useAuth from "../auth/useAuth";
 import { makeRequest } from "../apis/request";
 import { Modal } from "react-native";
 
-export default function MakeRequest() {
+export default function MakeRequest({ navigation }) {
   const [deptValue, setDeptValue] = useState("");
   const [deptOpen, setDeptOpen] = useState(false);
   const [open, setOpen] = useState(false);
@@ -88,7 +88,7 @@ export default function MakeRequest() {
   useEffect(() => {
     const loadResources = async () => {
       try {
-        console.log({deptValue});
+        console.log({ deptValue });
         const res = await getResource({ department: deptValue });
         if (res.ok && res.data.status == "success") {
           const list = res.data.data.map((item) => {
@@ -122,82 +122,90 @@ export default function MakeRequest() {
       >
         {({ setFieldValue, values, submitForm }) => (
           <>
-            <View>
-              <Text style={styles.title}>Select Department</Text>
-              <DropDownPicker
-                containerProps={{ style: styles.dropdown }}
-                open={deptOpen}
-                value={deptValue}
-                items={Departments}
-                setOpen={setDeptOpen}
-                setValue={setDeptValue}
-                setItems={deptValue}
-              />
-
-              <Text style={styles.title}>Select Resource</Text>
-
-              <DropDownPicker
-                containerProps={{ style: styles.dropdown }}
-                open={open}
-                value={currResource}
-                items={resources}
-                setOpen={setOpen}
-                setValue={setCurrResource}
-                setItems={setResources}
-              />
-
+            <ScrollView>
               <View>
-                <DateTimePicker from={true} name="fromDate" />
-                {/* <Text>From</Text>
-                  <Text>{formatAMPM(values.fromDate)}</Text> */}
-              </View>
+                <Text style={styles.title}>Select Department</Text>
+                <DropDownPicker
+                  containerProps={{ style: styles.dropdown }}
+                  open={deptOpen}
+                  value={deptValue}
+                  items={Departments}
+                  setOpen={setDeptOpen}
+                  setValue={setDeptValue}
+                  setItems={deptValue}
+                />
 
-              <View>
-                <DateTimePicker from={false} name="toDate" />
-                {/* <Text>To</Text>
-                  <Text>{formatAMPM(values.fromDate)}</Text> */}
-              </View>
+                <Text style={styles.title}>Select Resource</Text>
 
-              <Text style={styles.title}>Link</Text>
-              <RNEInput
-                bg={colors.grey5}
-                placeholder={"Permission Letter Link"}
-                name="letterLink"
-              />
-              <Text style={styles.title}>Details</Text>
-              <RNEInput
-                bg={colors.grey5}
-                multiline={true}
-                placeholder={"Details"}
-                name="details"
-              />
-            </View>
-            <AppButton title={"submit"} onPress={submitForm} />
+                <DropDownPicker
+                  containerProps={{ style: styles.dropdown }}
+                  open={open}
+                  value={currResource}
+                  items={resources}
+                  setOpen={setOpen}
+                  setValue={setCurrResource}
+                  setItems={setResources}
+                />
+
+                <View>
+                  <DateTimePicker from={true} name="fromDate" />
+                  {/* <Text>From</Text>
+                  <Text>{formatAMPM(values.fromDate)}</Text> */}
+                </View>
+
+                <View>
+                  <DateTimePicker from={false} name="toDate" />
+                  {/* <Text>To</Text>
+                  <Text>{formatAMPM(values.fromDate)}</Text> */}
+                </View>
+
+                <Text style={styles.title}>Link</Text>
+                <RNEInput
+                  bg={colors.grey5}
+                  placeholder={"Permission Letter Link"}
+                  name="letterLink"
+                />
+                <Text style={styles.title}>Details</Text>
+                <RNEInput
+                  bg={colors.grey5}
+                  multiline={true}
+                  placeholder={"Details"}
+                  name="details"
+                />
+              </View>
+            </ScrollView>
 
             <View>
-              <MessageModal
-                visible={modal}
-                message="Request Submitted Sucessfully"
-                buttonComponent={
-                  <AppButton
-                    title="OK"
-                    buttonStyles={{
-                      width: 150,
-                      paddingVertical: 10,
-                    }}
-                    onPress={() => {
-                      setModalState(!modal);
-                    }}
-                  />
-                }
-              />
+              <AppButton title={"submit"} onPress={submitForm} />
             </View>
+
+
           </>
         )}
       </Formik>
 
+      <View>
+        <MessageModal
+          visible={modal}
+          message="Request Submitted Sucessfully"
+          buttonComponent={
+            <AppButton
+              title="OK"
+              buttonStyles={{
+                width: 150,
+                paddingVertical: 10,
+              }}
+              onPress={() => {
+                setModalState(!modal);
+                navigation.navigate("RequestStack");
+              }}
+            />
+          }
+        />
+      </View>
+
       <Modal
-        animationType="slide"//slide, fade, none
+        animationType="slide"
         transparent={true}
         visible={resourceModalVisible}
         onRequestClose={() => {
@@ -230,7 +238,10 @@ export default function MakeRequest() {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 6,
+    flex: 1,
+    marginHorizontal: 10,
+    marginTop: 10,
+    justifyContent: "space-between"
   },
   title: {
     fontSize: 20,

@@ -6,7 +6,7 @@ import AppButton from '../components/AppButton';
 
 import RequestInfoShortCard from '../components/RequestInfoShortCard';
 import { getAllRequests } from '../apis/request';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 const items = [{
   label: "Handover Keys", value: "handover"
 },
@@ -14,30 +14,23 @@ const items = [{
 ]
 
 export default function ApproveResource({ navigation }) {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
-  const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [requestid, setRequestid] = useState('6385ad7d0d17f478202fc6ff');
-  const [request, setRequest] = useState(null);
-  const focus = useIsFocused()
-
-  const handleCamera = async () => {
-    try {
-      const result = await launchImageLibrary()
-
-    } catch (error) {
-    }
-
-  }
-
+  const [open, setOpen] = useState(false);
+  const [request, setRequest] = useState([]);
+  const focus = useIsFocused();
   const getRequestDetails = () => {
-    const body = {
-      _id: requestid
-    }
+    const filter = value == "handover" ? { filter: "true", keystatus: "pending" } : { filter: "true", keystatus: "granted" };
+    console.log(filter);
+    setRequest([]);
 
-    getAllRequests(body).then(res => {
-      setRequest(res?.data?.data[0])
+    getAllRequests(filter).then((res) => {
+      console.log(res.data);
+      if (res.ok && res.data.status == "success") {
+        setRequest(res?.data?.data)
+      }
+      if (res.problem == "NETWORK_ERROR") {
+        navigation.navigate("ServerError")
+      }
     }).catch(err => {
       console.log(err)
     }
@@ -46,94 +39,51 @@ export default function ApproveResource({ navigation }) {
 
   useEffect(() => {
     if (!focus) return;
-    setRequest(null);
-    setRequestid(null);
-    setScanned(false);
-    const getBarCodeScannerPermissions = async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    };
-
-    getBarCodeScannerPermissions();
-
-
-
   }, [focus]);
 
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    getRequestDetails();
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-  };
 
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <View style={styles.form}>
-          <View style={{
-            marginBottom: 20
-          }}>
-            <DropDownPicker
-              containerProps={{ style: styles.dropdown }}
-              open={open}
-              value={value}
-              items={items}
-              placeholder="Select Exchange Type"
-              setOpen={setOpen}
-              setValue={setValue}
-              onChangeValue={(value) => {
-              }}
-            />
-          </View>
-          {
-            scanned ? null :
-              <View style={styles.scanner}>
-                <Text style={{
-                  fontWeight: "bold",
-                  marginBottom: 5,
-                  fontSize: 20
-                }}>
-                  Scan the QR Code of Request
-                </Text>
 
-                <BarCodeScanner
-                  onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-                  // style={StyleSheet.absoluteFillObject}
-                  style={{
-                    width: 200,
-                    height: 200
-                  }}
-                />
-
-              </View>
-
-          }
-          {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
-
-          {
-            request ? (
-              <View>
-                <View style={styles.resourceinfo}>
-                  <RequestInfoShortCard {...request} />
-                </View>
-
-
-              </View>)
-              : null
-          }
-
+      <View style={styles.form}>
+        <View style={{
+          marginBottom: 20
+        }}>
+          <DropDownPicker
+            containerProps={{ style: styles.dropdown }}
+            open={open}
+            value={value}
+            items={items}
+            placeholder="Select Exchange Type"
+            setOpen={setOpen}
+            setValue={setValue}
+            onChangeValue={(value) => {
+              console.log(value)
+              getRequestDetails();
+            }}
+          />
         </View>
 
+        <ScrollView>
+
+          {
+            request.length > 0 ? (
+              request.map((req, index) => {
+                //if (req.status != "approved") return;
+
+                return (<View key={req._id}>
+                  <RequestInfoShortCard request={req} onPress={() => {
+                    navigation.navigate("AttachImage", { request: { ...req, type: value } })
+                  }} />
+                </View>)
+              })) : (<View><Text>No Requests</Text></View>)
+          }
+        </ScrollView>
+      </View>
 
 
-      </ScrollView>
+
       <View>
         <AppButton
           title={"Proceed To Approve"}

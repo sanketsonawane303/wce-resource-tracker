@@ -74,6 +74,7 @@ export default function HeaderItem({ route, navigation }) {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "white",
+
     },
     drawerbutton: {
         marginRight: 20,

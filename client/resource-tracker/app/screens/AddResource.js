@@ -10,10 +10,10 @@ import { createResource } from "../apis/resource";
 // Department items
 const items = [
     { label: "Computer Science and Engineering", value: "Computer Science and Engineering" },
-    { label: "Civil Engineering", value: "CV" },
-    { label: "Mechanical Engineering", value: "Mechanical" },
-    { label: "Electronics Engineering", value: "Electronics" },
-    { label: "Electrical Engineering", value: "Electrical" },
+    { label: "Civil Engineering", value: "Civil Engineering" },
+    { label: "Mechanical Engineering", value: "Mechanical Engineering" },
+    { label: "Electronics Engineering", value: "Electronics Engineering" },
+    { label: "Electrical Engineering", value: "Electrical Engineering" },
     { label: "Information Tehhnology", value: "Information Tehhnology" },
     { label: "Other(WCE)", value: "WCE" }
 ]

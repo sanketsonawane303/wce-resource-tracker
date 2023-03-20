@@ -1,7 +1,7 @@
 import apiClient from "./client";
 
 const getResource = (payload) => {
-    return apiClient.post('/resources/get', payload);
+    return apiClient.get('/resources', payload);
 }
 
 const createResource = (payload) => {
@@ -16,5 +16,7 @@ const deleteResource = (payload) => {
     return apiClient.delete('/', payload)
 
 }
+
+
 
 export { getResource, createResource, updateResource, deleteResource };
