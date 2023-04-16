@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView,  } from "react-native";
 import React from "react";
 import RNEInput from "../components/RNEInput";
 import AppButton from "../components/AppButton";
@@ -73,6 +73,7 @@ export default function AddUser() {
           }
         }}
       >
+
         {({ setFieldValue, values, submitForm }) => (
           <>
             <View>
@@ -121,23 +122,25 @@ export default function AddUser() {
               {["representative", "advisor", "hodAndAdvisor"].includes(
                 roleValue
               ) && (
-                <>
-                  <Text style={styles.title}>Club</Text>
-                  <DropDownPicker
-                    containerProps={{ style: styles.dropdown }}
-                    open={clubOpen}
-                    value={clubValue}
-                    items={Clubs}
-                    placeholder="Select Club"
-                    setOpen={setClubOpen}
-                    setValue={setClubValue}
-                    onChangeValue={(value) => {
-                      setFieldValue("club", value);
-                    }}
-                  />
-                </>
-              )}
-
+                  <>
+                  <View>
+                    <Text style={styles.title}>Club</Text>
+                    <DropDownPicker
+                      containerProps={{ style: styles.dropdown }}
+                      open={clubOpen}
+                      value={clubValue}
+                      items={Clubs}
+                      placeholder="Select Club"
+                      setOpen={setClubOpen}
+                      setValue={setClubValue}
+                      onChangeValue={(value) => {
+                        setFieldValue("club", value);
+                      }}
+                    />
+                    </View>
+                  </>
+                )}
+              
               <Text style={styles.title}>Department</Text>
               <DropDownPicker
                 containerProps={{ style: styles.dropdown }}
@@ -150,12 +153,22 @@ export default function AddUser() {
                 onChangeValue={(value) => {
                   setFieldValue("department", value);
                 }}
+
               />
+              
+              <AppButton title={"submit"} onPress={submitForm} />
             </View>
-            <AppButton title={"submit"} onPress={submitForm} />
+
+            {/* <AppButton title={"submit"} onPress={submitForm} /> */}
+
           </>
+          
+
         )}
+      
       </Formik>
+
+
 
       <Modal
         animationType="slide" //slide, fade, none
@@ -176,25 +189,26 @@ export default function AddUser() {
           </View>
         </View>
       </Modal>
-    </View>
+    </View >
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 10,
-    marginVertical: 20,
+    flexGrow: 1,
+    marginHorizontal: 15,
+    marginVertical: 0,
   },
   title: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "bold",
-    marginBottom: 10,
-    marginHorizontal: 5,
+    marginBottom: 0,
+    marginHorizontal: 10,
   },
   dropdown: {
-    marginHorizontal: 5,
-    marginBottom: 5,
+    marginHorizontal: 2,
+    marginBottom: 2,
   },
   modalView: {
     flexDirection: "column",
@@ -220,5 +234,6 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
-  }
+  },
+
 });
