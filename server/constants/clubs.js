@@ -8,8 +8,8 @@ const clubsList = [
   "MESA-MESC",
   "Civil Engineering Student's Association",
   "Electrical Engineering Students Association",
+  "Electronics Engineering Students Association",
   "Art Circle",
-  "Students' Organization For Technical Activities",
   "Rotarct",
   "Codechef WCE Chapter",
 ];

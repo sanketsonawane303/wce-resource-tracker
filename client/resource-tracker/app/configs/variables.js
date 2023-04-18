@@ -23,7 +23,9 @@ const Departments = [
   { label: "Electronics Engineering", value: "Electronics Engineering" },
   { label: "Electrical Engineering", value: "Electrical Engineering" },
   { label: "Information Tehhnology", value: "Information Technology" },
-  {label: "WCE", value: "WCE"}
+  {label: "WCE", value: "WCE"},
+  
+
 ];
 
 const Clubs = [
@@ -38,7 +40,6 @@ const Clubs = [
   {label: "Electrical Engineering Students Association",value:"Electrical Engineering Students Association"},
   {label: "Electronics Engineering Students Association",value:"Electronics Engineering Students Association"},
   {label: "Art Circle",value:"Art Circle"},
-  {label: "Students' Organization For Technical Activities",value:"Students' Organization For Technical Activities"},
   {label: "Rotarct",value:"Rotarct"},
   {label: "Codechef WCE Chapter",value:"Codechef WCE Chapter"},
 ];
