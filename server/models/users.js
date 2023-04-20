@@ -46,6 +46,8 @@ const usersSchema = new mongoose.Schema(
     access_token: { type: String, default: null },
   },
   { timestamps: true }
+
 );
+
 
 export default mongoose.model("users", usersSchema);
