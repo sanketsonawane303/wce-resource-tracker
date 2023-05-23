@@ -17,4 +17,4 @@ jobs:
         run: cd ~/wce-resource-tracker/server
 
       - name: Deploy backend
-        run: echo -e ${{secrets.SSH_PASSWORD}} | sudo nohup npm start > log.out 2>&1 &
+        run: echo -e ${{env.PASSWORD}} | sudo nohup npm start > log.out 2>&1 &
