@@ -1,0 +1,20 @@
+name: Backend deployment
+on:
+  push:
+    branches: main
+
+jobs:
+  Deploy:
+    runs-on: self-hosted
+    env:
+      PASSWORD: ${{secrets.SSH_PASSWORD}}
+
+    steps:
+      - name: Remove old deployment
+        run: $(echo -e ${{env.PASSWORD}} | sudo kill -9 $(sudo lsof -t -i:8080)) || true
+
+      - name: Change directory to server
+        run: cd ~/wce-resource-tracker/server
+
+      - name: Deploy backend
+        run: echo -e ${{secrets.SSH_PASSWORD}} | sudo nohup npm start > log.out 2>&1 &
