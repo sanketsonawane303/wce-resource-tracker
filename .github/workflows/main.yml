@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Remove old deployment
-        run: $(echo -e ${{env.PASSWORD}} | sudo kill -9 $(sudo lsof -t -i:8080)) || true
+        run: $(echo -e ${{env.PASSWORD}} | sudo kill -9 $(sudo lsof -t -i:8089)) || true
 
       - name: Change directory to server
         run: cd ~/wce-resource-tracker/server
